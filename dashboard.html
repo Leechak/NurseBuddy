@@ -1,0 +1,2733 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>แดชบอร์ด 8 เตียง</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .admin-panel-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .admin-panel-wrapper {
+        justify-content: center;
+        padding: 8px 12px;
+      }
+    }
+
+    .admin-btn {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 8px;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+      letter-spacing: 0.5px;
+      min-height: 44px;
+    }
+
+    @media (max-width: 768px) {
+      .admin-btn {
+        padding: 12px 18px;
+        font-size: 15px;
+        margin-right: 6px;
+        min-height: 48px;
+      }
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 152, 0, 0.3);
+      background: linear-gradient(135deg, #f57c00, #ef6c00);
+    }
+
+    .admin-btn.danger {
+      background: linear-gradient(135deg, #e53935, #c62828);
+      box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
+    }
+
+    .admin-btn.danger:hover {
+      background: linear-gradient(135deg, #c62828, #b71c1c);
+      box-shadow: 0 6px 16px rgba(229, 57, 53, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: linear-gradient(to bottom right, #eef3f9, #ffffff);
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 0.5rem;
+      }
+    }
+
+    .dashboard-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 24px;
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border-left: 6px solid #2e6edb;
+      margin: 0 auto 20px auto;
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .dashboard-title::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #2e6edb, #1976d2, #2e6edb);
+    }
+
+    .dashboard-heading {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 26px;
+      color: #2e3d55;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .user-box {
+      background: linear-gradient(135deg, #e1f5fe, #f0f9ff);
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #0277bd;
+      box-shadow: 0 4px 12px rgba(2, 119, 189, 0.1);
+      white-space: nowrap;
+      font-weight: 500;
+      border: 1px solid #b3e5fc;
+    }
+
+    /* Responsive สำหรับมือถือ */
+    @media (max-width: 768px) {
+      .dashboard-title {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        text-align: center;
+        padding: 18px 16px;
+        border-radius: 16px;
+        margin-bottom: 16px;
+      }
+
+      .dashboard-heading {
+        order: -1;
+        font-size: 22px;
+        line-height: 1.3;
+      }
+
+      .user-box {
+        text-align: center;
+        white-space: normal;
+        word-break: break-word;
+        font-size: 13px;
+        padding: 12px 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-heading {
+        font-size: 20px;
+      }
+
+      .dashboard-title {
+        padding: 16px 12px;
+      }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #d0e1ff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 6px 18px rgba(0, 64, 128, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 24px rgba(0, 64, 128, 0.12);
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 14px;
+        min-height: 200px;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 64, 128, 0.1);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 12px;
+        min-height: 180px;
+        border-radius: 10px;
+      }
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 16px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2b7ed7;
+      margin: 8px 0;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 15px;
+      }
+
+      .value {
+        font-size: 17px;
+      }
+
+      .note {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .title {
+        font-size: 14px;
+      }
+
+      .value {
+        font-size: 16px;
+      }
+
+      .note {
+        font-size: 11px;
+      }
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 8px;
+    }
+
+    .status-active {
+      background-color: #2ecc71;
+      animation: pulse 2s infinite;
+    }
+
+    .status-error {
+      background-color: #e74c3c;
+      animation: blink 1.2s infinite;
+    }
+
+    .status-waiting {
+      background-color: #95a5a6;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.4);
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    .alarm-blink {
+      animation: alarm-blink 1s infinite;
+      border: 2px solid #e67e22 !important;
+    }
+
+    @keyframes alarm-blink {
+
+      0%,
+      100% {
+        background-color: #fff9e5;
+      }
+
+      50% {
+        background-color: #fff2cc;
+      }
+    }
+
+    /* Device Status Styles - เหมือนกรอบเตียง */
+    .device-status-wrapper {
+      background: #ffffff;
+      border: 1px solid #d0e1ff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 64, 128, 0.08);
+      padding: 16px;
+      margin: 16px auto;
+      max-width: 900px;
+    }
+
+    .device-status-header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .device-subtitle {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .connection-indicator {
+      background: rgba(255, 193, 7, 0.1);
+      color: #ff8f00;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255, 143, 0, 0.2);
+    }
+
+    .connection-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #ff8f00;
+      margin-right: 4px;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.3; }
+    }
+
+    .device-status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .status-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d0e1ff;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+      min-height: auto;
+    }
+
+    .status-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 64, 128, 0.12);
+    }
+
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007acc, #005fa3);
+      color: white;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px auto;
+      box-shadow: 0 2px 6px rgba(0, 122, 204, 0.3);
+    }
+
+    .status-label {
+      font-size: 11px;
+      color: #6c757d;
+      font-weight: 600;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .status-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0056b3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .system-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .system-version {
+      font-size: 10px;
+      color: #7e57c2;
+      font-weight: 500;
+    }
+
+    .system-uptime {
+      font-size: 10px;
+      color: #5e35b1;
+      font-weight: 600;
+    }
+
+    .signal-bars {
+      display: flex;
+      align-items: center;
+      margin-left: 6px;
+    }
+
+    .signal-bars .bar {
+      width: 4px;
+      height: 8px;
+      background: #7e57c2;
+      margin-left: 1px;
+      border-radius: 2px;
+      opacity: 0.3;
+      transition: all 0.3s ease;
+    }
+
+    .signal-bars .bar:first-child {
+      margin-left: 0;
+    }
+
+    .signal-bars .bar.active {
+      opacity: 1;
+    }
+
+    .battery-indicator {
+      width: 30px;
+      height: 14px;
+      border: 1px solid #7e57c2;
+      border-radius: 3px;
+      background: #fff;
+      margin-left: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .battery-indicator::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -3px;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 4px;
+      background: #7e57c2;
+    }
+
+    .battery-level {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: #7e57c2;
+      width: 80%;
+      transition: width 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .device-status-wrapper {
+        padding: 14px;
+        border-radius: 12px;
+        margin: 12px auto;
+      }
+
+      .device-status-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 8px;
+      }
+
+      .status-card {
+        padding: 10px;
+        border-radius: 10px;
+      }
+
+      .status-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+      }
+
+      .status-label {
+        font-size: 10px;
+      }
+
+      .status-value {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .device-status-wrapper {
+        border-radius: 10px;
+        padding: 12px;
+      }
+
+      .device-status-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      .status-card {
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      .status-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+      }
+
+      .status-label {
+        font-size: 9px;
+      }
+
+      .status-value {
+        font-size: 11px;
+      }
+    }
+
+    /* End Device Status Styles */
+
+    .status-box {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      border: 1px solid #c9def5;
+    }
+
+    @media (max-width: 768px) {
+      .status-box {
+        padding: 16px;
+        margin: 16px auto;
+        max-width: 100%;
+        border-radius: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .status-box {
+        padding: 14px;
+        margin: 12px auto;
+      }
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .status-label {
+      font-weight: 500;
+      color: #666;
+    }
+
+    .status-loader {
+      height: 6px;
+      border-radius: 6px;
+      margin-top: 8px;
+      background: linear-gradient(90deg, #91e0d0, #5d8bf4, #91e0d0);
+      background-size: 200% auto;
+      animation: shimmer 1.8s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .ir-info-box {
+      background: #e8f5e9;
+      border: 1px solid #4caf50;
+      border-radius: 6px;
+      padding: 8px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .ir-title {
+      font-weight: bold;
+      color: #2e7d32;
+      margin-bottom: 4px;
+    }
+
+    .ir-detail {
+      color: #444;
+      margin-bottom: 2px;
+    }
+
+    .fluid-info-box {
+      background: #f3e5f5;
+      border: 1px solid #9c27b0;
+      border-radius: 6px;
+      padding: 8px;
+      margin-top: 8px;
+      font-size: 11px;
+    }
+
+    .fluid-title {
+      font-weight: bold;
+      color: #7b1fa2;
+      margin-bottom: 4px;
+    }
+
+    .fluid-detail {
+      color: #555;
+      margin-bottom: 2px;
+    }
+
+    .fluid-warning {
+      color: #d32f2f;
+      font-weight: bold;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        padding: 24px 20px;
+        width: 95%;
+        max-height: 85vh;
+        border-radius: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 20px 16px;
+        width: 98%;
+        max-height: 90vh;
+        border-radius: 8px;
+      }
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .user-list {
+      margin-bottom: 20px;
+    }
+
+    .user-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-actions button {
+      margin-left: 5px;
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .edit-btn {
+      background: #2196f3;
+      color: white;
+    }
+
+    .delete-btn {
+      background: #f44336;
+      color: white;
+    }
+
+    .add-user-form {
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .btn-primary {
+      background: #2196f3;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #666;
+      color: white;
+    }
+
+    .reset-all-btn {
+      background: linear-gradient(135deg, #f44336, #e53935);
+      color: white;
+      font-weight: bold;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-left: 10px;
+      box-shadow: 0 4px 14px rgba(244, 67, 54, 0.25);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Sarabun', sans-serif;
+      letter-spacing: 0.4px;
+      animation: fadeInScale 0.6s ease-out both;
+    }
+
+    .reset-all-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255,0.05));
+      transform: skewX(-20deg);
+      animation: shimmer 2s infinite;
+    }
+
+    .reset-all-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(229, 57, 53, 0.4);
+    }
+
+    .reset-all-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 6px rgba(229, 57, 53, 0.2);
+    }
+
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -75%;
+      }
+
+      50% {
+        left: 125%;
+      }
+
+      100% {
+        left: 125%;
+      }
+    }
+
+
+
+    .reset-all-btn {
+      background: linear-gradient(135deg, #d32f2f, #b71c1c);
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+      font-family: 'Sarabun', sans-serif;
+    }
+
+    /* สไตล์สำหรับส่วนแสดงบันทึกพยาบาล */
+    .notes-summary-section {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .note-card {
+      background: linear-gradient(135deg, #ffffff, #fafafa);
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .note-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .note-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 4px;
+      background: linear-gradient(135deg, #4caf50, #81c784);
+    }
+
+    .note-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .note-bed-info {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      color: #1976d2;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .note-time {
+      color: #666;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .note-type {
+      background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+      color: #7b1fa2;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .note-content {
+      color: #333;
+      line-height: 1.5;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .note-author {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #777;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .note-author .author-icon {
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 8px;
+      font-weight: bold;
+    }
+
+    .no-notes-message {
+      text-align: center;
+      color: #999;
+      font-style: italic;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #f9f9f9, #f0f0f0);
+      border-radius: 12px;
+      border: 2px dashed #ddd;
+    }
+
+    @media (max-width: 768px) {
+      .notes-summary-section {
+        margin-top: 20px;
+      }
+
+      .note-card {
+        padding: 12px;
+      }
+
+      .note-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .note-bed-info {
+        font-size: 13px;
+        padding: 5px 10px;
+      }
+    }
+
+    .reset-all-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #c62828, #b71c1c);
+      box-shadow: 0 6px 14px rgba(211, 47, 47, 0.4);
+    }
+
+    .reset-all-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      transform: skewX(-20deg);
+      animation: shimmer 2.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -100%;
+      }
+
+      50% {
+        left: 130%;
+      }
+
+      100% {
+        left: 130%;
+      }
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      background: linear-gradient(135deg, #1976d2, #1565c0);
+      color: white;
+      padding: 12px 20px;
+      font-size: 14px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: 'Sarabun', sans-serif;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+    }
+
+    .dropdown-toggle:hover {
+      background: linear-gradient(135deg, #1565c0, #0d47a1);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      min-width: 240px;
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      z-index: 999;
+      right: 0;
+      top: 100%;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-10px) scale(0.95);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+    }
+
+    @media (max-width: 768px) {
+      .dropdown-toggle {
+        padding: 14px 22px;
+        font-size: 15px;
+        min-height: 48px;
+        gap: 10px;
+      }
+
+      .dropdown-menu {
+        min-width: 260px;
+        right: -10px;
+        border-radius: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dropdown {
+        position: relative;
+        width: auto;
+      }
+
+      .dropdown-toggle {
+        width: auto;
+        justify-content: center;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        left: auto;
+        right: 0;
+        top: 100%;
+        transform: translateY(-10px) scale(0.95);
+        min-width: 200px;
+        max-width: 280px;
+        width: 100%;
+      }
+
+      .dropdown-menu.show {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .dropdown-menu.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      right: 20px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-left: 1px solid #e0e0e0;
+      border-top: 1px solid #e0e0e0;
+      transform: rotate(45deg);
+      z-index: -1;
+    }
+
+    .dropdown-menu a {
+      color: #333;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .dropdown-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .dropdown-menu a:hover {
+      background: linear-gradient(135deg, #f5f5f5, #e8f0fe);
+      transform: translateX(4px);
+      color: #1976d2;
+    }
+
+    .dropdown-menu a.danger {
+      color: #d32f2f;
+      font-weight: 600;
+    }
+
+    .dropdown-menu a.danger:hover {
+      background: linear-gradient(135deg, #ffebee, #fce4ec);
+      color: #c62828;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="admin-panel-wrapper">
+    <div class="admin-panel" id="adminPanel" style="display: none;">
+      <div class="dropdown" onclick="toggleDropdown(event)">
+        <button class="dropdown-toggle" id="dropdownBtn">
+          <span>⚙️</span>
+          <span>เมนูระบบ</span>
+          <span>▾</span>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="#" onclick="openUserManagement()">👥 จัดการผู้ใช้</a>
+          <a href="#" onclick="openSummaryReport()">📊 สรุปข้อมูล</a>
+          <a href="#" onclick="openResetModal()" class="danger">🧹 ล้างข้อมูลที่บันทึก</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-title">
+    <h2 class="dashboard-heading">แดชบอร์ดข้อมูลเตียง</h2>
+    <div class="user-box" id="userBox">👤 กำลังโหลดชื่อผู้ใช้...</div>
+  </div>
+
+  <div class="device-status-wrapper">
+    <div class="device-status-header">
+      <div class="device-icon">
+        <div class="device-circle">
+          <span class="device-emoji">📡</span>
+        </div>
+      </div>
+      <div class="device-info">
+        <h3 class="device-title">NurseBuddy Device Status</h3>
+        <p class="device-subtitle">ระบบติดตามอัตราการไหลแบบเรียลไทม์</p>
+      </div>
+      <div class="connection-indicator" id="connectionStatus">
+        <div class="connection-dot"></div>
+        <span class="connection-text">กำลังเชื่อมต่อ...</span>
+      </div>
+    </div>
+
+    <div class="device-status-grid">
+      <!-- Device Name -->
+      <div class="status-card device-name-card">
+        <div class="status-icon">🏥</div>
+        <div class="status-content">
+          <div class="status-label">ชื่อเครื่อง</div>
+          <div class="status-value" id="espName">NurseBuddy</div>
+        </div>
+      </div>
+
+      <!-- Signal Strength -->
+      <div class="status-card signal-card">
+        <div class="status-icon">📶</div>
+        <div class="status-content">
+          <div class="status-label">ความแรงสัญญาณ</div>
+          <div class="status-value" id="espSignal">
+            <span class="signal-value">-</span>
+            <div class="signal-bars" id="signalBars">
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+              <span class="bar"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Battery -->
+      <div class="status-card battery-card">
+        <div class="status-icon">🔋</div>
+        <div class="status-content">
+          <div class="status-label">แบตเตอรี่</div>
+          <div class="status-value" id="batteryDisplay">
+            <span id="batteryText">-</span>
+            <div class="battery-indicator" id="batteryIndicator">
+              <div class="battery-level" id="batteryLevel"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Time -->
+      <div class="status-card time-card">
+        <div class="status-icon">🕐</div>
+        <div class="status-content">
+          <div class="status-label">เวลาปัจจุบัน</div>
+          <div class="status-value" id="espTime">-</div>
+        </div>
+      </div>
+
+      <!-- Device Status -->
+      <div class="status-card status-card-main">
+        <div class="status-icon" id="statusIcon">⚡</div>
+        <div class="status-content">
+          <div class="status-label">สถานะการทำงาน</div>
+          <div class="status-value" id="espStatus">ยังไม่เชื่อมต่อ</div>
+        </div>
+        <div class="status-pulse" id="statusPulse"></div>
+      </div>
+
+      <!-- System Info -->
+      <div class="status-card system-card">
+        <div class="status-icon">⚙️</div>
+        <div class="status-content">
+          <div class="status-label">ระบบ</div>
+          <div class="status-value">
+            <div class="system-info">
+              <span class="system-version">v0.0.1β</span>
+              <span class="system-uptime" id="systemUptime">00:00:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-footer">
+      <div class="data-flow-indicator">
+        <div class="flow-dot"></div>
+        <div class="flow-dot"></div>
+        <div class="flow-dot"></div>
+        <span class="flow-text">กำลังรับส่งข้อมูล...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" id="bedGrid"></div>
+
+  <!-- กล่องแสดงข้อมูล Input/Output -->
+  <div
+    style="background: linear-gradient(135deg, #ffffff, #f8f9fa); border-radius: 20px; padding: 24px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); border-left: 6px solid #2196f3; margin-top: 30px;">
+    <h2 style="color: #2e3d55; margin-bottom: 20px; font-size: 22px; display: flex; align-items: center; gap: 10px;">
+      <span>💧</span>
+      <span>สรุป Input/Output (24 ชม.ล่าสุด)</span>
+    </h2>
+
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+      <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 16px; border-radius: 15px; text-align: center; border: 2px solid #4caf50; box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);">
+        <div style="color: #2e7d32; font-weight: bold; margin-bottom: 6px; font-size: 14px;">💧 INPUT รวม</div>
+        <div id="totalSystemIn" style="font-size: 24px; font-weight: bold; color: #1b5e20;">0 mL</div>
+      </div>
+      <div style="background: linear-gradient(135deg, #ffebee, #ffcdd2); padding: 16px; border-radius: 15px; text-align: center; border: 2px solid #f44336; box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);">
+        <div style="color: #c62828; font-weight: bold; margin-bottom: 6px; font-size: 14px;">📤 OUTPUT รวม</div>
+        <div id="totalSystemOut" style="font-size: 24px; font-weight: bold; color: #b71c1c;">0 mL</div>
+      </div>
+      <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 16px; border-radius: 15px; text-align: center; border: 2px solid #2196f3; box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);">
+        <div style="color: #1976d2; font-weight: bold; margin-bottom: 6px; font-size: 14px;">⚖️ BALANCE</div>
+        <div id="totalSystemBalance" style="font-size: 24px; font-weight: bold; color: #0d47a1;">0 mL</div>
+      </div>
+      <div style="background: linear-gradient(135deg, #fff3e0, #ffcc02); padding: 16px; border-radius: 15px; text-align: center; border: 2px solid #ff9800; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);">
+        <div style="color: #ef6c00; font-weight: bold; margin-bottom: 6px; font-size: 14px;">🏥 เตียงที่ใช้งาน</div>
+        <div id="totalActiveBeds" style="font-size: 24px; font-weight: bold; color: #e65100;">0 เตียง</div>
+      </div>
+    </div>
+
+    <div id="allIODisplay" style="display: grid; gap: 16px;">
+      <!-- ข้อมูล I/O แต่ละเตียงจะแสดงที่นี่ -->
+    </div>
+  </div>
+
+  <!-- ส่วนแสดงบันทึกพยาบาลทั้งหมด -->
+  <div class="notes-summary-section" id="notesSummarySection" style="margin-top: 30px;">
+    <div
+      style="background: linear-gradient(135deg, #ffffff, #f8f9fa); border-radius: 20px; padding: 24px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); border-left: 6px solid #4caf50;">
+      <h2 style="color: #2e3d55; margin-bottom: 20px; font-size: 22px; display: flex; align-items: center; gap: 10px;">
+        <span>📝</span>
+        <span>บันทึกการดูแลผู้ป่วยทั้งหมด</span>
+      </h2>
+      <div id="allNotesDisplay" style="display: grid; gap: 12px;">
+        <!-- บันทึกจะแสดงที่นี่ -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal สรุปข้อมูลทุกเตียง -->
+  <div class="modal" id="summaryModal">
+    <div class="modal-content" style="max-width: 900px; max-height: 90vh;">
+      <div class="modal-title">📊 สรุปข้อมูลทุกเตียง</div>
+      <div id="summaryContent" style="overflow-y: auto; max-height: 70vh;"></div>
+      <button class="btn btn-secondary" onclick="closeSummaryReport()">ปิด</button>
+    </div>
+  </div>
+
+  <!-- Modal จัดการผู้ใช้ -->
+  <div class="modal" id="userModal">
+    <div class="modal-content">
+      <div class="modal-title">จัดการผู้ใช้งานระบบ</div>
+
+      <div class="user-list" id="userList"></div>
+
+      <div class="add-user-form">
+        <h3>เพิ่มผู้ใช้ใหม่</h3>
+        <div class="form-group">
+          <label>ชื่อผู้ใช้:</label>
+          <input type="text" id="newUsername" placeholder="เช่น nurse03">
+        </div>
+        <div class="form-group">
+          <label>รหัสผ่าน:</label>
+          <input type="password" id="newPassword" placeholder="รหัสผ่าน">
+        </div>
+        <div class="form-group">
+          <label>ชื่อเต็ม:</label>
+          <input type="text" id="newFullname" placeholder="เช่น พยาบาลสมใจ">
+        </div>
+        <div class="form-group">
+          <label>ตำแหน่ง:</label>
+          <select id="newRole">
+            <option value="nurse">พยาบาล</option>
+            <option value="admin">แอดมิน</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="addUser()">เพิ่มผู้ใช้</button>
+        <button class="btn btn-secondary" onclick="closeUserManagement()">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="resetModal">
+    <div class="modal-content">
+      <div class="modal-title" style="color: #c62828;">⚠️ ยืนยันการล้างข้อมูล</div>
+      <p style="font-size: 15px; color: #444;">
+        คุณแน่ใจหรือไม่ว่าต้องการ <strong>ลบข้อมูลผู้ป่วยทั้งหมด</strong> ที่บันทึกไว้ในระบบ?
+        <br><br>หากดำเนินการแล้วจะ <span style="color: #c62828; font-weight: bold;">ไม่สามารถย้อนกลับได้</span>
+      </p>
+      <div style="text-align: right; margin-top: 20px;">
+        <button class="btn btn-secondary" onclick="closeResetModal()">ยกเลิก</button>
+        <button class="btn btn-primary" style="background: #d32f2f;" onclick="confirmReset()">ล้างข้อมูล</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align: center; margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 20px; border: 1px solid #dee2e6; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+    <div style="font-size: 14px; color: #495057; margin-bottom: 8px; font-weight: 600;">
+      💻 พัฒนาโดย <strong style="color: #2e7d32;">จักรพงษ์ แอบไธสง</strong> และคณะ
+    </div>
+    <div style="font-size: 11px; color: #6c757d; margin-bottom: 5px;">
+      NurseBuddy Dashboard v0.0.1 beta | ระบบติดตามน้ำเกลืออัจฉริยะ
+    </div>
+    <div style="font-size: 10px; color: #adb5bd;">
+      🏥 เพื่อความปลอดภัยของผู้ป่วยและประสิทธิภาพการพยาบาล
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(sessionStorage.getItem("currentUser") || "null");
+    if (!user) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("userBox").innerText = `👤 ผู้ใช้งาน: ${user.fullname} (${user.role})`;
+
+      // แสดงดรอปดาวน์สำหรับทุกคน แต่ปรับเมนูตามสิทธิ์
+      document.getElementById("adminPanel").style.display = "block";
+
+      // ปรับเมนูตามสิทธิ์ผู้ใช้
+      const dropdownMenu = document.getElementById("dropdownMenu");
+      if (user.role === "admin") {
+        dropdownMenu.innerHTML = `
+          <a href="#" onclick="openUserManagement()">👥 จัดการผู้ใช้</a>
+          <a href="#" onclick="openSummaryReport()">📊 สรุปข้อมูลทุกเตียง</a>
+          <a href="#" onclick="openResetModal()" class="danger">🧹 ล้างข้อมูลที่บันทึก</a>
+          <a href="#" onclick="logout()" class="danger">🚪 ออกจากระบบ</a>
+        `;
+      } else {
+        dropdownMenu.innerHTML = `
+          <a href="#" onclick="openSummaryReport()">📊 สรุปข้อมูลทุกเตียง</a>
+          <a href="#" onclick="openIOSummary()">💧 สรุป Input/Output</a>
+          <a href="#" onclick="logout()" class="danger">🚪 ออกจากระบบ</a>
+        `;
+      }
+    }
+
+    const grid = document.getElementById("bedGrid");
+
+    function calculateFluidRemaining(irData, bedId) {
+      if (!irData || !irData.volume || !irData.rate) return null;
+
+      const fluidData = JSON.parse(localStorage.getItem(`fluid_calc_bed_${bedId}`) || "null");
+      if (!fluidData) return null;
+
+      const startTime = new Date(fluidData.startTime);
+      const now = new Date();
+      const timeUsedMin = Math.floor((now - startTime) / 60000);
+
+      const totalVolume = parseInt(irData.volume.replace('mL', ''));
+      const rate = parseInt(irData.rate);
+
+      // คำนวณตามอัตราที่กำหนด (20 ดรอป = 1 mL)
+      const volumeUsed = (rate * timeUsedMin) / 20;
+      const volumeRemaining = Math.max(0, totalVolume - volumeUsed);
+      const timeRemainingMin = rate > 0 ? Math.floor((volumeRemaining * 20) / rate) : 0;
+
+      return {
+        volumeRemaining: volumeRemaining.toFixed(1),
+        timeRemaining: timeRemainingMin,
+        isLow: volumeRemaining < 50
+      };
+    }
+
+    function createCard(i, flow, time, found, orderedFlow = 20, irData = null) {
+      const card = document.createElement("a");
+      card.className = "card";
+      card.href = "chart.html?bed=" + i;
+      card.id = `bed-card-${i}`;
+
+      const isAlarm = found && Math.abs(flow - orderedFlow) > 1;
+
+      const title = document.createElement("div");
+      title.className = "title";
+      title.textContent = `เตียง ${i}`;
+
+      const dot = document.createElement("span");
+      dot.className = "status-dot";
+      if (!found) dot.classList.add("status-waiting");
+      else if (isAlarm) dot.classList.add("status-error");
+      else dot.classList.add("status-active");
+      title.appendChild(dot);
+      card.appendChild(title);
+
+      const value = document.createElement("div");
+      value.className = "value";
+      if (!found) {
+        value.textContent = "รอข้อมูลจาก NurseBuddy...";
+        value.style.color = "#888";
+      } else {
+        value.textContent = `${flow} ดรอป/นาที`;
+        if (isAlarm) value.style.color = "#e74c3c";
+      }
+      card.appendChild(value);
+
+      // แสดงข้อมูล IR หากมี
+      if (irData) {
+        const irBox = document.createElement("div");
+        irBox.className = "ir-info-box";
+        irBox.innerHTML = `
+          <div class="ir-title">📱 ข้อมูลผู้ป่วย</div>
+          <div class="ir-detail"><strong>รหัส:</strong> ${irData.patient_id}</div>
+          <div class="ir-detail"><strong>ยา:</strong> ${irData.medication}</div>
+          <div class="ir-detail"><strong>ปริมาณ:</strong> ${irData.volume}</div>
+          <div class="ir-detail"><strong>อัตรา:</strong> ${irData.rate} ดรอป/นาที</div>
+        `;
+        card.appendChild(irBox);
+
+        // แสดงข้อมูลการคำนวณน้ำเกลือ
+        const fluidCalc = calculateFluidRemaining(irData, i);
+        if (fluidCalc) {
+          const fluidBox = document.createElement("div");
+          fluidBox.className = "fluid-info-box";
+          fluidBox.innerHTML = `
+            <div class="fluid-title">💧 สถานะน้ำเกลือ</div>
+            <div class="fluid-detail">เหลือ: ${fluidCalc.volumeRemaining} mL</div>
+            <div class="fluid-detail">จะหมดใน: ${fluidCalc.timeRemaining} นาที</div>
+            ${fluidCalc.isLow ? '<div class="fluid-warning">⚠️ ใกล้หมด!</div>' : ''}
+          `;
+          card.appendChild(fluidBox);
+        }
+      }
+
+      const note = document.createElement("div");
+      note.className = "note";
+      note.textContent = found ? `อัปเดตเมื่อ: ${time}` : "";
+      card.appendChild(note);
+
+      if (isAlarm) {
+        card.classList.add("alarm-blink");
+        const alarmText = document.createElement("div");
+        alarmText.style.fontSize = "12px";
+        alarmText.style.color = "#e74c3c";
+        alarmText.style.fontWeight = "bold";
+        alarmText.textContent = flow > orderedFlow ? "⚠️ ไหลเร็วเกินไป 💦" : "⚠️ ไหลช้าเกินไป ⏳";
+        card.appendChild(alarmText);
+      }
+
+      if (found) {
+        card.addEventListener("click", (e) => {
+          e.preventDefault();
+          const data = {
+            bed: i,
+            current_flow: flow,
+            ordered_flow: orderedFlow,
+            device: "NurseBuddy",
+            latest_time: time,
+            flowHistory: [flow - 3, flow - 1, flow],
+            timeLabels: ["13:00", "13:05", time],
+            ir_data: irData || null
+          };
+          sessionStorage.setItem("chartData_bed" + i, JSON.stringify(data));
+          window.location.href = "chart.html?bed=" + i;
+        });
+      }
+
+      return card;
+    }
+
+    function updateBeds() {
+      for (let i = 1; i <= 8; i++) {
+        // โหลดข้อมูล IR จาก localStorage
+        const irDataString = localStorage.getItem(`ir_data_bed_${i}`);
+        const irData = irDataString ? JSON.parse(irDataString) : null;
+
+        fetch(`http://192.168.4.1/api/bed${i}`)
+          .then(res => {
+            if (!res.ok) throw new Error("ไม่มีข้อมูล");
+            return res.json();
+          })
+          .then(data => {
+            const existing = document.getElementById(`bed-card-${i}`);
+            const irDataString = localStorage.getItem(`ir_data_bed_${i}`);
+            const irData = irDataString ? JSON.parse(irDataString) : null;
+            const newCard = createCard(i, data.flow, data.timestamp, true, data.ordered_flow || irData?.rate || 20, irData);
+            if (existing) {
+              grid.replaceChild(newCard, existing);
+            } else {
+              grid.appendChild(newCard);
+            }
+          })
+          .catch(() => {
+            const fallback = document.getElementById(`bed-card-${i}`);
+            const newCard = createCard(i, 0, "", false, 20, irData);
+            if (fallback) {
+              grid.replaceChild(newCard, fallback);
+            } else {
+              grid.appendChild(newCard);
+            }
+          });
+      }
+
+      // เตียง 99 (จำลอง)
+      const mockFlow = Math.floor(Math.random() * (25 - 15 + 1)) + 15;
+      const mockOrderedFlow = 20;
+      const mockData = {
+        flow: mockFlow,
+        timestamp: new Date().toLocaleTimeString(),
+        ordered_flow: mockOrderedFlow
+      };
+      const irMockString = localStorage.getItem(`ir_data_bed_99`);
+      const mockIrData = irMockString ? JSON.parse(irMockString) : {
+        patient_id: "P999999",
+        medication: "Normal Saline",
+        volume: "500mL",
+        rate: mockOrderedFlow
+      };
+      const mockCard = createCard(99, mockData.flow, mockData.timestamp, true, mockOrderedFlow, mockIrData);
+      const mockExisting = document.getElementById("bed-card-99");
+      if (mockExisting) {
+        grid.replaceChild(mockCard, mockExisting);
+      } else {
+        grid.appendChild(mockCard);
+      }
+    }
+
+    function updateStatusBox() {
+      fetch("http://192.168.4.1/api/status")
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("espName").innerText = data.name || 'NurseBuddy';
+          document.getElementById("espSignal").innerText = data.signal + ' dBm';
+          document.getElementById("batteryText").innerText = data.battery + '%';
+          document.getElementById("espTime").innerText = data.time;
+          document.getElementById("espStatus").innerText = data.active ? 'กำลังใช้งาน' : 'ไม่ได้ใช้งาน';
+        })
+        .catch(() => {
+          document.getElementById("espStatus").innerText = "ไม่สามารถเชื่อมต่อได้";
+        });
+    }
+
+    // ระบบจัดการผู้ใช้
+    function openUserManagement() {
+      document.getElementById("userModal").style.display = "flex";
+      loadUserList();
+    }
+
+    function closeUserManagement() {
+      document.getElementById("userModal").style.display = "none";
+    }
+
+    function loadUserList() {
+      const users = JSON.parse(localStorage.getItem("userAccounts") || "[]");
+      const userList = document.getElementById("userList");
+
+      userList.innerHTML = users.map((user, index) => `
+        <div class="user-item">
+          <div class="user-info">
+            <strong>${user.fullname}</strong> (${user.username})<br>
+            <small>ตำแหน่ง: ${user.role}</small>
+          </div>
+          <div class="user-actions">
+            <button class="edit-btn" onclick="editUser(${index})">แก้ไข</button>
+            ${user.username !== "0000" ? `<button class="delete-btn" onclick="deleteUser(${index})">ลบ</button>` : ""}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function addUser() {
+      const username = document.getElementById("newUsername").value.trim();
+      const password = document.getElementById("newPassword").value.trim();
+      const fullname = document.getElementById("newFullname").value.trim();
+      const role = document.getElementById("newRole").value;
+
+      if (!username || !password || !fullname) {
+        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem("userAccounts") || "[]");
+
+      // ตรวจสอบชื่อผู้ใช้ซ้ำ
+      if (users.find(u => u.username === username)) {
+        alert("ชื่อผู้ใช้นี้มีอยู่แล้ว");
+        return;
+      }
+
+      const newUser = {username, password, fullname, role};
+      users.push(newUser);
+      localStorage.setItem("userAccounts", JSON.stringify(users));
+
+      // เคลียร์ฟอร์ม
+      document.getElementById("newUsername").value = "";
+      document.getElementById("newPassword").value = "";
+      document.getElementById("newFullname").value = "";
+      document.getElementById("newRole").value = "nurse";
+
+      alert("เพิ่มผู้ใช้สำเร็จ");
+      loadUserList();
+    }
+
+    function editUser(index) {
+      const users = JSON.parse(localStorage.getItem("userAccounts") || "[]");
+      const user = users[index];
+
+      const newPassword = prompt(`แก้ไขรหัสผ่านสำหรับ ${user.fullname}:`, user.password);
+      if (newPassword && newPassword.trim()) {
+        users[index].password = newPassword.trim();
+        localStorage.setItem("userAccounts", JSON.stringify(users));
+        alert("อัพเดทรหัสผ่านสำเร็จ");
+        loadUserList();
+      }
+    }
+
+    function deleteUser(index) {
+      const users = JSON.parse(localStorage.getItem("userAccounts") || "[]");
+      const user = users[index];
+
+      if (confirm(`คุณต้องการลบผู้ใช้ "${user.fullname}" หรือไม่?`)) {
+        users.splice(index, 1);
+        localStorage.setItem("userAccounts", JSON.stringify(users));
+        alert("ลบผู้ใช้สำเร็จ");
+        loadUserList();
+      }
+    }
+
+    // ฟังก์ชันเปิดรายงานสรุป
+    function openSummaryReport() {
+      document.getElementById("summaryModal").style.display = "flex";
+      generateSummaryReport();
+    }
+
+    function closeSummaryReport() {
+      document.getElementById("summaryModal").style.display = "none";
+    }
+
+    // ฟังก์ชันสรุป I/O สำหรับพยาบาล
+    function openIOSummary() {
+      document.getElementById("summaryModal").style.display = "flex";
+      generateIOSummary();
+    }
+
+    function generateIOSummary() {
+      const summaryContent = document.getElementById("summaryContent");
+      let reportHTML = '<div style="display: grid; gap: 15px;">';
+      reportHTML += '<h2 style="text-align: center; color: #1976d2; margin-bottom: 20px;">💧 สรุปข้อมูล Input/Output ทุกเตียง</h2>';
+
+      for (let i = 1; i <= 8; i++) {
+        const irDataString = localStorage.getItem(`ir_data_bed_${i}`);
+        const irData = irDataString ? JSON.parse(irDataString) : null;
+        const notes = JSON.parse(localStorage.getItem(`nurseNotes_${i}`) || "[]");
+        const fluidNotes = notes.filter(note => note.type === "fluid_balance");
+        const latestFluid = fluidNotes.length > 0 ? fluidNotes[0] : null;
+        const fluidCalc = calculateFluidRemaining(irData, i);
+
+        if (irData || latestFluid || fluidCalc) {
+          reportHTML += `
+            <div style="background: white; border: 1px solid #e3f2fd; border-radius: 12px; padding: 15px; border-left: 5px solid #2196f3;">
+              <h3 style="margin-top: 0; color: #1976d2;">🛏️ เตียง ${i}</h3>
+
+              ${irData ? `
+                <div style="background: #e8f5e9; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                  <div><strong>👤 รหัสผู้ป่วย:</strong> ${irData.patient_id}</div>
+                  <div><strong>💊 ยา:</strong> ${irData.medication}</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                    <div><strong>💧 ปริมาณ:</strong> ${irData.volume}</div>
+                    <div><strong>⏱️ อัตรา:</strong> ${irData.rate} ดรอป/นาที</div>
+                  </div>
+                </div>
+              ` : ''}
+
+              ${fluidCalc ? `
+                <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e1bee7;">
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                      <div style="font-weight: bold; color: #7b1fa2;">💧 สถานะน้ำเกลือ</div>
+                      <div>เหลือ: <span style="color: ${fluidCalc.isLow ? '#f44336' : '#4caf50'}; font-weight: bold;">${fluidCalc.volumeRemaining} mL</span></div>
+                    </div>
+                    <div>
+                      <div style="font-weight: bold; color: #7b1fa2;">⏰ เวลาคงเหลือ</div>
+                      <div>${fluidCalc.timeRemaining} นาที</div>
+                    </div>
+                  </div>
+                  ${fluidCalc.isLow ? '<div style="color: #f44336; font-weight: bold; text-align: center; margin-top: 8px;">⚠️ ใกล้หมด! ต้องเตรียมเปลี่ยน</div>' : ''}
+                </div>
+              ` : ''}
+
+              ${latestFluid ? `
+                <div style="background: #fff3e0; padding: 10px; border-radius: 8px; border: 1px solid #ffcc02;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div style="font-weight: bold; color: #ef6c00;">📊 สมดุลสารน้ำล่าสุด</div>
+                    <div style="font-size: 12px; color: #666;">${latestFluid.time}</div>
+                  </div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; text-align: center;">
+                    <div style="background: #e8f5e9; padding: 8px; border-radius: 6px;">
+                      <div style="color: #4caf50; font-weight: bold; font-size: 12px;">INPUT</div>
+                      <div style="font-size: 16px; font-weight: bold;">${latestFluid.data.totalIn} mL</div>
+                    </div>
+                    <div style="background: #ffebee; padding: 8px; border-radius: 6px;">
+                      <div style="color: #f44336; font-weight: bold; font-size: 12px;">OUTPUT</div>
+                      <div style="font-size: 16px; font-weight: bold;">${latestFluid.data.totalOut} mL</div>
+                    </div>
+                    <div style="background: #f5f5f5; padding: 8px; border-radius: 6px;">
+                      <div style="color: #333; font-weight: bold; font-size: 12px;">BALANCE</div>
+                      <div style="font-size: 16px; font-weight: bold; color: ${latestFluid.data.balance > 0 ? '#4caf50' : latestFluid.data.balance < 0 ? '#f44336' : '#666'};">
+                        ${latestFluid.data.balance > 0 ? '+' : ''}${latestFluid.data.balance} mL
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ` : '<div style="color: #999; font-style: italic; text-align: center; padding: 10px;">ยังไม่มีข้อมูลสมดุลสารน้ำ</div>'}
+            </div>
+          `;
+        }
+      }
+
+      if (reportHTML === '<div style="display: grid; gap: 15px;"><h2 style="text-align: center; color: #1976d2; margin-bottom: 20px;">💧 สรุปข้อมูล Input/Output ทุกเตียง</h2>') {
+        reportHTML += '<div style="text-align: center; color: #999; font-style: italic; padding: 40px;">ยังไม่มีข้อมูลในระบบ</div>';
+      }
+
+      reportHTML += '</div>';
+      summaryContent.innerHTML = reportHTML;
+    }
+
+    function generateSummaryReport() {
+      const summaryContent = document.getElementById("summaryContent");
+      let reportHTML = '<div style="display: grid; gap: 15px;">';
+
+      for (let i = 1; i <= 8; i++) {
+        const irDataString = localStorage.getItem(`ir_data_bed_${i}`);
+        const irData = irDataString ? JSON.parse(irDataString) : null;
+        const notes = JSON.parse(localStorage.getItem(`nurseNotes_${i}`) || "[]");
+        const fluidNotes = notes.filter(note => note.type === "fluid_balance");
+        const latestFluid = fluidNotes.length > 0 ? fluidNotes[0] : null;
+        const fluidCalc = calculateFluidRemaining(irData, i);
+
+        reportHTML += `
+          <div style="background: white; border: 1px solid #ddd; border-radius: 12px; padding: 15px; border-left: 5px solid ${irData ? '#4caf50' : '#ccc'};">
+            <h3 style="margin-top: 0; color: #333;">🛏️ เตียง ${i}</h3>
+
+            ${irData ? `
+              <div style="background: #e8f5e9; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                <div><strong>👤 รหัสผู้ป่วย:</strong> ${irData.patient_id}</div>
+                <div><strong>💊 ยา:</strong> ${irData.medication}</div>
+                <div><strong>💧 ปริมาณ:</strong> ${irData.volume}</div>
+                <div><strong>⏱️ อัตรา:</strong> ${irData.rate} ดรอป/นาที</div>
+              </div>
+            ` : '<div style="color: #999; font-style: italic;">ยังไม่มีข้อมูลผู้ป่วย</div>'}
+
+            ${fluidCalc ? `
+              <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                <div><strong>💧 สถานะน้ำเกลือ:</strong></div>
+                <div>เหลือ: <span style="color: ${fluidCalc.isLow ? '#f44336' : '#4caf50'};">${fluidCalc.volumeRemaining} mL</span></div>
+                <div>จะหมดใน: ${fluidCalc.timeRemaining} นาที</div>
+                ${fluidCalc.isLow ? '<div style="color: #f44336; font-weight: bold;">⚠️ ใกล้หมด!</div>' : ''}
+              </div>
+            ` : ''}
+
+            ${latestFluid ? `
+              <div style="background: #fff3e0; padding: 10px; border-radius: 8px;">
+                <div><strong>📊 สมดุลสารน้ำล่าสุด:</strong></div>
+                <div style="font-size: 12px; color: #666;">${latestFluid.time}</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 5px;">
+                  <div style="text-align: center;">
+                    <div style="color: #4caf50; font-weight: bold;">เข้า</div>
+                    <div>${latestFluid.data.totalIn} mL</div>
+                  </div>
+                  <div style="text-align: center;">
+                    <div style="color: #f44336; font-weight: bold;">ออก</div>
+                    <div>${latestFluid.data.totalOut} mL</div>
+                  </div>
+                  <div style="text-align: center;">
+                    <div style="color: #333; font-weight: bold;">สมดุล</div>
+                    <div style="color: ${latestFluid.data.balance > 0 ? '#4caf50' : latestFluid.data.balance < 0 ? '#f44336' : '#666'};">
+                      ${latestFluid.data.balance > 0 ? '+' : ''}${latestFluid.data.balance} mL
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ` : '<div style="color: #999; font-style: italic;">ยังไม่มีข้อมูลสมดุลสารน้ำ</div>'}
+          </div>
+        `;
+      }
+
+      reportHTML += '</div>';
+      summaryContent.innerHTML = reportHTML;
+    }
+
+    // ฟังก์ชันแสดงบันทึกพยาบาลทั้งหมด
+    function loadAllNotes() {
+      const allNotesDisplay = document.getElementById("allNotesDisplay");
+      const notesSummarySection = document.getElementById("notesSummarySection");
+
+      if (!allNotesDisplay || !notesSummarySection) return;
+
+      let allNotes = [];
+
+      // รวบรวมบันทึกจากทุกเตียง
+      for (let bedId = 1; bedId <= 99; bedId++) {
+        const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || "[]");
+        notes.forEach(note => {
+          allNotes.push({
+            ...note,
+            bedId: bedId
+          });
+        });
+      }
+
+      // เรียงลำดับตามเวลา (ใหม่ที่สุดก่อน)
+      allNotes.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      if (allNotes.length === 0) {
+        allNotesDisplay.innerHTML = `
+          <div class="no-notes-message">
+            <div style="font-size: 48px; margin-bottom: 12px;">📝</div>
+            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">ยังไม่มีบันทึกการดูแลผู้ป่วย</div>
+            <div style="font-size: 14px;">เมื่อมีการบันทึกข้อมูลจะแสดงที่นี่</div>
+          </div>
+        `;
+        notesSummarySection.style.display = "block";
+        return;
+      }
+
+      // แสดงบันทึกทั้งหมด
+      allNotesDisplay.innerHTML = allNotes.map(note => {
+        const noteTypeText = {
+          'general': '📝 บันทึกทั่วไป',
+          'fluid_balance': '💧 สมดุลสารน้ำ',
+          'medication': '💊 ข้อมูลยา',
+          'vital_signs': '🩺 สัญญาณชีพ'
+        };
+
+        const noteTypeClass = {
+          'general': 'general',
+          'fluid_balance': 'fluid',
+          'medication': 'medication',
+          'vital_signs': 'vital'
+        };
+
+        let contentHtml = '';
+
+        if (note.type === 'fluid_balance' && note.data) {
+          contentHtml = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin-bottom: 10px;">
+              <div style="background: #e8f5e9; padding: 8px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 11px; color: #4caf50; font-weight: bold;">เข้า</div>
+                <div style="font-size: 16px; font-weight: bold; color: #2e7d32;">${note.data.totalIn} mL</div>
+              </div>
+              <div style="background: #ffebee; padding: 8px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 11px; color: #f44336; font-weight: bold;">ออก</div>
+                <div style="font-size: 16px; font-weight: bold;">${note.data.totalOut} mL</div>
+              </div>
+              <div style="background: #f5f5f5; padding: 8px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 11px; color: #333; font-weight: bold;">สมดุล</div>
+                <div style="font-size: 16px; font-weight: bold; color: ${note.data.balance > 0 ? '#4caf50' : note.data.balance < 0 ? '#f44336' : '#666'};">
+                  ${note.data.balance > 0 ? '+' : ''}${note.data.balance} mL
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          contentHtml = `<div class="note-content">${note.content || note.note || 'ไม่มีข้อมูล'}</div>`;
+        }
+
+        return `
+          <div class="note-card">
+            <div class="note-header">
+              <div class="note-bed-info">
+                <span>🛏️</span>
+                <span>เตียง ${note.bedId}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="note-type">${noteTypeText[note.type] || '📝 อื่นๆ'}</span>
+                <span class="note-time">${note.time || new Date(note.timestamp).toLocaleString('th-TH')}</span>
+              </div>
+            </div>
+            ${contentHtml}
+            <div class="note-author">
+              <div class="author-icon">👤</div>
+              <span>บันทึกโดย: ${note.author || 'ไม่ระบุ'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      notesSummarySection.style.display = "block";
+    }
+
+    // ฟังก์ชันจัดการข้อมูล I/O
+    function refreshIOData() {
+      loadAllIOData();
+    }
+
+    function loadAllIOData() {
+      const display = document.getElementById("allIODisplay");
+      if (!display) return;
+
+      // รวบรวมข้อมูล I/O จากทุกเตียง
+      let allIOData = [];
+      const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+      for (let bedId = 1; bedId <= 99; bedId++) {
+        const bedIORecords = JSON.parse(localStorage.getItem(`io_records_bed_${bedId}`) || "[]");
+        bedIORecords.forEach(record => {
+          if (new Date(record.timestamp) > last24Hours) {
+            allIOData.push({
+              ...record,
+              bedId: bedId
+            });
+          }
+        });
+      }
+
+      // เรียงลำดับตามเวลา (ใหม่ที่สุดก่อน)
+      allIOData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      // คำนวณสรุปรวม
+      const summary = allIOData.reduce((acc, data) => {
+        acc.totalIn += data.totalIn || 0;
+        acc.totalOut += data.totalOut || 0;
+        acc.beds.add(data.bedId);
+        return acc;
+      }, {totalIn: 0, totalOut: 0, beds: new Set()});
+
+      const balance = summary.totalIn - summary.totalOut;
+
+      // อัพเดทสรุปรวม
+      document.getElementById("totalSystemIn").textContent = `${summary.totalIn} mL`;
+      document.getElementById("totalSystemOut").textContent = `${summary.totalOut} mL`;
+      document.getElementById("totalActiveBeds").textContent = `${summary.beds.size} เตียง`;
+
+      const balanceElement = document.getElementById("totalSystemBalance");
+      balanceElement.textContent = `${balance > 0 ? '+' : ''}${balance} mL`;
+      balanceElement.style.color = balance > 0 ? '#1b5e20' : balance < 0 ? '#b71c1c' : '#0d47a1';
+
+      if (!allIOData.length) {
+        display.innerHTML = `
+          <div style="background: linear-gradient(135deg, #f5f5f5, #e0e0e0); border-radius: 15px; padding: 40px; text-align: center; border: 3px dashed #bdbdbd;">
+            <div style="font-size: 64px; margin-bottom: 16px; opacity: 0.6;">💧</div>
+            <div style="font-size: 18px; font-weight: 600; color: #757575; margin-bottom: 8px;">ยังไม่มีข้อมูล Input/Output</div>
+            <div style="font-size: 14px; color: #9e9e9e;">ข้อมูลจะแสดงเมื่อมีการบันทึก I/O ในระบบ</div>
+          </div>
+        `;
+        return;
+      }
+
+      // แสดงข้อมูลแต่ละรายการ
+      display.innerHTML = allIOData.slice(0, 15).map((data, index) => {
+        const balanceColor = data.balance > 0 ? '#4caf50' : data.balance < 0 ? '#f44336' : '#ff9800';
+        const balanceIcon = data.balance > 0 ? '📈' : data.balance < 0 ? '📉' : '⚖️';
+
+        return `
+          <div style="background: linear-gradient(135deg, #ffffff, #fafafa); border-radius: 15px; padding: 18px; border: 2px solid ${balanceColor}; box-shadow: 0 6px 18px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 8px 12px; border-radius: 10px; font-weight: bold; color: #1976d2; font-size: 16px;">
+                  🛏️ เตียง ${data.bedId}
+                </div>
+                <div style="background: linear-gradient(135deg, ${data.balance > 0 ? '#e8f5e9' : data.balance < 0 ? '#ffebee' : '#fff3e0'}, ${data.balance > 0 ? '#c8e6c9' : data.balance < 0 ? '#ffcdd2' : '#ffcc02'}); padding: 6px 10px; border-radius: 8px; font-weight: bold; color: ${balanceColor}; font-size: 14px;">
+                  ${balanceIcon} ${data.shiftName}
+                </div>
+              </div>
+              <div style="font-size: 12px; color: #666; background: #f5f5f5; padding: 4px 8px; border-radius: 6px;">${data.time}</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+              <div style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #4caf50;">
+                <div style="font-size: 11px; color: #2e7d32; font-weight: bold; margin-bottom: 4px;">💧 INPUT</div>
+                <div style="font-size: 20px; font-weight: bold; color: #1b5e20;">${data.totalIn}</div>
+                <div style="font-size: 10px; color: #4caf50;">mL</div>
+              </div>
+              <div style="background: linear-gradient(135deg, #ffebee, #ffcdd2); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #f44336;">
+                <div style="font-size: 11px; color: #c62828; font-weight: bold; margin-bottom: 4px;">📤 OUTPUT</div>
+                <div style="font-size: 20px; font-weight: bold; color: #b71c1c;">${data.totalOut}</div>
+                <div style="font-size: 10px; color: #f44336;">mL</div>
+              </div>
+              <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid ${balanceColor};">
+                <div style="font-size: 11px; color: #1976d2; font-weight: bold; margin-bottom: 4px;">⚖️ BALANCE</div>
+                <div style="font-size: 20px; font-weight: bold; color: ${balanceColor};">
+                  ${data.balance > 0 ? '+' : ''}${data.balance}
+                </div>
+                <div style="font-size: 10px; color: #2196f3;">mL</div>
+              </div>
+            </div>
+
+            ${data.notes ? `
+              <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 10px 12px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid #6c757d;">
+                <div style="font-size: 12px; color: #495057; line-height: 1.4;">
+                  <strong>💬 หมายเหตุ:</strong> ${data.notes}
+                </div>
+              </div>
+            ` : ''}
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 12px; color: #666;">
+                <strong>👩‍⚕️ ${data.author}</strong>
+              </div>
+              <div style="font-size: 11px; color: #999; background: #f8f9fa; padding: 3px 8px; border-radius: 6px;">
+                #${String(index + 1).padStart(3, '0')}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // ฟังก์ชันอัพเดทเวลา
+    function updateTime() {
+      const now = new Date();
+      const timeString = now.toLocaleString('th-TH', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      document.getElementById("espTime").textContent = timeString;
+    }
+
+    // ฟังก์ชันโหลดข้อมูลผู้ใช้
+    function loadUserInfo() {
+      const user = JSON.parse(sessionStorage.getItem("currentUser") || "null");
+      if (user) {
+        document.getElementById("userBox").innerText = `👤 ผู้ใช้งาน: ${user.fullname} (${user.role})`;
+      }
+    }
+
+    // ฟังก์ชันสร้างกริดเตียง
+    function generateBedGrid() {
+      const grid = document.getElementById("bedGrid");
+      if (!grid) return;
+
+      // เคลียร์เตียงเก่า
+      grid.innerHTML = "";
+
+      updateBeds();
+      updateStatusBox();
+    }
+
+    // เริ่มต้น
+    window.onload = function () {
+      loadUserInfo();
+      generateBedGrid();
+      updateTime();
+      setInterval(updateTime, 1000); // อัพเดทเวลาทุกวินาที
+      setInterval(generateBedGrid, 30000);
+      loadAllNotes();
+      loadAllIOData();
+    };
+    function resetAllData() {
+      const step1 = confirm("⚠️ คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลทั้งหมด?");
+      if (!step1) return;
+
+      const step2 = confirm("❗ การล้างข้อมูลจะไม่สามารถย้อนกลับได้\nต้องการดำเนินการต่อหรือไม่?");
+      if (!step2) return;
+
+      for (let i = 1; i <= 99; i++) {
+        localStorage.removeItem(`ir_data_bed_${i}`);
+        localStorage.removeItem(`fluid_calc_bed_${i}`);
+        localStorage.removeItem(`nurseNotes_${i}`);
+        sessionStorage.removeItem(`chartData_bed${i}`);
+      }
+
+      alert("✅ ล้างข้อมูลเรียบร้อยแล้ว");
+      location.reload();
+    }
+
+    function openResetModal() {
+      document.getElementById("resetModal").style.display = "flex";
+    }
+
+    function closeResetModal() {
+      document.getElementById("resetModal").style.display = "none";
+    }
+
+    function confirmReset() {
+      for (let i = 1; i <= 99; i++) {
+        localStorage.removeItem(`ir_data_bed_${i}`);
+        localStorage.removeItem(`fluid_calc_bed_${i}`);
+        localStorage.removeItem(`nurseNotes_${i}`);
+        sessionStorage.removeItem(`chartData_bed${i}`);
+      }
+      alert("✅ ล้างข้อมูลเรียบร้อยแล้ว");
+      location.reload();
+    }
+
+    function toggleDropdown(event) {
+      event.stopPropagation();
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.toggle("show");
+    }
+
+    // ปิด dropdown ถ้าคลิกนอกเมนู
+    window.addEventListener("click", function () {
+      const menu = document.getElementById("dropdownMenu");
+      menu.classList.remove("show");
+    });
+
+    // ฟังก์ชันออกจากระบบ
+    function logout() {
+      if (confirm('คุณต้องการออกจากระบบใช่หรือไม่?')) {
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'index.html';
+      }
+    }
+
+    function resetAllData() {
+      const confirm1 = confirm("⚠️ คุณแน่ใจหรือไม่ว่าต้องการล้างข้อมูลทั้งหมด?\n\n🧹 รวมถึงข้อมูลผู้ป่วย, บันทึก, การคำนวณน้ำเกลือ ฯลฯ");
+      if (!confirm1) return;
+
+      const confirm2 = confirm("❗ ข้อมูลทั้งหมดจะถูกลบอย่างถาวร\n\nคุณต้องการดำเนินการต่อหรือไม่?");
+      if (!confirm2) return;
+
+      for (let i = 1; i <= 99; i++) {
+        localStorage.removeItem(`ir_data_bed_${i}`);
+        localStorage.removeItem(`fluid_calc_bed_${i}`);
+        localStorage.removeItem(`nurseNotes_${i}`);
+        sessionStorage.removeItem(`chartData_bed${i}`);
+      }
+
+      alert("✅ ล้างข้อมูลระบบทั้งหมดเรียบร้อยแล้ว");
+      location.reload();
+    }
+  </script>
+</body>
+<style>
+/* Device Status Styles */
+.device-status-wrapper {
+  background: #ffffff;
+  border: 1px solid #d0e1ff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 64, 128, 0.08);
+  padding: 16px;
+  margin: 16px auto;
+  max-width: 900px;
+  animation: fadeIn 0.5s ease-out;
+  overflow: hidden;
+  position: relative;
+  font-family: 'Sarabun', sans-serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.device-status-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.device-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #007acc, #005fa3);
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 4px 12px rgba(0, 122, 204, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.device-circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  position: absolute;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.device-emoji {
+  font-size: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.device-info {
+  flex-grow: 1;
+  margin-left: 15px;
+}
+
+.device-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0056b3;
+  margin-bottom: 4px;
+}
+
+.device-subtitle {
+  font-size: 13px;
+  color: #6c757d;
+  margin-bottom: 8px;
+}
+
+.connection-indicator {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 193, 7, 0.1);
+  color: #ff8f00;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 143, 0, 0.2);
+}
+
+.connection-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff8f00;
+  margin-right: 6px;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.device-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.status-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 122, 204, 0.2);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 122, 204, 0.15);
+}
+
+.status-card-main {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(0, 122, 204, 0.1), rgba(0, 95, 163, 0.1));
+  border: 1px solid #007acc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  padding: 16px;
+  position: relative;
+}
+
+.status-card-main::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  background: rgba(0, 122, 204, 0.1);
+  z-index: 0;
+  animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.status-card-main .status-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  z-index: 1;
+}
+
+.status-card-main .status-content,
+.status-card-main .status-icon {
+  position: relative;
+  z-index: 2;
+}
+
+.status-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #007acc, #005fa3);
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px auto;
+  box-shadow: 0 3px 8px rgba(0, 122, 204, 0.3);
+}
+
+.status-content {
+  flex-grow: 1;
+}
+
+.status-label {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0056b3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.system-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.system-version {
+  font-size: 12px;
+  color: #7e57c2;
+  font-weight: 500;
+}
+
+.system-uptime {
+  font-size: 12px;
+  color: #5e35b1;
+  font-weight: 600;
+}
+
+.signal-bars {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.signal-bars .bar {
+  width: 6px;
+  height: 12px;
+  background: #7e57c2;
+  margin-left: 2px;
+  border-radius: 3px;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.signal-bars .bar:first-child {
+  margin-left: 0;
+}
+
+.signal-bars .bar.active {
+  opacity: 1;
+}
+
+.battery-indicator {
+  width: 40px;
+  height: 18px;
+  border: 2px solid #7e57c2;
+  border-radius: 4px;
+  background: #fff;
+  margin-left: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.battery-indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -4px;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 6px;
+  background: #7e57c2;
+}
+
+.battery-level {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #7e57c2;
+  width: 80%;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .device-status-wrapper {
+    padding: 18px;
+    border-radius: 20px;
+    margin: 16px auto;
+  }
+
+  .device-status-header {
+    margin-bottom: 16px;
+  }
+
+  .device-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .device-title {
+    font-size: 18px;
+  }
+
+  .device-subtitle {
+    font-size: 13px;
+  }
+
+  .connection-indicator {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .device-status-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .status-card {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .status-icon {
+    font-size: 22px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .status-label {
+    font-size: 12px;
+  }
+
+  .status-value {
+    font-size: 15px;
+  }
+
+  .status-card-main {
+    grid-column: 1 / -1;
+    padding: 16px;
+  }
+}
+
+.status-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.data-flow-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #7e57c2;
+  margin: 0 3px;
+  animation: flow 1s linear infinite;
+}
+
+.flow-dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.flow-dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes flow {
+  0% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-5px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .device-status-wrapper {
+    border-radius: 18px;
+    padding: 16px;
+  }
+
+  .device-status-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .device-info {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .device-title {
+    font-size: 16px;
+  }
+
+  .device-subtitle {
+    font-size: 12px;
+  }
+
+  .connection-indicator {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .device-status-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .status-card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .status-icon {
+    font-size: 20px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .status-label {
+    font-size: 11px;
+  }
+
+  .status-value {
+    font-size: 14px;
+  }
+
+  .status-card-main {
+    padding: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* End Device Status Styles */
+</style>
+</html>
