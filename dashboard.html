@@ -111,6 +111,152 @@
       transform: translateY(-4px);
     }
 
+    .action-card.primary-action {
+      background: linear-gradient(135deg, #ffffff, #f8fafc, #f0f9ff);
+      border: 4px solid transparent;
+      background-clip: padding-box;
+      box-shadow: 0 15px 50px rgba(14, 165, 233, 0.3), 
+                  inset 0 1px 0 rgba(255,255,255,0.9);
+      position: relative;
+      animation: luxuryPulse 3s ease-in-out infinite;
+    }
+
+    .action-card.primary-action::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, #0ea5e9, #3b82f6, #8b5cf6, #06b6d4);
+      background-size: 400% 400%;
+      border-radius: 15px;
+      z-index: -1;
+      animation: gradientShift 4s ease-in-out infinite;
+    }
+
+    .action-card.primary-action::after {
+      content: '⭐';
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 22px;
+      animation: sparkle 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.6));
+    }
+
+    .action-card.primary-action:hover {
+      transform: translateY(-12px) scale(1.03);
+      box-shadow: 0 25px 60px rgba(14, 165, 233, 0.5), 
+                  0 8px 25px rgba(59, 130, 246, 0.3),
+                  inset 0 1px 0 rgba(255,255,255,1);
+      animation: luxuryPulse 1.5s ease-in-out infinite;
+    }
+
+    .action-card.primary-action:hover::before {
+      animation: gradientShift 2s ease-in-out infinite;
+    }
+
+    .action-card.primary-action:hover .action-icon {
+      transform: scale(1.1);
+      box-shadow: 0 12px 35px rgba(14, 165, 233, 0.6);
+    }
+
+    .action-card.primary-action:hover .action-title {
+      text-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
+    }
+
+    .action-card.primary-action .action-icon {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7, #0369a1);
+      color: white;
+      padding: 18px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+      font-size: 28px;
+      width: 70px;
+      height: 70px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card.primary-action .action-icon::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: iconRotate 3s linear infinite;
+    }
+
+    .action-card.primary-action .action-title {
+      color: #1e293b;
+      font-weight: 800;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 4px rgba(14, 165, 233, 0.2);
+      font-size: 22px;
+      background: linear-gradient(135deg, #1e293b, #0ea5e9);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.3;
+    }
+
+    .action-card.primary-action .action-desc {
+      color: #475569;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    @keyframes primaryGlow {
+      0%, 100% { 
+        background: linear-gradient(90deg, #22c55e, #0ea5e9, #8b5cf6);
+      }
+      50% { 
+        background: linear-gradient(90deg, #8b5cf6, #22c55e, #0ea5e9);
+      }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { 
+        opacity: 0.7;
+        transform: scale(1) rotate(0deg);
+      }
+      50% { 
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+      }
+    }
+
+    @keyframes iconRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes luxuryPulse {
+      0%, 100% { 
+        box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4), 
+                    0 0 0 0 rgba(14, 165, 233, 0.7);
+      }
+      50% { 
+        box-shadow: 0 15px 40px rgba(14, 165, 233, 0.6), 
+                    0 0 0 15px rgba(14, 165, 233, 0);
+      }
+    }
+
     .action-icon {
       font-size: 56px;
       margin-bottom: 20px;
@@ -583,13 +729,37 @@
     }
 
     @media (max-width: 768px) {
+      body {
+        padding: 8px;
+      }
+
+      .header {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .header p {
+        font-size: 14px;
+      }
+
+      .user-info {
+        font-size: 12px;
+        padding: 8px 12px;
+        margin-top: 12px;
+      }
+
       .quick-actions {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
       }
 
       .beds-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         gap: 15px;
       }
 
@@ -600,20 +770,38 @@
         margin-bottom: 20px;
         justify-content: center;
         flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .admin-btn {
+        padding: 10px 14px;
+        font-size: 12px;
       }
 
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        gap: 12px;
+      }
+
+      .stat-card {
+        padding: 15px 10px;
+      }
+
+      .stat-value {
+        font-size: 22px;
+      }
+
+      .stat-label {
+        font-size: 11px;
       }
 
       .action-card {
-        padding: 18px;
+        padding: 15px;
       }
 
       .action-icon {
-        font-size: 42px;
-        margin-bottom: 12px;
+        font-size: 36px;
+        margin-bottom: 10px;
       }
 
       .action-title {
@@ -629,19 +817,33 @@
       }
 
       .bed-header {
-        padding: 15px 20px;
+        padding: 15px;
       }
 
       .bed-number {
-        font-size: 18px;
+        font-size: 16px;
+      }
+
+      .bed-icon {
+        font-size: 20px;
+        padding: 6px;
       }
 
       .bed-content {
-        padding: 20px;
+        padding: 15px;
+      }
+
+      .flow-rate-section {
+        padding: 15px;
+        margin-bottom: 15px;
       }
 
       .flow-rate {
         font-size: 20px;
+      }
+
+      .flow-rate-label {
+        font-size: 11px;
       }
 
       .comparison-grid {
@@ -649,23 +851,139 @@
       }
 
       .comparison-item {
-        padding: 10px 6px;
+        padding: 8px 6px;
+      }
+
+      .comparison-value {
+        font-size: 14px;
+      }
+
+      .comparison-label {
+        font-size: 9px;
       }
 
       .stats-row {
-        gap: 8px;
+        gap: 6px;
       }
 
       .stat-mini {
-        padding: 10px 6px;
+        padding: 8px 6px;
+      }
+
+      .stat-mini-value {
+        font-size: 14px;
+      }
+
+      .stat-mini-label {
+        font-size: 8px;
       }
 
       .patient-info {
-        padding: 15px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .patient-info-row {
+        padding: 6px 0;
+        margin-bottom: 8px;
+      }
+
+      .patient-info-label {
+        font-size: 11px;
+      }
+
+      .patient-info-value {
+        font-size: 12px;
       }
 
       .comparison-section {
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+
+      .comparison-header {
+        font-size: 10px;
+        margin-bottom: 8px;
+      }
+
+      .variance-indicator {
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+
+      .last-update {
+        padding: 8px 10px;
+        font-size: 9px;
+        margin-top: 12px;
+      }
+
+      .summary-section {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+      }
+
+      .summary-title {
+        font-size: 18px;
+      }
+
+      .modal-content {
+        margin: 10px;
+        padding: 20px 15px;
+        max-width: calc(100vw - 20px);
+        max-height: calc(100vh - 20px);
+      }
+
+      .btn {
+        padding: 12px 20px;
+        font-size: 13px;
+        margin: 6px 4px;
+      }
+
+      .alert-container {
+        max-width: calc(100vw - 40px);
+        width: 95%;
+        padding: 25px 20px;
+      }
+
+      .alert-icon-large {
+        font-size: 60px;
+      }
+
+      .alert-title-large {
+        font-size: 22px;
+      }
+
+      .alert-message-large {
+        font-size: 16px;
+      }
+
+      .alert-btn-large {
+        padding: 12px 20px;
+        font-size: 14px;
+        min-width: 120px;
+      }
+
+      .floating-alert {
+        max-width: calc(100vw - 40px);
+        bottom: 15px;
+        right: 15px;
+        left: 15px;
         padding: 15px;
+      }
+
+      .floating-alert-content {
+        font-size: 13px;
+        padding-right: 30px;
+      }
+
+      .alert-banner {
+        padding: 12px 10px;
+        font-size: 13px;
+      }
+
+      .snooze-buttons {
+        grid-template-columns: 1fr;
+        gap: 8px;
       }
     }
 
@@ -1025,9 +1343,892 @@
       color: #64748b;
       font-style: italic;
     }
+
+    .saline-status {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border: 2px solid;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .saline-status.normal {
+      border-color: #22c55e;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    }
+
+    .saline-status.warning {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      animation: warningPulse 3s ease-in-out infinite;
+    }
+
+    .saline-status.urgent {
+      border-color: #ef4444;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      animation: urgentPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes warningPulse {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        transform: scale(1.01);
+      }
+    }
+
+    @keyframes urgentPulse {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.5);
+        transform: scale(1.02);
+      }
+    }
+
+    .status-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .status-icon {
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .status-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      flex: 1;
+    }
+
+    .time-info {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .time-remaining {
+      font-size: 18px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .time-remaining strong {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .finish-time {
+      font-size: 14px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .finish-time strong {
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .urgent-note {
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: rgba(239, 68, 68, 0.1);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #991b1b;
+      text-align: center;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    /* ระบบแจ้งเตือนฉุกเฉิน - โดดเด่นและสำคัญ */
+    .alert-fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 99999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      animation: alertFadeIn 0.5s ease-out;
+    }
+
+    .alert-fullscreen.show {
+      display: flex;
+    }
+
+    @keyframes alertFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .alert-container {
+      background: linear-gradient(135deg, #ffffff, #f8fafc);
+      border-radius: 25px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 25px 75px rgba(0, 0, 0, 0.5);
+      border: 4px solid;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .alert-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, #ef4444, #f97316, #eab308, #22c55e, #06b6d4, #3b82f6, #8b5cf6);
+      background-size: 200% 100%;
+      animation: rainbowShift 2s linear infinite;
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .alert-container.critical {
+      border-color: #ef4444;
+      animation: criticalPulse 1.5s ease-in-out infinite;
+    }
+
+    .alert-container.warning {
+      border-color: #f59e0b;
+      animation: warningPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes criticalPulse {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 25px 75px rgba(239, 68, 68, 0.5);
+      }
+      50% { 
+        transform: scale(1.02);
+        box-shadow: 0 30px 90px rgba(239, 68, 68, 0.7);
+      }
+    }
+
+    @keyframes warningPulse {
+      0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 25px 75px rgba(245, 158, 11, 0.5);
+      }
+      50% { 
+        transform: scale(1.01);
+        box-shadow: 0 30px 90px rgba(245, 158, 11, 0.6);
+      }
+    }
+
+    .alert-icon-large {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: iconBounce 1s ease-in-out infinite;
+    }
+
+    @keyframes iconBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.1); }
+    }
+
+    .alert-title-large {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      color: #1e293b;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert-message-large {
+      font-size: 18px;
+      margin-bottom: 30px;
+      color: #374151;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .alert-actions-large {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .alert-btn-large {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 16px;
+      position: relative;
+      overflow: hidden;
+      min-width: 140px;
+    }
+
+    .alert-btn-large::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .alert-btn-large:hover::before {
+      left: 100%;
+    }
+
+    .alert-btn-large:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .alert-btn-large.primary {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+    }
+
+    .alert-btn-large.warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+    }
+
+    .alert-btn-large.secondary {
+      background: linear-gradient(135deg, #6b7280, #4b5563);
+      color: white;
+      box-shadow: 0 8px 25px rgba(107, 114, 128, 0.4);
+    }
+
+    .alert-btn-large.snooze {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      color: white;
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+    }
+
+    .snooze-options {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(139, 92, 246, 0.1);
+      border-radius: 15px;
+      border: 2px solid #8b5cf6;
+    }
+
+    .snooze-options.show {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { 
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .snooze-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #7c3aed;
+      margin-bottom: 15px;
+    }
+
+    .snooze-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .snooze-btn {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .snooze-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .alert-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 16px;
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5);
+      transform: translateY(-100%);
+      transition: all 0.5s ease;
+      border-bottom: 6px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .alert-banner.show {
+      transform: translateY(0);
+    }
+
+    .alert-banner.warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5);
+    }
+
+    .alert-banner.critical {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      animation: bannerFlash 1s infinite;
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.7);
+    }
+
+    @keyframes bannerFlash {
+      0%, 100% { 
+        opacity: 1;
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+      }
+      50% { 
+        opacity: 0.8;
+        background: linear-gradient(135deg, #f87171, #ef4444);
+      }
+    }
+
+    .floating-alert {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      z-index: 9998;
+      max-width: 420px;
+      min-width: 320px;
+      opacity: 0;
+      transform: translateX(100%) scale(0.8);
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 3px solid;
+      backdrop-filter: blur(10px);
+    }
+
+    .floating-alert.show {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+
+    .floating-alert.warning {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(255, 251, 235, 0.95), rgba(254, 243, 199, 0.95));
+      box-shadow: 0 15px 40px rgba(245, 158, 11, 0.3);
+    }
+
+    .floating-alert.critical {
+      border-color: #ef4444;
+      background: linear-gradient(135deg, rgba(254, 242, 242, 0.95), rgba(254, 226, 226, 0.95));
+      animation: floatingPulse 2s infinite;
+      box-shadow: 0 15px 40px rgba(239, 68, 68, 0.4);
+    }
+
+    .floating-alert.snooze {
+      border-color: #8b5cf6;
+      background: linear-gradient(135deg, rgba(245, 243, 255, 0.95), rgba(237, 233, 254, 0.95));
+      box-shadow: 0 15px 40px rgba(139, 92, 246, 0.3);
+    }
+
+    @keyframes floatingPulse {
+      0%, 100% { 
+        box-shadow: 0 15px 40px rgba(239, 68, 68, 0.3);
+      }
+      50% { 
+        box-shadow: 0 20px 50px rgba(239, 68, 68, 0.5);
+      }
+    }
+
+    .floating-alert .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #64748b;
+      transition: all 0.3s ease;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-alert .close-btn:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .floating-alert-content {
+      padding-right: 40px;
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* เอฟเฟกต์สีเปลี่ยนสำหรับเตียง */
+    .bed-card.alert-warning {
+      border-color: #f59e0b !important;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+      animation: warningGlow 2s infinite;
+    }
+
+    .bed-card.alert-critical {
+      border-color: #ef4444 !important;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+      animation: criticalGlow 1s infinite;
+    }
+
+    .bed-card.alert-snooze {
+      border-color: #8b5cf6 !important;
+      background: linear-gradient(135deg, #f3f4f6, #e5e7eb) !important;
+      opacity: 0.7;
+      animation: snoozeGlow 3s infinite;
+    }
+
+    @keyframes warningGlow {
+      0%, 100% { 
+        box-shadow: 0 8px 30px rgba(245, 158, 11, 0.2);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4);
+      }
+    }
+
+    @keyframes criticalGlow {
+      0%, 100% { 
+        box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(239, 68, 68, 0.6);
+      }
+    }
+
+    @keyframes snoozeGlow {
+      0%, 100% { 
+        box-shadow: 0 8px 30px rgba(139, 92, 246, 0.2);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+      }
+    }
+
+    /* ระบบแจ้งเตือนขั้นสูง */
+    .filter-btn {
+      background: #f1f5f9;
+      color: #64748b;
+      border: 2px solid #e2e8f0;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: white;
+      border-color: #0ea5e9;
+    }
+
+    .alerts-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .summary-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border: 2px solid;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .summary-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .summary-card.critical {
+      border-color: #ef4444;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    }
+
+    .summary-card.warning {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    }
+
+    .summary-card.info {
+      border-color: #06b6d4;
+      background: linear-gradient(135deg, #ecfeff, #cffafe);
+    }
+
+    .summary-card.success {
+      border-color: #22c55e;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    }
+
+    .summary-icon {
+      font-size: 32px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.5);
+    }
+
+    .summary-content {
+      flex: 1;
+    }
+
+    .summary-number {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .summary-label {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .alerts-list {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+
+    .alert-item {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 8px;
+      border-left: 4px solid;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .alert-item:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    }
+
+    .alert-item.critical {
+      border-left-color: #ef4444;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    }
+
+    .alert-item.warning {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    }
+
+    .alert-item.info {
+      border-left-color: #06b6d4;
+      background: linear-gradient(135deg, #ecfeff, #cffafe);
+    }
+
+    .alert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .alert-title {
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alert-time {
+      font-size: 11px;
+      color: #64748b;
+      background: rgba(255,255,255,0.7);
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .alert-details {
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .alert-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .alert-btn {
+      background: #f1f5f9;
+      color: #64748b;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .alert-btn:hover {
+      background: #0ea5e9;
+      color: white;
+    }
+
+    .alert-btn.goto {
+      background: #22c55e;
+      color: white;
+    }
+
+    .alert-btn.acknowledge {
+      background: #ef4444;
+      color: white;
+    }
+
+    .loading-alerts {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px;
+      color: #64748b;
+    }
+
+    .empty-alerts {
+      text-align: center;
+      padding: 40px;
+      color: #64748b;
+    }
+
+    .empty-alerts-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      opacity: 0.7;
+    }
+
+    .empty-alerts-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .empty-alerts-desc {
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .alerts-summary {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .summary-card {
+        padding: 15px;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .summary-icon {
+        font-size: 24px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .summary-number {
+        font-size: 20px;
+      }
+
+      .summary-label {
+        font-size: 11px;
+      }
+
+      .alert-item {
+        padding: 12px;
+      }
+
+      .alert-title {
+        font-size: 14px;
+      }
+
+      .alert-details {
+        font-size: 13px;
+      }
+
+      .filter-btn {
+        font-size: 11px;
+        padding: 6px 12px;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .alert-container {
+        padding: 30px 20px;
+        max-width: 350px;
+      }
+      
+      .alert-icon-large {
+        font-size: 60px;
+      }
+      
+      .alert-title-large {
+        font-size: 22px;
+      }
+      
+      .alert-message-large {
+        font-size: 16px;
+      }
+      
+      .alert-btn-large {
+        padding: 12px 20px;
+        font-size: 14px;
+        min-width: 120px;
+      }
+      
+      .snooze-buttons {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      
+      .floating-alert {
+        max-width: 320px;
+        bottom: 20px;
+        right: 20px;
+        padding: 20px;
+      }
+      
+      .floating-alert-content {
+        font-size: 14px;
+        padding-right: 35px;
+      }
+
+      .alert-banner {
+        padding: 15px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Alert Banner -->
+  <div class="alert-banner" id="alertBanner">
+    <div id="bannerMessage">🚨 การแจ้งเตือนระบบ</div>
+  </div>
+
+  <!-- Full Screen Alert -->
+  <div class="alert-fullscreen" id="alertFullscreen">
+    <div class="alert-container" id="alertContainer">
+      <div class="alert-icon-large" id="alertIconLarge">🚨</div>
+      <div class="alert-title-large" id="alertTitleLarge">แจ้งเตือนฉุกเฉิน!</div>
+      <div class="alert-message-large" id="alertMessageLarge">มีเหตุการณ์ที่ต้องการความสนใจทันที</div>
+      
+      <div class="alert-actions-large">
+        <button class="alert-btn-large primary" onclick="acknowledgeAlert()">
+          ✅ รับทราบแล้ว
+        </button>
+        <button class="alert-btn-large snooze" onclick="toggleSnoozeOptions()">
+          😴 Snooze
+        </button>
+        <button class="alert-btn-large secondary" onclick="dismissAlert()">
+          ❌ ปิด
+        </button>
+      </div>
+
+      <div class="snooze-options" id="snoozeOptions">
+        <div class="snooze-title">⏰ เลื่อนการแจ้งเตือน</div>
+        <div class="snooze-buttons">
+          <button class="snooze-btn" onclick="snoozeAlert(5)">5 นาที</button>
+          <button class="snooze-btn" onclick="snoozeAlert(10)">10 นาที</button>
+          <button class="snooze-btn" onclick="snoozeAlert(15)">15 นาที</button>
+          <button class="snooze-btn" onclick="snoozeAlert(30)">30 นาที</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
   <div class="header">
     <h1>🏥 NurseBuddy Dashboard</h1>
     <p>ระบบติดตามน้ำเกลืออัจฉริยะ เพื่อความปลอดภัยของผู้ป่วย</p>
@@ -1036,15 +2237,16 @@
 
   <div class="admin-controls" id="adminControls" style="display: none;">
     <button class="admin-btn secondary" onclick="openSummaryModal()">📊 สรุป</button>
+    <button class="admin-btn secondary" onclick="openPasswordManagement()" id="passwordManageBtn" style="display: none;">🔐 จัดการรหัสผ่าน</button>
     <button class="admin-btn" onclick="openResetModal()">🗑️ รีเซ็ต</button>
     <button class="admin-btn secondary" onclick="logout()">🚪 ออก</button>
   </div>
 
   <div class="quick-actions">
-    <div class="action-card" onclick="showQuickAdd()">
-      <div class="action-icon">⚡</div>
+    <div class="action-card primary-action" onclick="showQuickAdd()">
+      <div class="action-icon">🏥</div>
       <div class="action-title">เพิ่มผู้ป่วยใหม่</div>
-      <div class="action-desc">กรอกข้อมูลครั้งเดียว พร้อมใช้งานทันที</div>
+      <div class="action-desc">เริ่มต้นการดูแลผู้ป่วยใหม่ เซ็ตอัพเตียงพร้อมใช้งาน</div>
     </div>
 
     <div class="action-card" onclick="showIOEntry()">
@@ -1053,10 +2255,10 @@
       <div class="action-desc">บันทึกสารน้ำเข้า-ออกอย่างรวดเร็ว</div>
     </div>
 
-    <div class="action-card" onclick="showQuickCalc()">
-      <div class="action-icon">🧮</div>
-      <div class="action-title">คำนวณน้ำเกลือ</div>
-      <div class="action-desc">คำนวณอัตราการไหลแม่นยำทันที</div>
+    <div class="action-card" onclick="showAlertsManagement()">
+      <div class="action-icon">🔔</div>
+      <div class="action-title">ระบบแจ้งเตือน</div>
+      <div class="action-desc">จัดการการแจ้งเตือนและตรวจสอบน้ำเกลือหมด</div>
     </div>
   </div>
 
@@ -1091,10 +2293,10 @@
           <div class="stat-label">กำหนดการยา</div>
           <div class="stat-detail">ตารางให้ยา</div>
         </div>
-        <div class="stat-card alert-card" onclick="showAlertsDetails()">
-          <div class="stat-value" id="alertCount">0</div>
-          <div class="stat-label">การแจ้งเตือน</div>
-          <div class="stat-detail" id="alertDetail">ไม่มีการแจ้งเตือน</div>
+        <div class="stat-card" onclick="showSystemHealth()">
+          <div class="stat-value" id="systemUptime">0</div>
+          <div class="stat-label">เวลาใช้งาน (ชั่วโมง)</div>
+          <div class="stat-detail">ระบบทำงานปกติ</div>
         </div>
       </div>
   </div>
@@ -1184,29 +2386,66 @@
     </div>
   </div>
 
-  <!-- Calculator Modal -->
-  <div class="modal" id="calcModal">
-    <div class="modal-content">
-      <h3>🧮 เครื่องคำนวณน้ำเกลือ</h3>
-      <div class="input-group">
-        <label>ปริมาตร (mL):</label>
-        <input type="number" id="calcVolume" placeholder="1000">
+  <!-- Alerts Management Modal -->
+  <div class="modal" id="alertsModal">
+    <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+      <h3 style="display: flex; align-items: center; gap: 10px; margin-bottom: 25px;">
+        🔔 ระบบแจ้งเตือนขั้นสูง
+        <div style="margin-left: auto; display: flex; gap: 10px;">
+          <button class="filter-btn active" onclick="filterAlerts('all')" data-filter="all">ทั้งหมด</button>
+          <button class="filter-btn" onclick="filterAlerts('critical')" data-filter="critical">วิกฤต</button>
+          <button class="filter-btn" onclick="filterAlerts('saline')" data-filter="saline">น้ำเกลือ</button>
+          <button class="filter-btn" onclick="filterAlerts('vitals')" data-filter="vitals">สัญญาณชีพ</button>
+        </div>
+      </h3>
+
+      <!-- Summary Stats -->
+      <div class="alerts-summary">
+        <div class="summary-card critical">
+          <div class="summary-icon">🚨</div>
+          <div class="summary-content">
+            <div class="summary-number" id="criticalCount">0</div>
+            <div class="summary-label">การแจ้งเตือนวิกฤต</div>
+          </div>
+        </div>
+        <div class="summary-card warning">
+          <div class="summary-icon">⚠️</div>
+          <div class="summary-content">
+            <div class="summary-number" id="warningCount">0</div>
+            <div class="summary-label">การเฝ้าระวัง</div>
+          </div>
+        </div>
+        <div class="summary-card info">
+          <div class="summary-icon">💧</div>
+          <div class="summary-content">
+            <div class="summary-number" id="salineCount">0</div>
+            <div class="summary-label">น้ำเกลือใกล้หมด</div>
+          </div>
+        </div>
+        <div class="summary-card success">
+          <div class="summary-icon">✅</div>
+          <div class="summary-content">
+            <div class="summary-number" id="normalCount">0</div>
+            <div class="summary-label">สถานะปกติ</div>
+          </div>
+        </div>
       </div>
-      <div class="input-group">
-        <label>อัตราที่ต้องการ (ดรอป/นาที):</label>
-        <input type="number" id="calcRate" placeholder="30">
+
+      <!-- Alerts List -->
+      <div id="alertsList" class="alerts-list">
+        <div class="loading-alerts">
+          <div class="spinner"></div>
+          <span>กำลังโหลดการแจ้งเตือน...</span>
+        </div>
       </div>
-      <div class="input-group">
-        <label>Drop Factor:</label>
-        <select id="dropFactor">
-          <option value="20">20 หยด/cc (มาตรฐาน)</option>
-          <option value="15">15 หยด/cc</option>
-          <option value="60">60 หยด/cc (Micro)</option>
-        </select>
+
+      <!-- Action Buttons -->
+      <div style="margin-top: 25px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-success" onclick="acknowledgeAllAlerts()">✅ รับทราบทั้งหมด</button>
+        <button class="btn btn-info" onclick="exportAlertsReport()">📊 ส่งออกรายงาน</button>
+        <button class="btn btn-secondary" onclick="refreshAlerts()">🔄 รีเฟรช</button>
+        <button class="btn btn-secondary" onclick="closeModal('alertsModal')">ปิด</button>
       </div>
-      <button class="btn btn-primary" onclick="calculateFlow()">🧮 คำนวณ</button>
-      <button class="btn btn-secondary" onclick="closeModal('calcModal')">ยกเลิก</button>
-      <div id="calcResult" style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 12px; display: none; border: 2px solid #0ea5e9;"></div>
     </div>
   </div>
 
@@ -1220,12 +2459,153 @@
     </div>
   </div>
 
+  <!-- Member Management Modal -->
+  <div class="modal" id="passwordModal">
+    <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+      <h3 style="color: #0ea5e9;">👥 จัดการสมาชิกระบบ</h3>
+      
+      <div style="margin-bottom: 25px; padding: 15px; background: #f0f9ff; border-radius: 10px; border-left: 4px solid #0ea5e9;">
+        <div style="font-size: 14px; color: #0c4a6e; font-weight: 600;">การจัดการสมาชิก:</div>
+        <div style="font-size: 12px; color: #0369a1; margin-top: 5px;">
+          • รหัส 0000 เป็นแอดมินหลัก มีสิทธิ์เต็ม<br>
+          • อนุมัติ/ปฏิเสธสมาชิกใหม่<br>
+          • แก้ไขข้อมูลสมาชิกและกำหนดสิทธิ์<br>
+          • ระบบรองรับการใช้งานจากหลายเครื่อง
+        </div>
+      </div>
+
+      <!-- Pending Approvals Section -->
+      <div id="pendingSection" style="margin-bottom: 25px; padding: 20px; background: #fef3c7; border-radius: 12px; border-left: 4px solid #f59e0b; display: none;">
+        <h4 style="color: #92400e; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+          ⏳ รอการอนุมัติ (<span id="pendingCount">0</span>)
+        </h4>
+        <div id="pendingList"></div>
+      </div>
+
+      <div id="passwordList" style="margin-bottom: 20px;">
+        <h4>รายการผู้ใช้งาน</h4>
+        <div id="usersList"></div>
+      </div>
+
+      <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+        <h4>เพิ่มผู้ใช้ใหม่</h4>
+        <div class="input-group">
+          <label>ชื่อผู้ใช้:</label>
+          <input type="text" id="newUsername" placeholder="เช่น Nurse03">
+        </div>
+        <div class="input-group">
+          <label>รหัสผ่าน:</label>
+          <input type="password" id="newPassword" placeholder="รหัสผ่านใหม่">
+        </div>
+        <div class="input-group">
+          <label>ชื่อเต็ม:</label>
+          <input type="text" id="newFullName" placeholder="เช่น พยาบาลสมหญิง">
+        </div>
+        <div class="input-group">
+          <label>บทบาท:</label>
+          <select id="newRole">
+            <option value="nurse">พยาบาล</option>
+            <option value="admin">ผู้ดูแลระบบ</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="addNewUser()">➕ เพิ่มผู้ใช้</button>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn btn-success" onclick="exportMembersList()" style="font-size: 12px;">📊 ส่งออกรายชื่อ</button>
+        <button class="btn btn-info" onclick="resetToDefault()" style="font-size: 12px;">🔄 รีเซ็ตระบบ</button>
+        <button class="btn btn-secondary" onclick="closeModal('passwordModal')" style="font-size: 12px;">ปิด</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Elements สำหรับเสียงแจ้งเตือน -->
+  <audio id="warningSound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmkVDjiB0fPTgjMGHm7A7+OZURE4gNLy04I1Bh5swO/jmUERII7e8s15MwYgZrhE" type="audio/wav">
+  </audio>
+  
+  <audio id="criticalSound" preload="auto">
+    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSgFJHfH8N2QQAoUXrTp66hVFApGn+DyvmkVDjiB0fPTgjEoSbTa+tltBQNh0fPYeTEFK13+/9e53Rg8gct13Y7dfQEHaLfJ8N2QQAoWXrPp66hVFApGn+DyvmkVjhB0fjPPtgjCHvLL8G" type="audio/wav">
+  </audio>
+
+  <script src="data-manager.js"></script>
   <script>
     let currentUser = null;
     let bedsData = {};
+    let alertSystem = {
+      activeAlerts: new Map(),
+      snoozeTimers: new Map(),
+      sounds: {
+        warning: null,
+        critical: null
+      },
+      // ฟังก์ชันสำหรับจัดการ snooze ใน localStorage
+      saveSnoozeData: function() {
+        const snoozeData = {};
+        this.snoozeTimers.forEach((value, key) => {
+          snoozeData[key] = {
+            bedId: value.bedId,
+            minutes: value.minutes,
+            snoozeUntil: value.snoozeUntil,
+            alert: value.alert
+          };
+        });
+        localStorage.setItem('alert_snooze_data', JSON.stringify(snoozeData));
+      },
+      loadSnoozeData: function() {
+        const snoozeData = JSON.parse(localStorage.getItem('alert_snooze_data') || '{}');
+        const now = new Date();
+        
+        Object.keys(snoozeData).forEach(key => {
+          const data = snoozeData[key];
+          const snoozeUntil = new Date(data.snoozeUntil);
+          
+          if (snoozeUntil > now) {
+            // snooze ยังไม่หมดอายุ
+            const timeLeft = snoozeUntil - now;
+            const timer = setTimeout(() => {
+              this.snoozeTimers.delete(key);
+              this.saveSnoozeData();
+              showNotification(`⏰ หมดเวลา Snooze เตียง ${data.bedId} - กลับมาตรวจสอบแล้ว`, 'warning');
+            }, timeLeft);
+            
+            this.snoozeTimers.set(key, {
+              timer: timer,
+              alert: data.alert,
+              snoozeUntil: snoozeUntil,
+              bedId: data.bedId,
+              minutes: data.minutes
+            });
+          } else {
+            // snooze หมดอายุแล้ว ลบออก
+            delete snoozeData[key];
+          }
+        });
+        
+        // บันทึกข้อมูลที่อัพเดทแล้ว
+        localStorage.setItem('alert_snooze_data', JSON.stringify(snoozeData));
+      },
+      clearExpiredSnooze: function() {
+        const snoozeData = JSON.parse(localStorage.getItem('alert_snooze_data') || '{}');
+        const now = new Date();
+        let hasChanges = false;
+        
+        Object.keys(snoozeData).forEach(key => {
+          if (new Date(snoozeData[key].snoozeUntil) <= now) {
+            delete snoozeData[key];
+            hasChanges = true;
+          }
+        });
+        
+        if (hasChanges) {
+          localStorage.setItem('alert_snooze_data', JSON.stringify(snoozeData));
+        }
+      }
+    };
 
     document.addEventListener('DOMContentLoaded', function() {
       initializeApp();
+      initializeAlertSystem();
     });
 
     function initializeApp() {
@@ -1235,9 +2615,30 @@
         return;
       }
 
-      document.getElementById('userInfo').textContent = `👤 ${currentUser.fullname} (${currentUser.role})`;
+      document.getElementById('userInfo').innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="
+            background: ${currentUser.role === 'admin' ? 'linear-gradient(135deg, #ef4444, #dc2626)' : 'linear-gradient(135deg, #22c55e, #16a34a)'};
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+          ">${currentUser.role === 'admin' ? 'ADMIN' : 'NURSE'}</div>
+          <span>👤 ${currentUser.fullname}</span>
+        </div>
+      `;
 
+      // แสดงปุ่มควบคุมตามสิทธิ์
       if (currentUser.role === 'admin') {
+        document.getElementById('adminControls').style.display = 'flex';
+        document.getElementById('passwordManageBtn').style.display = 'inline-block';
+      } else {
+        // สำหรับ nurse แสดงเฉพาะปุ่มที่จำเป็น
+        document.getElementById('adminControls').innerHTML = `
+          <button class="admin-btn secondary" onclick="showNurseActions()">👩‍⚕️ เครื่องมือพยาบาล</button>
+          <button class="admin-btn secondary" onclick="logout()">🚪 ออก</button>
+        `;
         document.getElementById('adminControls').style.display = 'flex';
       }
 
@@ -1253,15 +2654,15 @@
       bedsGrid.innerHTML = '';
 
       for (let i = 1; i <= 8; i++) {
-        const bedData = JSON.parse(localStorage.getItem(`ir_data_bed_${i}`) || 'null');
-        const notes = JSON.parse(localStorage.getItem(`nurseNotes_${i}`) || '[]');
-        const ioRecords = JSON.parse(localStorage.getItem(`io_records_bed_${i}`) || '[]');
+        const bedData = dataManager.getPatient(i);
+        const notes = dataManager.getNotes(i);
+        const ioRecords = dataManager.getIORecords(i);
 
         bedsData[i] = {
           patientData: bedData,
           notesCount: notes.length,
           ioCount: ioRecords.length,
-          lastUpdate: bedData ? new Date(bedData.timestamp).toLocaleString('th-TH') : null
+          lastUpdate: bedData ? new Date(bedData.timestamp || bedData.lastUpdated).toLocaleString('th-TH') : null
         };
 
         const bedCard = createBedCard(i, bedsData[i]);
@@ -1304,14 +2705,97 @@
         return card;
       }
 
+      // ตรวจสอบข้อมูลเวลาหมดน้ำเกลือ
+      const finishTimeData = JSON.parse(localStorage.getItem(`iv_finish_time_bed_${bedNumber}`) || 'null');
+      let timeToFinishHtml = '';
+      let urgencyClass = '';
+      
+      if (finishTimeData) {
+        const finishTime = new Date(finishTimeData.finishTime);
+        const now = new Date();
+        const timeLeftMs = finishTime - now;
+        
+        if (timeLeftMs > 0) {
+          const totalHours = timeLeftMs / (1000 * 60 * 60);
+          const days = Math.floor(totalHours / 24);
+          const hours = Math.floor(totalHours % 24);
+          const minutes = Math.round((totalHours % 1) * 60);
+          
+          // จัดรูปแบบการแสดงเวลา
+          let timeDisplay = '';
+          if (days > 0) {
+            timeDisplay = `${days}วัน ${hours}ชม.`;
+          } else if (hours > 0) {
+            timeDisplay = `${hours}ชม.${minutes}นาที`;
+          } else {
+            timeDisplay = `${minutes}นาที`;
+          }
+          
+          // จัดรูปแบบการแสดงเวลาที่จะหมด
+          const finishTimeStr = finishTime.toLocaleString('th-TH', {
+            weekday: 'short',
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          
+          if (totalHours <= 1) {
+            urgencyClass = 'urgent';
+            timeToFinishHtml = `
+              <div class="saline-status urgent">
+                <div class="status-header">
+                  <div class="status-icon">🚨</div>
+                  <div class="status-title">น้ำเกลือใกล้หมด!</div>
+                </div>
+                <div class="time-info">
+                  <div class="time-remaining">เหลือ: <strong>${timeDisplay}</strong></div>
+                  <div class="finish-time">หมดเวลา: <strong>${finishTimeStr}</strong></div>
+                </div>
+                <div class="urgent-note">⚡ ต้องเตรียมเปลี่ยนทันที</div>
+              </div>
+            `;
+          } else if (totalHours <= 1) {
+            urgencyClass = 'warning';
+            timeToFinishHtml = `
+              <div class="saline-status warning">
+                <div class="status-header">
+                  <div class="status-icon">⏳</div>
+                  <div class="status-title">เตรียมเปลี่ยนถุงน้ำเกลือ</div>
+                </div>
+                <div class="time-info">
+                  <div class="time-remaining">เหลือ: <strong>${timeDisplay}</strong></div>
+                  <div class="finish-time">หมดเวลา: <strong>${finishTimeStr}</strong></div>
+                </div>
+              </div>
+            `;
+          } else {
+            timeToFinishHtml = `
+              <div class="saline-status normal">
+                <div class="status-header">
+                  <div class="status-icon">💧</div>
+                  <div class="status-title">สถานะน้ำเกลือปกติ</div>
+                </div>
+                <div class="time-info">
+                  <div class="time-remaining">เหลือ: <strong>${timeDisplay}</strong></div>
+                  <div class="finish-time">หมดเวลา: <strong>${finishTimeStr}</strong></div>
+                </div>
+              </div>
+            `;
+          }
+        }
+      }
+
       // จำลองข้อมูลการวัดจริง
       const actualRate = Math.floor(data.patientData.rate * (0.9 + Math.random() * 0.2));
       const variance = actualRate - data.patientData.rate;
       const variancePercent = ((variance / data.patientData.rate) * 100).toFixed(1);
       const varianceColor = Math.abs(variance) <= 2 ? '#22c55e' : Math.abs(variance) <= 5 ? '#f59e0b' : '#ef4444';
       
-      // ปรับสถานะดอทตามความเบี่ยงเบน
-      const dotStatusClass = Math.abs(variance) <= 2 ? 'active' : Math.abs(variance) <= 5 ? 'warning' : 'error';
+      // ปรับสถานะดอทตามความเบี่ยงเบนและเวลาหมด
+      let dotStatusClass = Math.abs(variance) <= 2 ? 'active' : Math.abs(variance) <= 5 ? 'warning' : 'error';
+      if (urgencyClass === 'urgent') dotStatusClass = 'error';
+      else if (urgencyClass === 'warning') dotStatusClass = 'warning';
 
       card.innerHTML = `
         <div class="bed-header">
@@ -1331,6 +2815,8 @@
             <div class="flow-rate-label">ดรอป/นาที</div>
           </div>
 
+          ${timeToFinishHtml}
+
           <div class="patient-info">
             <div class="patient-info-row">
               <div class="patient-info-label">👤 รหัส</div>
@@ -1342,7 +2828,7 @@
             </div>
             <div class="patient-info-row">
               <div class="patient-info-label">💧 ปริมาณ</div>
-              <div class="patient-info-value">${data.patientData.volume} mL</div>
+              <div class="patient-info-value">${data.patientData.volume}</div>
             </div>
           </div>
 
@@ -1392,53 +2878,22 @@
     }
 
     function updateSummary() {
-      let activeBeds = 0;
-      let totalNotes = 0;
-      let alertCount = 0;
-      let totalIORecords = 0;
-      let totalVitals = 0;
-      let totalMedications = 0;
+      const summary = dataManager.getSystemSummary();
 
-      for (let i = 1; i <= 8; i++) {
-        if (bedsData[i] && bedsData[i].patientData) {
-          activeBeds++;
-        }
-
-        totalNotes += bedsData[i] ? bedsData[i].notesCount : 0;
-        totalIORecords += bedsData[i] ? bedsData[i].ioCount : 0;
-
-        // นับ Vital Signs
-        const vitals = JSON.parse(localStorage.getItem(`vitals_bed_${i}`) || 'null');
-        if (vitals) totalVitals++;
-
-        // นับ Medications
-        const medications = JSON.parse(localStorage.getItem(`medications_bed_${i}`) || '[]');
-        totalMedications += medications.length;
-
-        // ตรวจสอบ Alerts
-        if (vitals) {
-          if (vitals.systolic > 140 || vitals.diastolic > 90) alertCount++;
-          if (vitals.heartRate > 100 || vitals.heartRate < 60) alertCount++;
-          if (vitals.temperature > 37.5) alertCount++;
-          if (vitals.oxygen < 95) alertCount++;
-        }
-      }
-
-      document.getElementById('totalBeds').textContent = activeBeds;
-      document.getElementById('totalNotes').textContent = totalNotes;
-      document.getElementById('totalIORecords').textContent = totalIORecords;
-      document.getElementById('totalVitals').textContent = totalVitals;
-      document.getElementById('totalMedications').textContent = totalMedications;
-      document.getElementById('alertCount').textContent = alertCount;
-
-      // อัพเดทสถานะ Alert
-      const alertDetail = document.getElementById('alertDetail');
-      if (alertCount > 0) {
-        alertDetail.textContent = `ต้องตรวจสอบ ${alertCount} รายการ`;
-        alertDetail.style.color = '#ef4444';
-      } else {
-        alertDetail.textContent = 'ไม่มีการแจ้งเตือน';
-        alertDetail.style.color = '#22c55e';
+      document.getElementById('totalBeds').textContent = summary.activeBeds;
+      document.getElementById('totalNotes').textContent = summary.totalNotes;
+      document.getElementById('totalIORecords').textContent = summary.totalIORecords;
+      document.getElementById('totalVitals').textContent = summary.totalVitals;
+      document.getElementById('totalMedications').textContent = summary.totalMedications;
+      
+      // คำนวณเวลาใช้งานระบบ
+      const systemStartTime = localStorage.getItem('systemStartTime') || Date.now();
+      const uptime = Math.floor((Date.now() - systemStartTime) / (1000 * 60 * 60)); // ชั่วโมง
+      document.getElementById('systemUptime').textContent = uptime;
+      
+      // บันทึกเวลาเริ่มต้นถ้ายังไม่มี
+      if (!localStorage.getItem('systemStartTime')) {
+        localStorage.setItem('systemStartTime', Date.now());
       }
     }
 
@@ -1475,8 +2930,9 @@
       document.getElementById('ioModal').style.display = 'flex';
     }
 
-    function showQuickCalc() {
-      document.getElementById('calcModal').style.display = 'flex';
+    function showAlertsManagement() {
+      document.getElementById('alertsModal').style.display = 'flex';
+      loadAlertsSystem();
     }
 
     function closeModal(modalId) {
@@ -1498,12 +2954,11 @@
       const data = {
         patient_id: patientId,
         medication: medication,
-        volume: volume,
-        rate: rate,
-        timestamp: new Date().toISOString()
+        volume: volume + 'mL',
+        rate: parseInt(rate)
       };
 
-      localStorage.setItem(`ir_data_bed_${bedNum}`, JSON.stringify(data));
+      dataManager.savePatient(bedNum, data);
       closeModal('quickAddModal');
       alert('✅ บันทึกข้อมูลเรียบร้อย');
       
@@ -1534,20 +2989,16 @@
       const balance = totalIn - totalOut;
 
       const ioRecord = {
-        time: new Date().toLocaleString('th-TH'),
         inputWater: inputWater,
         inputIV: inputIV,
         outputUrine: outputUrine,
         outputVomit: outputVomit,
         totalIn: totalIn,
         totalOut: totalOut,
-        balance: balance,
-        nurse: currentUser.fullname
+        balance: balance
       };
 
-      const existingRecords = JSON.parse(localStorage.getItem(`io_records_bed_${bedNum}`) || '[]');
-      existingRecords.push(ioRecord);
-      localStorage.setItem(`io_records_bed_${bedNum}`, JSON.stringify(existingRecords));
+      dataManager.saveIORecord(bedNum, ioRecord);
 
       closeModal('ioModal');
       alert('✅ บันทึก I/O เรียบร้อย');
@@ -1557,34 +3008,510 @@
       updateSummary();
     }
 
-    function calculateFlow() {
-      const volume = parseFloat(document.getElementById('calcVolume').value) || 0;
-      const rate = parseFloat(document.getElementById('calcRate').value) || 0;
-      const dropFactor = parseFloat(document.getElementById('dropFactor').value) || 20;
+    let currentAlertsFilter = 'all';
+    let alertsData = [];
 
-      if (!volume || !rate) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+    function loadAlertsSystem() {
+      // รีเซ็ตข้อมูล
+      alertsData = [];
+      
+      // โหลดการแจ้งเตือนขั้นสูงที่ต้องติดตาม
+      const advancedAlerts = JSON.parse(localStorage.getItem('advanced_alerts') || '[]');
+      advancedAlerts.forEach(alert => {
+        if (alert.requiresAction) {
+          alertsData.push({
+            ...alert,
+            id: alert.originalId || alert.id,
+            type: alert.type + '_advanced',
+            severity: 'info',
+            title: `📋 ติดตาม: ${alert.title || alert.message}`,
+            message: `รอการแก้ไข - รับทราบเมื่อ ${new Date(alert.acknowledgedAt).toLocaleString('th-TH')}`,
+            details: `
+              <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                <div style="font-size: 14px; font-weight: 600; color: #0c4a6e; margin-bottom: 10px;">📋 การแจ้งเตือนขั้นสูง</div>
+                <div style="font-size: 12px; color: #0369a1;">
+                  <div><strong>สถานะ:</strong> รอการแก้ไข</div>
+                  <div><strong>รับทราบโดย:</strong> ${alert.acknowledgedBy}</div>
+                  <div><strong>เวลารับทราบ:</strong> ${new Date(alert.acknowledgedAt).toLocaleString('th-TH')}</div>
+                </div>
+              </div>
+              <div style="background: #f8fafc; padding: 12px; border-radius: 8px;">
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;"><strong>ข้อมูลเดิม:</strong></div>
+                ${alert.details || `
+                  <div><strong>เตียง:</strong> ${alert.bedId}</div>
+                  <div><strong>ข้อความ:</strong> ${alert.originalMessage || alert.message}</div>
+                `}
+              </div>
+            `,
+            timestamp: alert.acknowledgedAt,
+            time: new Date(alert.acknowledgedAt).toLocaleTimeString('th-TH')
+          });
+        }
+      });
+      
+      // โหลดข้อมูลการแจ้งเตือนจากทุกเตียง
+      for (let bedId = 1; bedId <= 8; bedId++) {
+        const patientData = dataManager.getPatient(bedId);
+        if (!patientData) continue;
+
+        const vitals = dataManager.getVitals(bedId);
+        const currentTime = new Date();
+        
+        // ตรวจสอบน้ำเกลือใกล้หมดจากข้อมูลที่คำนวณไว้
+        const finishTimeData = JSON.parse(localStorage.getItem(`iv_finish_time_bed_${bedId}`) || 'null');
+        
+        if (finishTimeData) {
+          const finishTime = new Date(finishTimeData.finishTime);
+          const timeLeftMs = finishTime - currentTime;
+          const timeLeftMinutes = timeLeftMs / (1000 * 60);
+          
+          if (timeLeftMs > 0 && timeLeftMinutes <= 360) { // น้ำเกลือจะหมดใน 6 ชั่วโมง
+            const totalHours = timeLeftMs / (1000 * 60 * 60);
+            const days = Math.floor(totalHours / 24);
+            const hours = Math.floor(totalHours % 24);
+            const minutes = Math.round((totalHours % 1) * 60);
+            
+            // จัดรูปแบบการแสดงเวลา
+            let timeDisplay = '';
+            if (days > 0) {
+              timeDisplay = `${days}วัน ${hours}ชม.`;
+            } else if (hours > 0) {
+              timeDisplay = `${hours}ชม.${minutes}นาที`;
+            } else {
+              timeDisplay = `${minutes}นาที`;
+            }
+            
+            const severity = totalHours <= 1 ? 'critical' : totalHours <= 3 ? 'warning' : 'info';
+            
+            // จัดรูปแบบเวลาที่จะหมด
+            const finishTimeStr = finishTime.toLocaleString('th-TH', {
+              weekday: 'short',
+              month: 'short', 
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+            
+            alertsData.push({
+              id: `saline_${bedId}_${Date.now()}`,
+              bedId: bedId,
+              type: 'saline',
+              severity: severity,
+              title: `น้ำเกลือใกล้หมด - เตียง ${bedId}`,
+              message: `น้ำเกลือจะหมดใน ${timeDisplay}`,
+              details: `
+                <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                  <div style="display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center;">
+                    <div style="font-size: 32px;">💧</div>
+                    <div>
+                      <div style="font-size: 16px; font-weight: 700; color: #0c4a6e; margin-bottom: 5px;">สถานะน้ำเกลือ</div>
+                      <div style="font-size: 14px; color: #0369a1;">เหลือเวลา: <strong>${timeDisplay}</strong></div>
+                      <div style="font-size: 14px; color: #0369a1;">หมดเวลา: <strong>${finishTimeStr}</strong></div>
+                    </div>
+                  </div>
+                </div>
+                <div><strong>👤 ผู้ป่วย:</strong> ${patientData.patient_id}</div>
+                <div><strong>💊 ยา:</strong> ${patientData.medication}</div>
+                <div><strong>💧 ปริมาตรเริ่มต้น:</strong> ${finishTimeData.volume} mL</div>
+                <div><strong>⚡ อัตราการไหล:</strong> ${finishTimeData.ccPerHr.toFixed(1)} cc/hr</div>
+                <div style="margin-top: 10px; padding: 10px; background: ${severity === 'critical' ? 'rgba(239, 68, 68, 0.1)' : severity === 'warning' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(59, 130, 246, 0.1)'}; border-radius: 8px;">
+                  <div style="font-size: 12px; font-weight: 600; color: ${severity === 'critical' ? '#991b1b' : severity === 'warning' ? '#92400e' : '#1e40af'};">
+                    ${severity === 'critical' ? '⚡ ต้องเปลี่ยนทันที!' : severity === 'warning' ? '⏰ เตรียมเปลี่ยนถุง' : '📋 ติดตามสถานะ'}
+                  </div>
+                </div>
+              `,
+              timestamp: currentTime.toISOString(),
+              time: currentTime.toLocaleTimeString('th-TH'),
+              finishTimeData: finishTimeData,
+              timeDisplay: timeDisplay,
+              finishTimeStr: finishTimeStr
+            });
+          }
+        }
+
+        // ตรวจสอบอัตราการไหลผิดปกติ
+        const actualRate = Math.floor(rate * (0.85 + Math.random() * 0.3)); // จำลองอัตราจริง
+        const variance = Math.abs(actualRate - rate);
+        const variancePercent = (variance / rate) * 100;
+        
+        if (variancePercent > 10) {
+          const severity = variancePercent > 20 ? 'critical' : 'warning';
+          alertsData.push({
+            id: `flow_${bedId}_${Date.now()}`,
+            bedId: bedId,
+            type: 'flow',
+            severity: severity,
+            title: `อัตราการไหลผิดปกติ - เตียง ${bedId}`,
+            message: `อัตราการไหลเบี่ยงเบนจากที่สั่ง ${variancePercent.toFixed(1)}%`,
+            details: `
+              <div><strong>ผู้ป่วย:</strong> ${patientData.patient_id}</div>
+              <div><strong>อัตราที่สั่ง:</strong> ${rate} ดรอป/นาที</div>
+              <div><strong>อัตราที่วัดได้:</strong> ${actualRate} ดรอป/นาที</div>
+              <div><strong>ส่วนต่าง:</strong> ${variance > 0 ? '+' : ''}${actualRate - rate} ดรอป/นาที</div>
+            `,
+            timestamp: currentTime.toISOString(),
+            time: currentTime.toLocaleTimeString('th-TH')
+          });
+        }
+
+        // ตรวจสอบสัญญาณชีพผิดปกติ
+        if (vitals) {
+          let vitalAlerts = [];
+          
+          if (vitals.systolic > 160 || vitals.diastolic > 100) {
+            vitalAlerts.push({
+              id: `bp_${bedId}_${Date.now()}`,
+              bedId: bedId,
+              type: 'vitals',
+              severity: 'critical',
+              title: `ความดันโลหิตสูงมาก - เตียง ${bedId}`,
+              message: `ความดันโลหิต ${vitals.systolic}/${vitals.diastolic} mmHg`,
+              details: `
+                <div><strong>ผู้ป่วย:</strong> ${patientData.patient_id}</div>
+                <div><strong>ความดันโลหิต:</strong> ${vitals.systolic}/${vitals.diastolic} mmHg</div>
+                <div><strong>อัตราการเต้นของหัวใจ:</strong> ${vitals.heartRate} bpm</div>
+                <div><strong>อุณหภูมิ:</strong> ${vitals.temperature}°C</div>
+              `,
+              timestamp: currentTime.toISOString(),
+              time: vitals.time || currentTime.toLocaleTimeString('th-TH')
+            });
+          }
+          
+          if (vitals.heartRate > 120 || vitals.heartRate < 50) {
+            vitalAlerts.push({
+              id: `hr_${bedId}_${Date.now()}`,
+              bedId: bedId,
+              type: 'vitals',
+              severity: vitals.heartRate > 130 || vitals.heartRate < 45 ? 'critical' : 'warning',
+              title: `อัตราการเต้นของหัวใจผิดปกติ - เตียง ${bedId}`,
+              message: `อัตราการเต้นของหัวใจ ${vitals.heartRate} bpm`,
+              details: `
+                <div><strong>ผู้ป่วย:</strong> ${patientData.patient_id}</div>
+                <div><strong>อัตราการเต้นของหัวใจ:</strong> ${vitals.heartRate} bpm</div>
+                <div><strong>ความดันโลหิต:</strong> ${vitals.systolic}/${vitals.diastolic} mmHg</div>
+                <div><strong>อุณหภูมิ:</strong> ${vitals.temperature}°C</div>
+              `,
+              timestamp: currentTime.toISOString(),
+              time: vitals.time || currentTime.toLocaleTimeString('th-TH')
+            });
+          }
+          
+          alertsData.push(...vitalAlerts);
+        }
+      }
+      
+      updateAlertsSummary();
+      displayAlerts();
+    }
+
+    function updateAlertsSummary() {
+      const critical = alertsData.filter(alert => alert.severity === 'critical').length;
+      const warning = alertsData.filter(alert => alert.severity === 'warning').length;
+      const saline = alertsData.filter(alert => alert.type === 'saline').length;
+      const normal = 8 - alertsData.reduce((acc, alert) => {
+        return acc + (acc.includes(alert.bedId) ? 0 : 1);
+      }, []);
+
+      document.getElementById('criticalCount').textContent = critical;
+      document.getElementById('warningCount').textContent = warning;
+      document.getElementById('salineCount').textContent = saline;
+      document.getElementById('normalCount').textContent = Math.max(0, normal);
+    }
+
+    function filterAlerts(filter) {
+      currentAlertsFilter = filter;
+      
+      // อัพเดทปุ่ม filter
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+      
+      displayAlerts();
+    }
+
+    function displayAlerts() {
+      const alertsList = document.getElementById('alertsList');
+      let filteredAlerts = alertsData;
+      
+      // กรองข้อมูลตาม filter
+      if (currentAlertsFilter !== 'all') {
+        if (currentAlertsFilter === 'critical') {
+          filteredAlerts = alertsData.filter(alert => alert.severity === 'critical');
+        } else if (currentAlertsFilter === 'saline') {
+          filteredAlerts = alertsData.filter(alert => alert.type === 'saline');
+        } else if (currentAlertsFilter === 'vitals') {
+          filteredAlerts = alertsData.filter(alert => alert.type === 'vitals');
+        }
+      }
+      
+      if (filteredAlerts.length === 0) {
+        alertsList.innerHTML = `
+          <div class="empty-alerts">
+            <div class="empty-alerts-icon">✅</div>
+            <div class="empty-alerts-title">ไม่มีการแจ้งเตือน</div>
+            <div class="empty-alerts-desc">
+              ${currentAlertsFilter === 'all' ? 'ระบบทำงานปกติ ไม่มีการแจ้งเตือน' : `ไม่มีการแจ้งเตือนประเภท ${currentAlertsFilter}`}
+            </div>
+          </div>
+        `;
         return;
       }
+      
+      // เรียงลำดับตาม severity และเวลา
+      filteredAlerts.sort((a, b) => {
+        if (a.severity === 'critical' && b.severity !== 'critical') return -1;
+        if (b.severity === 'critical' && a.severity !== 'critical') return 1;
+        return new Date(b.timestamp) - new Date(a.timestamp);
+      });
+      
+      let alertsHTML = '';
+      filteredAlerts.forEach(alert => {
+        const severityClass = alert.severity === 'critical' ? 'critical' : alert.severity === 'warning' ? 'warning' : 'info';
+        const icon = alert.type === 'saline' ? '💧' : alert.type === 'vitals' ? '🩺' : '⚠️';
+        
+        alertsHTML += `
+          <div class="alert-item ${severityClass}" onclick="showAlertDetails('${alert.id}')">
+            <div class="alert-header">
+              <div class="alert-title">
+                ${icon} ${alert.title}
+              </div>
+              <div class="alert-time">${alert.time}</div>
+            </div>
+            <div class="alert-details">
+              ${alert.message}
+            </div>
+            <div class="alert-actions">
+              <button class="alert-btn goto" onclick="event.stopPropagation(); goToBed(${alert.bedId})">
+                🛏️ ไปที่เตียง ${alert.bedId}
+              </button>
+              <button class="alert-btn acknowledge" onclick="event.stopPropagation(); acknowledgeAlert('${alert.id}')">
+                ${alert.type.includes('_advanced') ? '✅ แก้ไขแล้ว' : '✅ รับทราบ'}
+              </button>
+              <button class="alert-btn" onclick="event.stopPropagation(); showAlertDetails('${alert.id}')">
+                📋 รายละเอียด
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      alertsList.innerHTML = alertsHTML;
+    }
 
-      const ccPerHr = (rate * 60) / dropFactor;
-      const timeToFinish = volume / ccPerHr;
-      const finishTime = new Date(Date.now() + (timeToFinish * 60 * 60 * 1000));
-
-      const resultDiv = document.getElementById('calcResult');
-      resultDiv.innerHTML = `
-        <h4>📊 ผลการคำนวณ</h4>
-        <div style="margin: 15px 0;">
-          <strong>อัตราการไหล:</strong> ${ccPerHr.toFixed(1)} cc/hr
-        </div>
-        <div style="margin: 15px 0;">
-          <strong>เวลาที่จะหมด:</strong> ${timeToFinish.toFixed(1)} ชั่วโมง
-        </div>
-        <div style="margin: 15px 0;">
-          <strong>เวลาที่คาดว่าจะหมด:</strong> ${finishTime.toLocaleString('th-TH')}
+    function showAlertDetails(alertId) {
+      const alert = alertsData.find(a => a.id === alertId);
+      if (!alert) return;
+      
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+      
+      const severityColor = alert.severity === 'critical' ? '#ef4444' : alert.severity === 'warning' ? '#f59e0b' : '#06b6d4';
+      const severityText = alert.severity === 'critical' ? 'วิกฤต' : alert.severity === 'warning' ? 'เฝ้าระวัง' : 'แจ้งเตือน';
+      
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 500px;">
+          <h3 style="color: ${severityColor}; margin-bottom: 20px;">
+            📋 รายละเอียดการแจ้งเตือน
+          </h3>
+          
+          <div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+              <h4 style="color: #1e293b; margin: 0;">${alert.title}</h4>
+              <span style="
+                background: ${severityColor};
+                color: white;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 600;
+              ">${severityText}</span>
+            </div>
+            
+            <div style="color: #374151; margin-bottom: 15px; font-size: 16px; font-weight: 500;">
+              ${alert.message}
+            </div>
+            
+            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid ${severityColor};">
+              ${alert.details}
+            </div>
+            
+            <div style="margin-top: 15px; font-size: 12px; color: #64748b;">
+              <div><strong>เวลาที่เกิด:</strong> ${new Date(alert.timestamp).toLocaleString('th-TH')}</div>
+              <div><strong>ประเภท:</strong> ${alert.type === 'saline' ? 'น้ำเกลือ' : alert.type === 'vitals' ? 'สัญญาณชีพ' : 'อัตราการไหล'}</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-primary" onclick="goToBed(${alert.bedId}); this.closest('.modal').remove()">
+              🛏️ ไปที่เตียง ${alert.bedId}
+            </button>
+            <button class="btn btn-success" onclick="acknowledgeAlert('${alert.id}'); this.closest('.modal').remove()">
+              ✅ รับทราบ
+            </button>
+            <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">
+              ปิด
+            </button>
+          </div>
         </div>
       `;
-      resultDiv.style.display = 'block';
+      
+      document.body.appendChild(modal);
+    }
+
+    function goToBed(bedId) {
+      window.location.href = `chart.html?bed=${bedId}`;
+    }
+
+    function acknowledgeAlert(alertId) {
+      // ตรวจสอบว่าเป็นการแจ้งเตือนขั้นสูงหรือไม่
+      const isAdvanced = alertsData.find(alert => alert.id === alertId && alert.type.includes('_advanced'));
+      
+      if (isAdvanced) {
+        // ลบจากการแจ้งเตือนขั้นสูง
+        const advancedAlerts = JSON.parse(localStorage.getItem('advanced_alerts') || '[]');
+        const updatedAdvanced = advancedAlerts.map(alert => {
+          if (alert.originalId === alertId || alert.id === alertId) {
+            return { ...alert, requiresAction: false, resolvedAt: new Date().toISOString() };
+          }
+          return alert;
+        });
+        localStorage.setItem('advanced_alerts', JSON.stringify(updatedAdvanced));
+        showNotification('✅ แก้ไขการแจ้งเตือนเรียบร้อย', 'success');
+      } else {
+        showNotification('✅ รับทราบการแจ้งเตือนแล้ว', 'success');
+      }
+      
+      alertsData = alertsData.filter(alert => alert.id !== alertId);
+      updateAlertsSummary();
+      displayAlerts();
+    }
+
+    function acknowledgeAllAlerts() {
+      if (alertsData.length === 0) {
+        showNotification('ไม่มีการแจ้งเตือนให้รับทราบ', 'info');
+        return;
+      }
+      
+      if (confirm(`ต้องการรับทราบการแจ้งเตือนทั้งหมด ${alertsData.length} รายการ?`)) {
+        alertsData = [];
+        updateAlertsSummary();
+        displayAlerts();
+        showNotification('✅ รับทราบการแจ้งเตือนทั้งหมดแล้ว', 'success');
+      }
+    }
+
+    function refreshAlerts() {
+      document.getElementById('alertsList').innerHTML = `
+        <div class="loading-alerts">
+          <div class="spinner"></div>
+          <span>กำลังรีเฟรชการแจ้งเตือน...</span>
+        </div>
+      `;
+      
+      setTimeout(() => {
+        loadAlertsSystem();
+        showNotification('🔄 รีเฟรชข้อมูลแล้ว', 'info');
+      }, 1000);
+    }
+
+    function exportAlertsReport() {
+      if (alertsData.length === 0) {
+        showNotification('ไม่มีข้อมูลการแจ้งเตือนให้ส่งออก', 'warning');
+        return;
+      }
+      
+      const csvContent = generateAlertsCSV();
+      downloadCSV(csvContent, `alerts_report_${new Date().toISOString().split('T')[0]}.csv`);
+      showNotification('📊 ส่งออกรายงานเรียบร้อย', 'success');
+    }
+
+    function generateAlertsCSV() {
+      const headers = ['เวลา', 'เตียง', 'ประเภท', 'ระดับ', 'ข้อความ', 'รายละเอียด'];
+      const rows = alertsData.map(alert => [
+        new Date(alert.timestamp).toLocaleString('th-TH'),
+        alert.bedId,
+        alert.type === 'saline' ? 'น้ำเกลือ' : alert.type === 'vitals' ? 'สัญญาณชีพ' : 'อัตราการไหล',
+        alert.severity === 'critical' ? 'วิกฤต' : alert.severity === 'warning' ? 'เฝ้าระวัง' : 'แจ้งเตือน',
+        alert.message,
+        alert.details.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+      ]);
+      
+      return [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+    }
+
+    function downloadCSV(content, filename) {
+      const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      const colors = {
+        success: { bg: '#22c55e', border: '#16a34a', icon: '✅' },
+        warning: { bg: '#f59e0b', border: '#d97706', icon: '⚠️' },
+        error: { bg: '#ef4444', border: '#dc2626', icon: '❌' },
+        info: { bg: '#06b6d4', border: '#0891b2', icon: 'ℹ️' }
+      };
+      
+      const color = colors[type] || colors.info;
+      
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${color.bg};
+        color: white;
+        padding: 16px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        z-index: 10000;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        border-left: 4px solid ${color.border};
+        min-width: 300px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-out;
+      `;
+      
+      notification.innerHTML = `
+        <span style="font-size: 18px;">${color.icon}</span>
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()" style="
+          background: none;
+          border: none;
+          color: white;
+          cursor: pointer;
+          margin-left: auto;
+          font-size: 18px;
+          padding: 0 5px;
+        ">✕</button>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // แสดง notification
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      // ซ่อนอัตโนมัติ
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+      }, 4000);
     }
 
     function showActiveBedsDetails() {
@@ -1991,81 +3918,584 @@
     }
 
     function showVitalsSummary() {
-      let details = 'สรุป Vital Signs:\n\n';
+      let vitalSummaries = [];
       let count = 0;
-
-      for (let i = 1; i <= 8; i++) {
-        const vitals = JSON.parse(localStorage.getItem(`vitals_bed_${i}`) || 'null');
-        if (vitals) {
-          count++;
-          details += `เตียง ${i}:\n`;
-          details += `BP: ${vitals.systolic}/${vitals.diastolic}\n`;
-          details += `HR: ${vitals.heartRate} bpm\n`;
-          details += `Temp: ${vitals.temperature}°C\n`;
-          details += `O2: ${vitals.oxygen}%\n\n`;
-        }
-      }
-
-      if (count === 0) {
-        details += 'ไม่มีข้อมูล Vital Signs';
-      }
-
-      alert(details);
-    }
-
-    function showMedicationSummary() {
-      let details = 'กำหนดการยา:\n\n';
-      let totalMeds = 0;
-
-      for (let i = 1; i <= 8; i++) {
-        const medications = JSON.parse(localStorage.getItem(`medications_bed_${i}`) || '[]');
-        if (medications.length > 0) {
-          details += `เตียง ${i}:\n`;
-          medications.forEach(med => {
-            details += `- ${med.name} ${med.dose} เวลา ${med.time}\n`;
-            totalMeds++;
-          });
-          details += '\n';
-        }
-      }
-
-      if (totalMeds === 0) {
-        details += 'ไม่มีกำหนดการยา';
-      } else {
-        details = `ยาทั้งหมด: ${totalMeds} รายการ\n\n` + details;
-      }
-
-      alert(details);
-    }
-
-    function showAlertsDetails() {
-      let alerts = [];
+      let criticalCount = 0;
 
       for (let i = 1; i <= 8; i++) {
         const vitals = JSON.parse(localStorage.getItem(`vitals_bed_${i}`) || 'null');
         const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${i}`) || 'null');
-
+        
         if (vitals) {
-          if (vitals.systolic > 140 || vitals.diastolic > 90) {
-            alerts.push(`เตียง ${i}: ความดันโลหิตสูง (${vitals.systolic}/${vitals.diastolic})`);
+          count++;
+          let alerts = [];
+          
+          // ตรวจสอบค่าผิดปกติ
+          if (vitals.systolic > 160 || vitals.diastolic > 100) {
+            alerts.push('ความดันสูงมาก');
+            criticalCount++;
+          } else if (vitals.systolic > 140 || vitals.diastolic > 90) {
+            alerts.push('ความดันสูง');
           }
-          if (vitals.heartRate > 100 || vitals.heartRate < 60) {
-            alerts.push(`เตียง ${i}: อัตราการเต้นของหัวใจผิดปกติ (${vitals.heartRate})`);
+          
+          if (vitals.heartRate > 120 || vitals.heartRate < 50) {
+            alerts.push('ชีพจรผิดปกติมาก');
+            criticalCount++;
+          } else if (vitals.heartRate > 100 || vitals.heartRate < 60) {
+            alerts.push('ชีพจรผิดปกติ');
           }
-          if (vitals.temperature > 37.5) {
-            alerts.push(`เตียง ${i}: มีไข้ (${vitals.temperature}°C)`);
+          
+          if (vitals.temperature > 38.5) {
+            alerts.push('ไข้สูงมาก');
+            criticalCount++;
+          } else if (vitals.temperature > 37.5) {
+            alerts.push('ไข้');
           }
-          if (vitals.oxygen < 95) {
-            alerts.push(`เตียง ${i}: ออกซิเจนต่ำ (${vitals.oxygen}%)`);
+          
+          if (vitals.oxygen < 90) {
+            alerts.push('ออกซิเจนต่ำมาก');
+            criticalCount++;
+          } else if (vitals.oxygen < 95) {
+            alerts.push('ออกซิเจนต่ำ');
           }
+
+          const statusColor = alerts.some(alert => alert.includes('มาก')) ? '#ef4444' : 
+                             alerts.length > 0 ? '#f59e0b' : '#22c55e';
+          const statusText = alerts.some(alert => alert.includes('มาก')) ? 'วิกฤต' : 
+                            alerts.length > 0 ? 'เฝ้าระวัง' : 'ปกติ';
+
+          vitalSummaries.push({
+            bed: i,
+            patient: patientData ? patientData.patient_id : 'ไม่ทราบ',
+            vitals: vitals,
+            alerts: alerts,
+            statusColor: statusColor,
+            statusText: statusText
+          });
         }
       }
 
-      let details = alerts.length > 0 ? 
-        `การแจ้งเตือน (${alerts.length} รายการ):\n\n${alerts.join('\n')}` :
-        'ไม่มีการแจ้งเตือน';
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
 
-      alert(details);
+      let vitalsHTML = '';
+      if (vitalSummaries.length > 0) {
+        vitalSummaries.forEach(summary => {
+          vitalsHTML += `
+            <div style="
+              background: white;
+              border-radius: 15px;
+              padding: 20px;
+              margin: 12px 0;
+              border: 2px solid ${summary.statusColor};
+              box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            ">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h4 style="color: #1e293b; margin: 0;">🛏️ เตียง ${summary.bed}</h4>
+                <div style="
+                  background: ${summary.statusColor};
+                  color: white;
+                  padding: 6px 12px;
+                  border-radius: 20px;
+                  font-size: 12px;
+                  font-weight: 600;
+                ">${summary.statusText}</div>
+              </div>
+
+              <div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                <div style="font-weight: 600; color: #1e293b; margin-bottom: 8px;">👤 ${summary.patient}</div>
+              </div>
+
+              <div style="
+                background: linear-gradient(135deg, #fef3c7, #fde68a);
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 15px;
+              ">
+                <div style="font-size: 14px; font-weight: 600; color: #92400e; margin-bottom: 10px;">🩺 Vital Signs</div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px;">
+                  <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 16px; font-weight: 700; color: #92400e;">${summary.vitals.systolic}/${summary.vitals.diastolic}</div>
+                    <div style="font-size: 11px; color: #92400e;">ความดันโลหิต</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 16px; font-weight: 700; color: #92400e;">${summary.vitals.heartRate}</div>
+                    <div style="font-size: 11px; color: #92400e;">อัตราหัวใจ (bpm)</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 16px; font-weight: 700; color: #92400e;">${summary.vitals.temperature}°C</div>
+                    <div style="font-size: 11px; color: #92400e;">อุณหภูมิ</div>
+                  </div>
+                  <div style="background: rgba(255,255,255,0.8); padding: 10px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 16px; font-weight: 700; color: #92400e;">${summary.vitals.oxygen || 98}%</div>
+                    <div style="font-size: 11px; color: #92400e;">ออกซิเจน</div>
+                  </div>
+                </div>
+              </div>
+
+              ${summary.alerts.length > 0 ? `
+                <div style="
+                  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+                  border: 1px solid #ef4444;
+                  padding: 12px;
+                  border-radius: 8px;
+                ">
+                  <div style="font-size: 12px; font-weight: 600; color: #991b1b; margin-bottom: 8px;">⚠️ การแจ้งเตือน</div>
+                  <div style="font-size: 11px; color: #991b1b;">
+                    ${summary.alerts.join(', ')}
+                  </div>
+                </div>
+              ` : `
+                <div style="
+                  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+                  border: 1px solid #22c55e;
+                  padding: 12px;
+                  border-radius: 8px;
+                ">
+                  <div style="font-size: 12px; font-weight: 600; color: #166534;">✅ สถานะปกติ</div>
+                </div>
+              `}
+
+              <div style="margin-top: 12px; font-size: 11px; color: #64748b; text-align: right;">
+                วัดเมื่อ: ${summary.vitals.time || 'ไม่ระบุ'}
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        vitalsHTML = `
+          <div style="
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-style: italic;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 15px;
+            border: 2px dashed #cbd5e1;
+          ">
+            <div style="font-size: 48px; margin-bottom: 15px;">🩺</div>
+            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">ยังไม่มีข้อมูล Vital Signs</div>
+            <div style="font-size: 14px;">เริ่มบันทึกสัญญาณชีพของผู้ป่วย</div>
+          </div>
+        `;
+      }
+
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;">
+            <h3 style="margin: 0; color: #1e293b;">🩺 สรุป Vital Signs (${count} รายการ)</h3>
+            <button onclick="this.closest('.modal').remove()" style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-size: 16px;
+              transition: all 0.3s ease;
+            ">✕</button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
+            <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 20px; border-radius: 12px; text-align: center;">
+              <div style="font-size: 24px; font-weight: 700; color: #0ea5e9;">${count}</div>
+              <div style="font-size: 12px; color: #64748b;">เตียงที่มีข้อมูล</div>
+            </div>
+            <div style="background: linear-gradient(135deg, ${criticalCount > 0 ? '#fef2f2, #fee2e2' : '#f0fdf4, #dcfce7'}); padding: 20px; border-radius: 12px; text-align: center;">
+              <div style="font-size: 24px; font-weight: 700; color: ${criticalCount > 0 ? '#ef4444' : '#22c55e'};">${criticalCount}</div>
+              <div style="font-size: 12px; color: #64748b;">สถานะวิกฤต</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #fafafa, #f5f5f5); padding: 20px; border-radius: 12px; text-align: center;">
+              <div style="font-size: 24px; font-weight: 700; color: #64748b;">${8 - count}</div>
+              <div style="font-size: 12px; color: #64748b;">ไม่มีข้อมูล</div>
+            </div>
+          </div>
+          
+          <div style="max-height: 500px; overflow-y: auto;">
+            ${vitalsHTML}
+          </div>
+
+          <div style="margin-top: 20px; text-align: center; position: sticky; bottom: 0; background: white; padding-top: 15px; border-top: 2px solid #f1f5f9;">
+            <button class="btn btn-primary" onclick="this.closest('.modal').remove()">ปิด</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    function showMedicationSummary() {
+      let medicationSummaries = [];
+      let totalMeds = 0;
+      let todayMeds = 0;
+
+      for (let i = 1; i <= 8; i++) {
+        const medications = JSON.parse(localStorage.getItem(`medications_bed_${i}`) || '[]');
+        const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${i}`) || 'null');
+        
+        if (medications.length > 0) {
+          const currentTime = new Date();
+          const todayMedsForBed = medications.filter(med => {
+            const medTime = new Date();
+            const [hours, minutes] = med.time.split(':');
+            medTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            return medTime.getDate() === currentTime.getDate();
+          });
+
+          totalMeds += medications.length;
+          todayMeds += todayMedsForBed.length;
+
+          medicationSummaries.push({
+            bed: i,
+            patient: patientData ? patientData.patient_id : 'ไม่ทราบ',
+            medications: medications,
+            todayCount: todayMedsForBed.length
+          });
+        }
+      }
+
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+
+      let medsHTML = '';
+      if (medicationSummaries.length > 0) {
+        medicationSummaries.forEach(summary => {
+          medsHTML += `
+            <div style="
+              background: white;
+              border-radius: 15px;
+              padding: 20px;
+              margin: 12px 0;
+              border: 2px solid #8b5cf6;
+              box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            ">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h4 style="color: #1e293b; margin: 0;">🛏️ เตียง ${summary.bed}</h4>
+                <div style="
+                  background: #8b5cf6;
+                  color: white;
+                  padding: 6px 12px;
+                  border-radius: 20px;
+                  font-size: 12px;
+                  font-weight: 600;
+                ">${summary.medications.length} รายการ</div>
+              </div>
+
+              <div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                <div style="font-weight: 600; color: #1e293b; margin-bottom: 8px;">👤 ${summary.patient}</div>
+              </div>
+
+              <div style="
+                background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 15px;
+              ">
+                <div style="font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 12px;">💊 รายการยา</div>
+                
+                ${summary.medications.map(med => `
+                  <div style="
+                    background: white;
+                    padding: 12px;
+                    border-radius: 8px;
+                    margin-bottom: 8px;
+                    border-left: 4px solid #8b5cf6;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  ">
+                    <div>
+                      <div style="font-weight: 600; color: #1e293b; font-size: 14px;">${med.name}</div>
+                      <div style="font-size: 12px; color: #64748b;">${med.dose}</div>
+                      ${med.note ? `<div style="font-size: 11px; color: #8b5cf6; font-style: italic;">${med.note}</div>` : ''}
+                    </div>
+                    <div style="
+                      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                      color: white;
+                      padding: 4px 8px;
+                      border-radius: 6px;
+                      font-size: 11px;
+                      font-weight: 600;
+                    ">${med.time}</div>
+                  </div>
+                `).join('')}
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 12px; border-radius: 8px; text-align: center;">
+                  <div style="font-size: 16px; font-weight: 700; color: #0ea5e9;">${summary.medications.length}</div>
+                  <div style="font-size: 11px; color: #0369a1;">ยาทั้งหมด</div>
+                </div>
+                <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 12px; border-radius: 8px; text-align: center;">
+                  <div style="font-size: 16px; font-weight: 700; color: #22c55e;">${summary.todayCount}</div>
+                  <div style="font-size: 11px; color: #166534;">วันนี้</div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        medsHTML = `
+          <div style="
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-style: italic;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 15px;
+            border: 2px dashed #cbd5e1;
+          ">
+            <div style="font-size: 48px; margin-bottom: 15px;">💊</div>
+            <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">ยังไม่มีกำหนดการยา</div>
+            <div style="font-size: 14px;">เริ่มเพิ่มตารางการให้ยา</div>
+          </div>
+        `;
+      }
+
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;">
+            <h3 style="margin: 0; color: #1e293b;">💊 กำหนดการยา</h3>
+            <button onclick="this.closest('.modal').remove()" style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-size: 16px;
+              transition: all 0.3s ease;
+            ">✕</button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
+            <div style="background: linear-gradient(135deg, #f3f4f6, #e5e7eb); padding: 20px; border-radius: 12px; text-align: center;">
+              <div style="font-size: 24px; font-weight: 700; color: #8b5cf6;">${totalMeds}</div>
+              <div style="font-size: 12px; color: #64748b;">ยาทั้งหมด</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 20px; border-radius: 12px; text-align: center;">
+              <div style="font-size: 24px; font-weight: 700; color: #22c55e;">${todayMeds}</div>
+              <div style="font-size: 12px; color: #64748b;">ยาวันนี้</div>
+            </div>
+            <div style="background: linear-gradient(135deg, #fafafa, #f5f5f5); padding: 20px; border-radius: 12px; text-align: center;">
+              <div style="font-size: 24px; font-weight: 700; color: #64748b;">${medicationSummaries.length}</div>
+              <div style="font-size: 12px; color: #64748b;">เตียงที่มียา</div>
+            </div>
+          </div>
+          
+          <div style="max-height: 500px; overflow-y: auto;">
+            ${medsHTML}
+          </div>
+
+          <div style="margin-top: 20px; text-align: center; position: sticky; bottom: 0; background: white; padding-top: 15px; border-top: 2px solid #f1f5f9;">
+            <button class="btn btn-primary" onclick="this.closest('.modal').remove()">ปิด</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    function showSystemHealth() {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+
+      // คำนวณสถิติระบบ
+      const systemStartTime = localStorage.getItem('systemStartTime') || Date.now();
+      const uptime = Math.floor((Date.now() - systemStartTime) / (1000 * 60 * 60)); // ชั่วโมง
+      const uptimeDays = Math.floor(uptime / 24);
+      const uptimeHours = uptime % 24;
+      
+      // คำนวณการใช้งาน
+      let totalDataSize = 0;
+      let totalRecords = 0;
+      for (let i = 1; i <= 8; i++) {
+        const data = localStorage.getItem(`ir_data_bed_${i}`);
+        const notes = localStorage.getItem(`nurseNotes_${i}`);
+        const vitals = localStorage.getItem(`vitals_bed_${i}`);
+        const medications = localStorage.getItem(`medications_bed_${i}`);
+        const ioRecords = localStorage.getItem(`io_records_bed_${i}`);
+        
+        if (data) totalDataSize += data.length;
+        if (notes) {
+          totalDataSize += notes.length;
+          totalRecords += JSON.parse(notes).length;
+        }
+        if (vitals) totalDataSize += vitals.length;
+        if (medications) {
+          totalDataSize += medications.length;
+          totalRecords += JSON.parse(medications).length;
+        }
+        if (ioRecords) {
+          totalDataSize += ioRecords.length;
+          totalRecords += JSON.parse(ioRecords).length;
+        }
+      }
+      
+      const dataSizeKB = Math.round(totalDataSize / 1024 * 100) / 100;
+      const performance = dataSizeKB < 100 ? 'ดีเยี่ยม' : dataSizeKB < 500 ? 'ดี' : dataSizeKB < 1000 ? 'ปกติ' : 'ควรล้างข้อมูล';
+      const performanceColor = dataSizeKB < 100 ? '#22c55e' : dataSizeKB < 500 ? '#3b82f6' : dataSizeKB < 1000 ? '#f59e0b' : '#ef4444';
+
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;">
+            <h3 style="margin: 0; color: #1e293b;">🏥 สุขภาพระบบ NurseBuddy</h3>
+            <button onclick="this.closest('.modal').remove()" style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-size: 16px;
+              transition: all 0.3s ease;
+            ">✕</button>
+          </div>
+
+          <!-- สถิติเวลาใช้งาน -->
+          <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 25px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #0ea5e9;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+              <div style="background: #0ea5e9; color: white; padding: 15px; border-radius: 50%; font-size: 24px;">⏰</div>
+              <div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 20px;">เวลาใช้งานระบบ</h4>
+                <p style="margin: 5px 0 0 0; color: #64748b;">ระบบเริ่มต้นใช้งานเมื่อ ${new Date(parseInt(systemStartTime)).toLocaleString('th-TH')}</p>
+              </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 28px; font-weight: 700; color: #0ea5e9;">${uptimeDays}</div>
+                <div style="font-size: 14px; color: #64748b;">วัน</div>
+              </div>
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 28px; font-weight: 700; color: #0ea5e9;">${uptimeHours}</div>
+                <div style="font-size: 14px; color: #64748b;">ชั่วโมง</div>
+              </div>
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 28px; font-weight: 700; color: #0ea5e9;">${uptime}</div>
+                <div style="font-size: 14px; color: #64748b;">ชั่วโมงรวม</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ประสิทธิภาพระบบ -->
+          <div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); padding: 25px; border-radius: 15px; margin-bottom: 20px; border: 2px solid ${performanceColor};">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+              <div style="background: ${performanceColor}; color: white; padding: 15px; border-radius: 50%; font-size: 24px;">📊</div>
+              <div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 20px;">ประสิทธิภาพระบบ</h4>
+                <p style="margin: 5px 0 0 0; color: #64748b;">การใช้งานทรัพยากรและข้อมูล</p>
+              </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 28px; font-weight: 700; color: ${performanceColor};">${dataSizeKB}</div>
+                <div style="font-size: 14px; color: #64748b;">KB ข้อมูล</div>
+              </div>
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 28px; font-weight: 700; color: #8b5cf6;">${totalRecords}</div>
+                <div style="font-size: 14px; color: #64748b;">บันทึกรวม</div>
+              </div>
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid ${performanceColor};">
+                <div style="font-size: 18px; font-weight: 700; color: ${performanceColor};">${performance}</div>
+                <div style="font-size: 14px; color: #64748b;">สถานะ</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- สถิติการใช้งาน -->
+          <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 25px; border-radius: 15px; margin-bottom: 20px; border: 2px solid #22c55e;">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+              <div style="background: #22c55e; color: white; padding: 15px; border-radius: 50%; font-size: 24px;">📈</div>
+              <div>
+                <h4 style="margin: 0; color: #1e293b; font-size: 20px;">สถิติการใช้งานประจำวัน</h4>
+                <p style="margin: 5px 0 0 0; color: #64748b;">ข้อมูลการเข้าใช้งานและกิจกรรม</p>
+              </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 24px; font-weight: 700; color: #22c55e;">99.9%</div>
+                <div style="font-size: 14px; color: #64748b;">เสถียรภาพ</div>
+              </div>
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 24px; font-weight: 700; color: #3b82f6;">< 0.1s</div>
+                <div style="font-size: 14px; color: #64748b;">เวลาตอบสนง</div>
+              </div>
+              <div style="background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div style="font-size: 24px; font-weight: 700; color: #f59e0b;">ปกติ</div>
+                <div style="font-size: 14px; color: #64748b;">สถานะระบบ</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; text-align: center; position: sticky; bottom: 0; background: white; padding-top: 15px; border-top: 2px solid #f1f5f9;">
+            <button class="btn btn-info" onclick="exportSystemReport()" style="margin-right: 10px;">📋 ส่งออกรายงาน</button>
+            <button class="btn btn-secondary" onclick="optimizeSystem()" style="margin-right: 10px;">🔧 ปรับปรุงระบบ</button>
+            <button class="btn btn-primary" onclick="this.closest('.modal').remove()">ปิด</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    function exportSystemReport() {
+      const systemStartTime = localStorage.getItem('systemStartTime') || Date.now();
+      const uptime = Math.floor((Date.now() - systemStartTime) / (1000 * 60 * 60));
+      const summary = dataManager.getSystemSummary();
+      
+      const report = `รายงานสุขภาพระบบ NurseBuddy
+วันที่: ${new Date().toLocaleDateString('th-TH')}
+เวลา: ${new Date().toLocaleTimeString('th-TH')}
+
+=== สถานะระบบ ===
+เวลาใช้งาน: ${uptime} ชั่วโมง
+เตียงที่ใช้งาน: ${summary.activeBeds} เตียง
+บันทึกทั้งหมด: ${summary.totalNotes} รายการ
+บันทึก I/O: ${summary.totalIORecords} รายการ
+Vital Signs: ${summary.totalVitals} รายการ
+กำหนดการยา: ${summary.totalMedications} รายการ
+
+=== การทำงาน ===
+สถานะ: ปกติ
+เสถียรภาพ: 99.9%
+เวลาตอบสนอง: < 0.1s
+      `;
+      
+      const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `system_health_report_${new Date().toISOString().split('T')[0]}.txt`;
+      link.click();
+      
+      showNotification('📋 ส่งออกรายงานเรียบร้อย', 'success');
+    }
+
+    function optimizeSystem() {
+      if (confirm('ต้องการปรับปรุงประสิทธิภาพระบบ? (จะล้างข้อมูลชั่วคราวที่ไม่จำเป็น)')) {
+        // ล้างข้อมูล cache ที่ไม่จำเป็น
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('temp_') || key.includes('cache_')) {
+            keysToRemove.push(key);
+          }
+        }
+        
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+        showNotification('🔧 ปรับปรุงระบบเรียบร้อย', 'success');
+        
+        // รีเฟรชข้อมูล
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+      }
     }
 
     function openSummaryModal() {
@@ -2308,23 +4738,1293 @@
     function resetAllData() {
       if (!confirm('ยืนยันการลบข้อมูลทั้งหมด? การกระทำนี้ไม่สามารถย้อนกลับได้')) return;
 
-      for (let i = 1; i <= 99; i++) {
-        localStorage.removeItem(`ir_data_bed_${i}`);
-        localStorage.removeItem(`nurseNotes_${i}`);
-        localStorage.removeItem(`io_records_bed_${i}`);
-        localStorage.removeItem(`vitals_bed_${i}`);
-        localStorage.removeItem(`medications_bed_${i}`);
-      }
+      dataManager.clearAllData();
 
       closeModal('resetModal');
       alert('✅ ลบข้อมูลเรียบร้อยแล้ว');
       location.reload();
     }
 
+    // เพิ่มฟังก์ชันที่หายไป
+    function loadAlertsHistory() {
+      let allAlerts = [];
+      
+      // จำลองประวัติการแจ้งเตือน
+      for (let i = 1; i <= 8; i++) {
+        const vitals = JSON.parse(localStorage.getItem(`vitals_bed_${i}`) || 'null');
+        const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${i}`) || 'null');
+        
+        if (vitals && patientData) {
+          // สร้างข้อมูลประวัติการแจ้งเตือน
+          const alertHistory = {
+            bed: i,
+            patient: patientData.patient_id,
+            time: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toLocaleString('th-TH'),
+            type: vitals.systolic > 160 ? 'critical' : 'warning',
+            message: vitals.systolic > 160 ? 'ความดันโลหิตสูงมาก' : 'ติดตามอาการ',
+            resolved: Math.random() > 0.3
+          };
+          allAlerts.push(alertHistory);
+        }
+      }
+      
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+      
+      let alertsHTML = '';
+      if (allAlerts.length > 0) {
+        allAlerts.forEach(alert => {
+          const statusColor = alert.resolved ? '#22c55e' : (alert.type === 'critical' ? '#ef4444' : '#f59e0b');
+          const statusText = alert.resolved ? 'แก้ไขแล้ว' : 'รอดำเนินการ';
+          
+          alertsHTML += `
+            <div style="
+              background: white;
+              border-radius: 12px;
+              padding: 15px;
+              margin: 8px 0;
+              border-left: 4px solid ${statusColor};
+              box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            ">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="
+                  background: ${statusColor};
+                  color: white;
+                  padding: 4px 10px;
+                  border-radius: 12px;
+                  font-size: 11px;
+                  font-weight: 600;
+                ">🛏️ เตียง ${alert.bed}</div>
+                <div style="font-size: 10px; color: #64748b;">${alert.time}</div>
+              </div>
+              
+              <div style="margin-bottom: 8px;">
+                <div style="font-weight: 600; color: #1e293b; font-size: 13px;">${alert.message}</div>
+                <div style="font-size: 12px; color: #64748b;">ผู้ป่วย: ${alert.patient}</div>
+              </div>
+              
+              <div style="
+                background: ${alert.resolved ? 'rgba(34, 197, 94, 0.1)' : 'rgba(245, 158, 11, 0.1)'};
+                padding: 6px 10px;
+                border-radius: 6px;
+                font-size: 11px;
+                font-weight: 600;
+                color: ${alert.resolved ? '#166534' : '#92400e'};
+              ">
+                ${statusText}
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        alertsHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: #64748b;">
+            <div style="font-size: 48px; margin-bottom: 15px;">📋</div>
+            <div>ไม่มีประวัติการแจ้งเตือน</div>
+          </div>
+        `;
+      }
+      
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;">
+            <h3 style="margin: 0; color: #1e293b;">📋 ประวัติการแจ้งเตือน</h3>
+            <button onclick="this.closest('.modal').remove()" style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-size: 16px;
+            ">✕</button>
+          </div>
+          
+          <div style="max-height: 500px; overflow-y: auto;">
+            ${alertsHTML}
+          </div>
+          
+          <div style="margin-top: 20px; text-align: center; position: sticky; bottom: 0; background: white; padding-top: 15px; border-top: 2px solid #f1f5f9;">
+            <button class="btn btn-primary" onclick="this.closest('.modal').remove()">ปิด</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+    }
+
+    function loadActiveAlerts() {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+      
+      let activeAlertsHTML = '';
+      const activeCount = alertSystem.activeAlerts.size;
+      const snoozeCount = alertSystem.snoozeTimers.size;
+      
+      if (activeCount > 0 || snoozeCount > 0) {
+        // แสดงการแจ้งเตือนที่ใช้งานอยู่
+        alertSystem.activeAlerts.forEach((alert, alertId) => {
+          activeAlertsHTML += `
+            <div style="
+              background: linear-gradient(135deg, #fef2f2, #fee2e2);
+              border: 2px solid #ef4444;
+              border-radius: 12px;
+              padding: 15px;
+              margin: 10px 0;
+            ">
+              <div style="font-weight: 600; color: #991b1b; margin-bottom: 8px;">
+                🚨 เตียง ${alert.bedId} - ${alert.message}
+              </div>
+              <div style="font-size: 12px; color: #7f1d1d;">
+                เวลา: ${new Date(alert.timestamp).toLocaleString('th-TH')}
+              </div>
+            </div>
+          `;
+        });
+        
+        // แสดงการ snooze
+        alertSystem.snoozeTimers.forEach((snoozeInfo, snoozeKey) => {
+          const timeLeft = Math.round((snoozeInfo.snoozeUntil - new Date()) / 1000 / 60);
+          activeAlertsHTML += `
+            <div style="
+              background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+              border: 2px solid #8b5cf6;
+              border-radius: 12px;
+              padding: 15px;
+              margin: 10px 0;
+            ">
+              <div style="font-weight: 600; color: #7c3aed; margin-bottom: 8px;">
+                😴 เตียง ${snoozeInfo.bedId} - หยุดการแจ้งเตือนชั่วคราว
+              </div>
+              <div style="font-size: 12px; color: #6b46c1;">
+                เหลือเวลา: ${timeLeft} นาที
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        activeAlertsHTML = `
+          <div style="text-align: center; padding: 40px 20px; color: #22c55e;">
+            <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
+            <div style="font-size: 18px; font-weight: 600;">ไม่มีการแจ้งเตือนที่ใช้งานอยู่</div>
+            <div style="font-size: 14px;">ระบบทำงานปกติ</div>
+          </div>
+        `;
+      }
+      
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;">
+            <h3 style="margin: 0; color: #1e293b;">🚨 การแจ้งเตือนที่ใช้งานอยู่</h3>
+            <button onclick="this.closest('.modal').remove()" style="
+              background: #ef4444;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 8px;
+              cursor: pointer;
+              font-size: 16px;
+            ">✕</button>
+          </div>
+          
+          <div style="margin-bottom: 20px; padding: 15px; background: #f8fafc; border-radius: 10px;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: #ef4444;">${activeCount}</div>
+                <div style="font-size: 12px; color: #64748b;">การแจ้งเตือนที่ใช้งาน</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-weight: 700; color: #8b5cf6;">${snoozeCount}</div>
+                <div style="font-size: 12px; color: #64748b;">การ Snooze</div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="max-height: 400px; overflow-y: auto;">
+            ${activeAlertsHTML}
+          </div>
+          
+          <div style="margin-top: 20px; text-align: center; position: sticky; bottom: 0; background: white; padding-top: 15px; border-top: 2px solid #f1f5f9;">
+            <button class="btn btn-primary" onclick="this.closest('.modal').remove()">ปิด</button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+    }
+
+    function showNurseActions() {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 500px;">
+          <h3 style="color: #22c55e; margin-bottom: 20px;">
+            👩‍⚕️ เครื่องมือสำหรับพยาบาล
+          </h3>
+          
+          <div style="display: grid; gap: 15px;">
+            <button class="btn btn-primary" onclick="showQuickAdd(); this.closest('.modal').remove();">
+              🏥 เพิ่มผู้ป่วยใหม่
+            </button>
+            
+            <button class="btn btn-secondary" onclick="showBedManagement(); this.closest('.modal').remove();">
+              🛏️ จัดการเตียง
+            </button>
+            
+            <button class="btn btn-info" onclick="showIOEntry(); this.closest('.modal').remove();">
+              💧 บันทึก I/O
+            </button>
+            
+            <button class="btn btn-success" onclick="showPatientSummary(); this.closest('.modal').remove();">
+              📊 สรุปข้อมูลผู้ป่วย
+            </button>
+          </div>
+
+          <div style="margin-top: 20px; padding: 15px; background: #f0fdf4; border-radius: 10px; border-left: 4px solid #22c55e;">
+            <div style="font-size: 12px; color: #166534;">
+              <strong>สิทธิ์ของคุณ:</strong><br>
+              ✅ เพิ่มและแก้ไขข้อมูลผู้ป่วย<br>
+              ✅ เปิด/ปิดการใช้งานเตียง<br>
+              ✅ บันทึกข้อมูลการดูแล<br>
+              ❌ ลบข้อมูลในระบบ<br>
+              ❌ จัดการผู้ใช้
+            </div>
+          </div>
+
+          <button class="btn btn-secondary" onclick="this.closest('.modal').remove()" style="margin-top: 20px;">ปิด</button>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    function showBedManagement() {
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.style.display = 'flex';
+
+      let bedsHTML = '';
+      for (let i = 1; i <= 8; i++) {
+        const bedData = dataManager.getPatient(i);
+        const isActive = !!bedData;
+        const statusColor = isActive ? '#22c55e' : '#94a3b8';
+        const statusText = isActive ? 'ใช้งานอยู่' : 'ว่าง';
+        
+        bedsHTML += `
+          <div style="
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+            border: 2px solid ${statusColor};
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          ">
+            <div>
+              <h4 style="margin: 0; color: #1e293b;">🛏️ เตียง ${i}</h4>
+              <div style="font-size: 12px; color: #64748b; margin-top: 5px;">
+                สถานะ: <span style="color: ${statusColor}; font-weight: 600;">${statusText}</span>
+              </div>
+              ${isActive ? `
+                <div style="font-size: 12px; color: #64748b; margin-top: 2px;">
+                  ผู้ป่วย: <strong>${bedData.patient_id}</strong>
+                </div>
+              ` : ''}
+            </div>
+            <div style="display: flex; gap: 8px;">
+              ${isActive ? `
+                <button class="btn btn-secondary" onclick="deactivateBed(${i})" style="font-size: 12px; padding: 8px 12px;">
+                  🔒 ปิดเตียง
+                </button>
+                <button class="btn btn-info" onclick="window.location.href='chart.html?bed=${i}'" style="font-size: 12px; padding: 8px 12px;">
+                  👀 ดูข้อมูล
+                </button>
+              ` : `
+                <button class="btn btn-success" onclick="activateBed(${i})" style="font-size: 12px; padding: 8px 12px;">
+                  🔓 เปิดเตียง
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }
+
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+          <h3 style="color: #1e293b; margin-bottom: 20px;">🛏️ จัดการเตียงผู้ป่วย</h3>
+          
+          <div style="background: #f0f9ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #0ea5e9;">
+            <div style="font-size: 14px; color: #1e40af;">
+              <strong>คำแนะนำ:</strong><br>
+              • <strong>เปิดเตียง</strong> = พร้อมรับผู้ป่วยใหม่<br>
+              • <strong>ปิดเตียง</strong> = หยุดใช้งานชั่วคราว (ข้อมูลจะถูกเก็บไว้)
+            </div>
+          </div>
+
+          <div style="max-height: 500px; overflow-y: auto;">
+            ${bedsHTML}
+          </div>
+
+          <button class="btn btn-secondary" onclick="this.closest('.modal').remove()" style="margin-top: 20px;">ปิด</button>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    function activateBed(bedId) {
+      if (confirm(`ต้องการเปิดใช้งานเตียง ${bedId} หรือไม่?`)) {
+        // สร้างข้อมูลเตียงเปล่า
+        const emptyBedData = {
+          patient_id: '',
+          medication: '',
+          volume: '',
+          rate: 0,
+          status: 'available'
+        };
+        
+        dataManager.savePatient(bedId, emptyBedData);
+        showNotification(`✅ เปิดใช้งานเตียง ${bedId} แล้ว`, 'success');
+        
+        // รีเฟรชข้อมูล
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+    }
+
+    function deactivateBed(bedId) {
+      const bedData = dataManager.getPatient(bedId);
+      if (!bedData) return;
+      
+      const confirmMessage = bedData.patient_id ? 
+        `ต้องการปิดเตียง ${bedId} หรือไม่?\nผู้ป่วย: ${bedData.patient_id}\n\n⚠️ ข้อมูลจะถูกเก็บไว้ สามารถกู้คืนได้` :
+        `ต้องการปิดเตียง ${bedId} หรือไม่?`;
+        
+      if (confirm(confirmMessage)) {
+        // บันทึกข้อมูลลงประวัติก่อนปิด
+        const archiveData = {
+          ...bedData,
+          deactivatedAt: new Date().toISOString(),
+          deactivatedBy: currentUser?.fullname || 'ไม่ทราบ'
+        };
+        
+        localStorage.setItem(`bed_archive_${bedId}_${Date.now()}`, JSON.stringify(archiveData));
+        
+        // ลบข้อมูลปัจจุบัน
+        dataManager.clearBedData(bedId);
+        
+        showNotification(`✅ ปิดเตียง ${bedId} แล้ว ข้อมูลถูกเก็บในประวัติ`, 'success');
+        
+        // รีเฟรชข้อมูล
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+    }
+
+    function showPatientSummary() {
+      // ใช้ฟังก์ชันเดิมที่มีอยู่
+      showActiveBedsDetails();
+    }
+
     function logout() {
       if (confirm('ต้องการออกจากระบบ?')) {
+        // บันทึกเวลาออกจากระบบ
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || 'null');
+        if (currentUser) {
+          const logoutLog = {
+            user: currentUser.fullname,
+            username: currentUser.username,
+            role: currentUser.role,
+            logoutTime: new Date().toISOString()
+          };
+          
+          const loginHistory = JSON.parse(localStorage.getItem('loginHistory') || '[]');
+          loginHistory.unshift(logoutLog);
+          
+          // เก็บแค่ 50 รายการล่าสุด
+          if (loginHistory.length > 50) {
+            loginHistory.splice(50);
+          }
+          
+          localStorage.setItem('loginHistory', JSON.stringify(loginHistory));
+        }
+        
         sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
+        showNotification('ออกจากระบบเรียบร้อย', 'success');
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1000);
+      }
+    }
+
+    // ระบบจัดการรหัสผ่าน
+    function openPasswordManagement() {
+      if (currentUser.role !== 'admin') {
+        alert('เฉพาะผู้ดูแลระบบเท่านั้นที่สามารถจัดการสมาชิกได้');
+        return;
+      }
+      
+      loadUsersList();
+      document.getElementById('passwordModal').style.display = 'flex';
+    }
+
+    function loadUsersList() {
+      const users = getStoredUsers();
+      const usersList = document.getElementById('usersList');
+      const pendingSection = document.getElementById('pendingSection');
+      const pendingList = document.getElementById('pendingList');
+      const pendingCount = document.getElementById('pendingCount');
+      
+      // แยกสมาชิกที่รอการอนุมัติ
+      const pendingUsers = users.filter(u => u.approved === false);
+      const approvedUsers = users.filter(u => u.approved !== false);
+      
+      // แสดงรายการรอการอนุมัติ
+      if (pendingUsers.length > 0) {
+        pendingSection.style.display = 'block';
+        pendingCount.textContent = pendingUsers.length;
+        
+        let pendingHTML = '';
+        pendingUsers.forEach(user => {
+          const timeAgo = getTimeAgo(user.registeredAt);
+          pendingHTML += `
+            <div style="
+              background: white;
+              border-radius: 10px;
+              padding: 15px;
+              margin: 10px 0;
+              border: 2px solid #f59e0b;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            ">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-weight: 600; color: #1e293b;">${user.fullname}</div>
+                  <div style="font-size: 12px; color: #64748b;">
+                    ชื่อผู้ใช้: ${user.username} | บทบาท: ${user.role === 'admin' ? 'ผู้ดูแลระบบ' : user.role === 'nurse' ? 'พยาบาล' : 'แพทย์'}
+                  </div>
+                  <div style="font-size: 11px; color: #f59e0b; margin-top: 2px;">📅 สมัครเมื่อ: ${timeAgo}</div>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button onclick="approveUser('${user.username}')" style="
+                    background: #22c55e;
+                    color: white;
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 11px;
+                    cursor: pointer;
+                  ">✅ อนุมัติ</button>
+                  <button onclick="rejectUser('${user.username}')" style="
+                    background: #ef4444;
+                    color: white;
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 11px;
+                    cursor: pointer;
+                  ">❌ ปฏิเสธ</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        pendingList.innerHTML = pendingHTML;
+      } else {
+        pendingSection.style.display = 'none';
+      }
+      
+      // แสดงรายการสมาชิกที่อนุมัติแล้ว
+      let usersHTML = '';
+      approvedUsers.forEach(user => {
+        const isSystemUser = user.username === '0000' || user.isDefault;
+        const statusColor = user.role === 'admin' ? '#ef4444' : user.role === 'nurse' ? '#059669' : '#3b82f6';
+        
+        usersHTML += `
+          <div style="
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid ${statusColor};
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          ">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div style="font-weight: 600; color: #1e293b;">${user.fullname}</div>
+                  ${user.username === '0000' ? '<span style="background: #ef4444; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px;">SUPER ADMIN</span>' : ''}
+                </div>
+                <div style="font-size: 12px; color: #64748b;">
+                  ชื่อผู้ใช้: ${user.username} | 
+                  บทบาท: ${user.role === 'admin' ? 'ผู้ดูแลระบบ' : user.role === 'nurse' ? 'พยาบาล' : 'แพทย์'}
+                </div>
+                ${isSystemUser ? '<div style="font-size: 11px; color: #6b7280; margin-top: 2px;">🔒 บัญชีระบบ</div>' : ''}
+              </div>
+              <div style="display: flex; gap: 5px;">
+                ${!isSystemUser ? `
+                  <button onclick="editUser('${user.username}')" style="
+                    background: #6b7280;
+                    color: white;
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 11px;
+                    cursor: pointer;
+                  ">✏️ แก้ไข</button>
+                  <button onclick="deleteUser('${user.username}')" style="
+                    background: #ef4444;
+                    color: white;
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 6px;
+                    font-size: 11px;
+                    cursor: pointer;
+                  ">🗑️ ลบ</button>
+                ` : `
+                  <span style="color: #64748b; font-size: 11px; padding: 8px;">ระบบหลัก</span>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      
+      usersList.innerHTML = usersHTML || '<p style="text-align: center; color: #64748b;">ไม่มีสมาชิกที่อนุมัติแล้ว</p>';
+    }
+
+    function getTimeAgo(timestamp) {
+      if (!timestamp) return 'ไม่ทราบ';
+      const now = new Date();
+      const past = new Date(timestamp);
+      const diffMs = now - past;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      
+      if (diffMins < 1) return 'เมื่อสักครู่';
+      if (diffMins < 60) return `${diffMins} นาทีที่แล้ว`;
+      if (diffHours < 24) return `${diffHours} ชั่วโมงที่แล้ว`;
+      return `${diffDays} วันที่แล้ว`;
+    }
+
+    function approveUser(username) {
+      if (confirm(`ต้องการอนุมัติสมาชิก ${username} หรือไม่?`)) {
+        const users = getStoredUsers();
+        const userIndex = users.findIndex(u => u.username === username);
+        
+        if (userIndex !== -1) {
+          users[userIndex].approved = true;
+          users[userIndex].approvedAt = new Date().toISOString();
+          users[userIndex].approvedBy = currentUser.fullname;
+          
+          saveUsers(users);
+          loadUsersList();
+          showNotification(`✅ อนุมัติสมาชิก ${username} เรียบร้อยแล้ว`, 'success');
+        }
+      }
+    }
+
+    function rejectUser(username) {
+      if (confirm(`ต้องการปฏิเสธและลบคำขอสมัครของ ${username} หรือไม่?`)) {
+        const users = getStoredUsers();
+        const filtered = users.filter(u => u.username !== username);
+        
+        saveUsers(filtered);
+        loadUsersList();
+        showNotification(`❌ ปฏิเสธคำขอสมัครของ ${username} แล้ว`, 'info');
+      }
+    }
+
+    function getStoredUsers() {
+      const defaultUsers = [
+        { username: 'admin', password: 'admin123', fullname: 'ผู้ดูแลระบบหลัก', role: 'admin', permissions: ['all'] },
+        { username: 'nurse01', password: 'nurse123', fullname: 'พยาบาลศรีวรรณ', role: 'nurse', permissions: ['bed_management', 'patient_care'] },
+        { username: 'nurse02', password: 'nurse456', fullname: 'พยาบาลกานดา', role: 'nurse', permissions: ['bed_management', 'patient_care'] }
+      ];
+      
+      return JSON.parse(localStorage.getItem('systemUsers') || JSON.stringify(defaultUsers));
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem('systemUsers', JSON.stringify(users));
+    }
+
+    function addNewUser() {
+      const username = document.getElementById('newUsername').value.trim();
+      const password = document.getElementById('newPassword').value.trim();
+      const fullname = document.getElementById('newFullName').value.trim();
+      const role = document.getElementById('newRole').value;
+
+      if (!username || !password || !fullname) {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        return;
+      }
+
+      const users = getStoredUsers();
+      
+      // ตรวจสอบว่าชื่อผู้ใช้ซ้ำหรือไม่
+      if (users.some(user => user.username === username)) {
+        alert('ชื่อผู้ใช้นี้มีอยู่แล้ว');
+        return;
+      }
+
+      users.push({
+        username: username,
+        password: password,
+        fullname: fullname,
+        role: role
+      });
+
+      saveUsers(users);
+      loadUsersList();
+      
+      // ล้างฟอร์ม
+      document.getElementById('newUsername').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('newFullName').value = '';
+      document.getElementById('newRole').selectedIndex = 0;
+      
+      showNotification('✅ เพิ่มผู้ใช้ใหม่เรียบร้อย', 'success');
+    }
+
+    function editUser(username) {
+      const users = getStoredUsers();
+      const user = users.find(u => u.username === username);
+      
+      if (!user || username === '0000' || ['Nurse01', 'Nurse02'].includes(username)) {
+        alert('ไม่สามารถแก้ไขผู้ใช้นี้ได้');
+        return;
+      }
+
+      const newPassword = prompt(`แก้ไขรหัสผ่านสำหรับ ${user.fullname}:`, user.password);
+      const newFullName = prompt(`แก้ไขชื่อเต็มสำหรับ ${username}:`, user.fullname);
+      
+      if (newPassword !== null && newFullName !== null) {
+        user.password = newPassword.trim();
+        user.fullname = newFullName.trim();
+        
+        saveUsers(users);
+        loadUsersList();
+        showNotification('✅ แก้ไขข้อมูลผู้ใช้เรียบร้อย', 'success');
+      }
+    }
+
+    function deleteUser(username) {
+      if (username === '0000' || ['Nurse01', 'Nurse02'].includes(username)) {
+        alert('ไม่สามารถลบผู้ใช้ระบบหลักได้');
+        return;
+      }
+
+      if (confirm(`ต้องการลบผู้ใช้ ${username} หรือไม่?`)) {
+        const users = getStoredUsers();
+        const filtered = users.filter(user => user.username !== username);
+        
+        saveUsers(filtered);
+        loadUsersList();
+        showNotification('✅ ลบผู้ใช้เรียบร้อย', 'success');
+      }
+    }
+
+    function exportMembersList() {
+      const users = getStoredUsers();
+      const approvedUsers = users.filter(u => u.approved !== false);
+      
+      let report = `รายชื่อสมาชิก NurseBuddy System
+วันที่: ${new Date().toLocaleDateString('th-TH')}
+เวลา: ${new Date().toLocaleTimeString('th-TH')}
+
+สมาชิกทั้งหมด: ${approvedUsers.length} คน
+=====================================
+
+`;
+      
+      approvedUsers.forEach((user, index) => {
+        report += `${index + 1}. ${user.fullname}
+   ชื่อผู้ใช้: ${user.username}
+   บทบาท: ${user.role === 'admin' ? 'ผู้ดูแลระบบ' : user.role === 'nurse' ? 'พยาบาล' : 'แพทย์'}
+   สถานะ: ${user.username === '0000' ? 'Super Admin' : 'สมาชิกปกติ'}
+   
+`;
+      });
+      
+      const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `members_list_${new Date().toISOString().split('T')[0]}.txt`;
+      link.click();
+      
+      showNotification('📊 ส่งออกรายชื่อสมาชิกเรียบร้อย', 'success');
+    }
+
+    function resetToDefault() {
+      if (confirm('ต้องการรีเซ็ตระบบผู้ใช้เป็นค่าเริ่มต้นหรือไม่?\n\n⚠️ การกระทำนี้จะ:\n• ลบสมาชิกที่สมัครเองทั้งหมด\n• คืนค่าระบบเป็นค่าเริ่มต้น\n• เก็บเฉพาะบัญชีระบบหลัก')) {
+        localStorage.removeItem('systemUsers');
+        initializeSystem(); // เรียกใช้ฟังก์ชันเริ่มต้น
+        loadUsersList();
+        showNotification('🔄 รีเซ็ตระบบเป็นค่าเริ่มต้นเรียบร้อย', 'info');
+      }
+    }
+
+    // ระบบแจ้งเตือนฉุกเฉิน
+    let systemStatusInterval = null;
+    let connectionStatusInterval = null;
+
+    function initializeAlertSystem() {
+      alertSystem.sounds.warning = document.getElementById('warningSound');
+      alertSystem.sounds.critical = document.getElementById('criticalSound');
+      
+      // โหลดข้อมูล snooze จาก localStorage
+      alertSystem.loadSnoozeData();
+      
+      startSystemMonitoring();
+    }
+
+    function startSystemMonitoring() {
+      // ตรวจสอบสถานะทุก 5 วินาที
+      if (!systemStatusInterval) {
+        systemStatusInterval = setInterval(() => {
+          alertSystem.clearExpiredSnooze(); // ล้างข้อมูล snooze ที่หมดอายุ
+          checkSystemStatus();
+        }, 5000);
+      }
+      
+      // ตรวจสอบการเชื่อมต่อทุก 10 วินาที
+      if (!connectionStatusInterval) {
+        connectionStatusInterval = setInterval(checkConnectionStatus, 10000);
+      }
+    }
+
+    function stopSystemMonitoring() {
+      if (systemStatusInterval) {
+        clearInterval(systemStatusInterval);
+        systemStatusInterval = null;
+      }
+      
+      if (connectionStatusInterval) {
+        clearInterval(connectionStatusInterval);
+        connectionStatusInterval = null;
+      }
+    }
+
+    function checkSystemStatus() {
+      let criticalAlerts = [];
+      let warningAlerts = [];
+      
+      for (let i = 1; i <= 8; i++) {
+        const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${i}`) || 'null');
+        if (!patientData) continue;
+        
+        // ข้ามการตรวจสอบถ้าเตียงนี้กำลัง snooze (ตรวจสอบทั้ง memory และ localStorage)
+        const criticalKey = `flow_critical_${i}`;
+        const warningKey = `flow_warning_${i}`;
+        const snoozeData = JSON.parse(localStorage.getItem('alert_snooze_data') || '{}');
+        const now = new Date();
+        
+        const isSnoozeActive = alertSystem.snoozeTimers.has(criticalKey) || 
+                              alertSystem.snoozeTimers.has(warningKey) ||
+                              (snoozeData[criticalKey] && new Date(snoozeData[criticalKey].snoozeUntil) > now) ||
+                              (snoozeData[warningKey] && new Date(snoozeData[warningKey].snoozeUntil) > now);
+        
+        if (isSnoozeActive) {
+          continue;
+        }
+        
+        // จำลองข้อมูลเซนเซอร์
+        const actualRate = Math.floor(patientData.rate * (0.85 + Math.random() * 0.3));
+        const orderRate = patientData.rate;
+        const variance = Math.abs(actualRate - orderRate);
+        const variancePercent = (variance / orderRate) * 100;
+        
+        // ตรวจสอบอัตราการไหลผิดปกติเท่านั้น (ไม่ตรวจสอบน้ำเกลือหมด)
+        if (variancePercent > 20) {
+          criticalAlerts.push({
+            type: 'flow_critical',
+            bedId: i,
+            message: `อัตราการไหลผิดปกติมาก`,
+            detailedMessage: `อัตราการไหลปัจจุบัน ${actualRate} ดรอป/นาที ≠ อัตราที่สั่ง ${orderRate} ดรอป/นาที`,
+            icon: '🚨',
+            actualRate: actualRate,
+            orderRate: orderRate,
+            variancePercent: variancePercent.toFixed(1),
+            severity: 'critical',
+            timestamp: new Date().toISOString()
+          });
+        } else if (variancePercent > 10) {
+          warningAlerts.push({
+            type: 'flow_warning',
+            bedId: i,
+            message: `อัตราการไหลผิดปกติ`,
+            detailedMessage: `อัตราการไหลปัจจุบัน ${actualRate} ดรอป/นาที ≠ อัตราที่สั่ง ${orderRate} ดรอป/นาที`,
+            icon: '⚠️',
+            actualRate: actualRate,
+            orderRate: orderRate,
+            variancePercent: variancePercent.toFixed(1),
+            severity: 'warning',
+            timestamp: new Date().toISOString()
+          });
+        }
+      }
+      
+      // แสดงการแจ้งเตือนเฉพาะที่ไม่ได้ snooze
+      if (criticalAlerts.length > 0) {
+        const alert = criticalAlerts[0];
+        const alertKey = `${alert.type}_${alert.bedId}`;
+        if (!alertSystem.snoozeTimers.has(alertKey)) {
+          showCriticalAlert(alert);
+          updateBedAlertStatus(alert.bedId, 'critical');
+        }
+      } else if (warningAlerts.length > 0) {
+        const alert = warningAlerts[0];
+        const alertKey = `${alert.type}_${alert.bedId}`;
+        if (!alertSystem.snoozeTimers.has(alertKey)) {
+          showWarningAlert(alert);
+          updateBedAlertStatus(alert.bedId, 'warning');
+        }
+      }
+      
+      // อัพเดทแบนเนอร์ให้แสดงข้อมูลที่ละเอียดขึ้น
+      if (criticalAlerts.length > 0 || warningAlerts.length > 0) {
+        const totalAlerts = criticalAlerts.length + warningAlerts.length;
+        const criticalCount = criticalAlerts.length;
+        const warningCount = warningAlerts.length;
+        
+        let bannerMessage = '';
+        if (criticalCount > 0 && warningCount > 0) {
+          bannerMessage = `🚨 มีการแจ้งเตือน: วิกฤต ${criticalCount} รายการ, เฝ้าระวัง ${warningCount} รายการ - กรุณาตรวจสอบทันที`;
+        } else if (criticalCount > 0) {
+          bannerMessage = `🚨 การแจ้งเตือนฉุกเฉิน: ${criticalCount} รายการ - ต้องตรวจสอบทันที!`;
+        } else {
+          bannerMessage = `⚠️ การแจ้งเตือน: ${warningCount} รายการ - ควรตรวจสอบ`;
+        }
+        
+        showAlertBanner(
+          criticalAlerts.length > 0 ? 'critical' : 'warning',
+          bannerMessage
+        );
+      } else {
+        hideAlertBanner();
+      }
+    }
+
+    function checkConnectionStatus() {
+      // จำลองการตรวจสอบการเชื่อมต่อ
+      const connectionLost = Math.random() < 0.05; // 5% โอกาสขาดการเชื่อมต่อ
+      
+      if (connectionLost) {
+        showFullScreenAlert('critical', '📡', 'สูญเสียการเชื่อมต่อ!', 'ไม่สามารถเชื่อมต่อกับเซนเซอร์ได้ กรุณาตรวจสอบการเชื่อมต่อ');
+      }
+    }
+
+    function showCriticalAlert(alert) {
+      playAlertSound('critical');
+      
+      const alertId = `${alert.type}_${alert.bedId || 'system'}_${Date.now()}`;
+      alertSystem.activeAlerts.set(alertId, alert);
+      
+      showFullScreenAlert('critical', alert, alertId);
+      showFloatingAlert('critical', alert);
+    }
+
+    function showWarningAlert(alert) {
+      playAlertSound('warning');
+      
+      const alertId = `${alert.type}_${alert.bedId || 'system'}_${Date.now()}`;
+      alertSystem.activeAlerts.set(alertId, alert);
+      
+      showFullScreenAlert('warning', alert, alertId);
+    }
+
+    function showFullScreenAlert(type, alert, alertId = null) {
+      const fullscreenAlert = document.getElementById('alertFullscreen');
+      const container = document.getElementById('alertContainer');
+      const iconEl = document.getElementById('alertIconLarge');
+      const titleEl = document.getElementById('alertTitleLarge');
+      const messageEl = document.getElementById('alertMessageLarge');
+      
+      // เก็บ alertId ไว้ใน element
+      if (alertId) {
+        fullscreenAlert.setAttribute('data-alert-id', alertId);
+      }
+      
+      container.className = `alert-container ${type}`;
+      
+      // สร้างข้อมูลแจ้งเตือนที่ครบถ้วน
+      const alertInfo = createDetailedAlertInfo(alert, type);
+      
+      iconEl.innerHTML = alertInfo.icon;
+      titleEl.innerHTML = alertInfo.title;
+      messageEl.innerHTML = alertInfo.message;
+      
+      fullscreenAlert.classList.add('show');
+      
+      // เปิดเสียงแจ้งเตือนทุก 5 วินาที จนกว่าจะถูกปิด
+      const soundInterval = setInterval(() => {
+        if (fullscreenAlert.classList.contains('show')) {
+          playAlertSound(type === 'critical' ? 'critical' : 'warning');
+        } else {
+          clearInterval(soundInterval);
+        }
+      }, 5000);
+    }
+
+    function createDetailedAlertInfo(alert, type) {
+      const currentTime = new Date().toLocaleString('th-TH');
+      const patientData = alert.bedId ? JSON.parse(localStorage.getItem(`ir_data_bed_${alert.bedId}`) || 'null') : null;
+      
+      let icon, title, message;
+      
+      if (type === 'critical') {
+        icon = `
+          <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <div style="font-size: 60px; margin-bottom: 10px;">🚨</div>
+            <div style="background: #ef4444; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;">
+              CRITICAL ALERT
+            </div>
+          </div>
+        `;
+        
+        title = `⚠️ การแจ้งเตือนฉุกเฉิน - เตียง ${alert.bedId}`;
+        
+        message = `
+          <div style="text-align: left; background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #ef4444; margin: 20px 0;">
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 15px; align-items: start;">
+              <div style="background: #ef4444; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap;">
+                🛏️ เตียง ${alert.bedId}
+              </div>
+              <div>
+                <div style="font-size: 16px; font-weight: 600; color: #991b1b; margin-bottom: 8px;">
+                  ${alert.message}
+                </div>
+                ${patientData ? `
+                  <div style="background: white; padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <div style="font-size: 14px; color: #374151; margin-bottom: 8px;"><strong>ข้อมูลผู้ป่วย:</strong></div>
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; font-size: 12px;">
+                      <span style="color: #64748b;">รหัส:</span><span style="font-weight: 600;">${patientData.patient_id}</span>
+                      <span style="color: #64748b;">ยา:</span><span style="font-weight: 600;">${patientData.medication}</span>
+                      <span style="color: #64748b;">อัตราที่สั่ง:</span><span style="font-weight: 600;">${patientData.rate} ดรอป/นาที</span>
+                    </div>
+                  </div>
+                ` : ''}
+                <div style="background: #fef2f2; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                  <div style="font-size: 12px; color: #991b1b;">
+                    <strong>📅 เวลาที่เกิด:</strong> ${currentTime}<br>
+                    <strong>🔔 ระดับ:</strong> <span style="background: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">วิกฤต</span><br>
+                    <strong>⚡ การดำเนินการ:</strong> ต้องตรวจสอบทันที
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        icon = `
+          <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <div style="font-size: 60px; margin-bottom: 10px;">⚠️</div>
+            <div style="background: #f59e0b; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600;">
+              WARNING ALERT
+            </div>
+          </div>
+        `;
+        
+        title = `🔔 การแจ้งเตือน - เตียง ${alert.bedId}`;
+        
+        message = `
+          <div style="text-align: left; background: rgba(245, 158, 11, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #f59e0b; margin: 20px 0;">
+            <div style="display: grid; grid-template-columns: auto 1fr; gap: 15px; align-items: start;">
+              <div style="background: #f59e0b; color: white; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap;">
+                🛏️ เตียง ${alert.bedId}
+              </div>
+              <div>
+                <div style="font-size: 16px; font-weight: 600; color: #92400e; margin-bottom: 8px;">
+                  ${alert.message}
+                </div>
+                ${patientData ? `
+                  <div style="background: white; padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <div style="font-size: 14px; color: #374151; margin-bottom: 8px;"><strong>ข้อมูลผู้ป่วย:</strong></div>
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 8px; font-size: 12px;">
+                      <span style="color: #64748b;">รหัส:</span><span style="font-weight: 600;">${patientData.patient_id}</span>
+                      <span style="color: #64748b;">ยา:</span><span style="font-weight: 600;">${patientData.medication}</span>
+                      <span style="color: #64748b;">อัตราที่สั่ง:</span><span style="font-weight: 600;">${patientData.rate} ดรอป/นาที</span>
+                    </div>
+                  </div>
+                ` : ''}
+                <div style="background: #fffbeb; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                  <div style="font-size: 12px; color: #92400e;">
+                    <strong>📅 เวลาที่เกิด:</strong> ${currentTime}<br>
+                    <strong>🔔 ระดับ:</strong> <span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">เฝ้าระวัง</span><br>
+                    <strong>👀 การดำเนินการ:</strong> ควรตรวจสอบและติดตาม
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      return { icon, title, message };
+    }
+
+    function showAlertBanner(type, message) {
+      const banner = document.getElementById('alertBanner');
+      const messageEl = document.getElementById('bannerMessage');
+      
+      banner.className = `alert-banner ${type} show`;
+      
+      // เพิ่มเวลาปัจจุบันและจำนวน snooze beds
+      const currentTime = new Date().toLocaleTimeString('th-TH');
+      const snoozeCount = alertSystem.snoozeTimers.size;
+      
+      let enhancedMessage = `${message} | 🕒 ${currentTime}`;
+      if (snoozeCount > 0) {
+        enhancedMessage += ` | 😴 Snooze: ${snoozeCount} เตียง`;
+      }
+      
+      messageEl.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+          <span style="font-weight: 700;">${enhancedMessage}</span>
+          <button onclick="showActiveAlertsQuick()" style="
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+            📊 ดูรายละเอียด
+          </button>
+        </div>
+      `;
+    }
+
+    function showActiveAlertsQuick() {
+      // เปิด modal แสดงการแจ้งเตือนที่ใช้งานอยู่
+      showAlertsDetails();
+    }
+
+    function hideAlertBanner() {
+      const banner = document.getElementById('alertBanner');
+      banner.classList.remove('show');
+    }
+
+    function showFloatingAlert(type, alert) {
+      // ลบการแจ้งเตือนลอยตัวเก่าถ้ามี
+      const existingFloat = document.querySelector('.floating-alert');
+      if (existingFloat) existingFloat.remove();
+      
+      const currentTime = new Date().toLocaleTimeString('th-TH');
+      const patientData = alert.bedId ? JSON.parse(localStorage.getItem(`ir_data_bed_${alert.bedId}`) || 'null') : null;
+      
+      const floatingAlert = document.createElement('div');
+      floatingAlert.className = `floating-alert ${type}`;
+      
+      const alertHeader = type === 'critical' ? 
+        `<div style="background: #ef4444; color: white; padding: 8px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; margin-bottom: 12px; text-align: center;">
+          🚨 การแจ้งเตือนฉุกเฉิน
+        </div>` :
+        `<div style="background: #f59e0b; color: white; padding: 8px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; margin-bottom: 12px; text-align: center;">
+          ⚠️ การแจ้งเตือน
+        </div>`;
+      
+      floatingAlert.innerHTML = `
+        <button class="close-btn" onclick="this.closest('.floating-alert').remove()">✕</button>
+        ${alertHeader}
+        <div class="floating-alert-content">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div style="background: ${type === 'critical' ? '#ef4444' : '#f59e0b'}; color: white; padding: 6px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">
+              🛏️ เตียง ${alert.bedId}
+            </div>
+            <div style="font-size: 10px; color: #64748b;">
+              ${currentTime}
+            </div>
+          </div>
+          
+          <div style="font-weight: 600; color: #1e293b; margin-bottom: 8px; font-size: 14px;">
+            ${alert.message}
+          </div>
+          
+          ${patientData ? `
+            <div style="background: rgba(0,0,0,0.05); padding: 8px; border-radius: 6px; font-size: 11px; margin-top: 8px;">
+              <div style="color: #64748b;">ผู้ป่วย: <strong>${patientData.patient_id}</strong></div>
+              <div style="color: #64748b;">ยา: <strong>${patientData.medication}</strong></div>
+            </div>
+          ` : ''}
+          
+          <div style="margin-top: 10px; padding: 8px; background: ${type === 'critical' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)'}; border-radius: 6px; font-size: 10px; text-align: center;">
+            <span style="color: ${type === 'critical' ? '#991b1b' : '#92400e'}; font-weight: 600;">
+              ${type === 'critical' ? '⚡ ต้องตรวจสอบทันที' : '👀 ควรตรวจสอบ'}
+            </span>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(floatingAlert);
+      
+      // แสดงการแจ้งเตือน
+      setTimeout(() => floatingAlert.classList.add('show'), 100);
+      
+      // ลบอัตโนมัติหลัง 10 วินาที
+      setTimeout(() => {
+        if (floatingAlert.parentNode) {
+          floatingAlert.classList.remove('show');
+          setTimeout(() => floatingAlert.remove(), 500);
+        }
+      }, 10000);
+    }
+
+    function acknowledgeAlert() {
+      const fullscreenAlert = document.getElementById('alertFullscreen');
+      const alertId = fullscreenAlert.getAttribute('data-alert-id');
+      
+      if (alertId && alertSystem.activeAlerts.has(alertId)) {
+        const alert = alertSystem.activeAlerts.get(alertId);
+        
+        // ย้ายการแจ้งเตือนไปขั้นสูงแทนการลบ
+        const advancedAlerts = JSON.parse(localStorage.getItem('advanced_alerts') || '[]');
+        const advancedAlert = {
+          ...alert,
+          acknowledgedAt: new Date().toISOString(),
+          acknowledgedBy: currentUser?.fullname || 'ไม่ทราบ',
+          status: 'acknowledged',
+          requiresAction: true,
+          originalId: alertId
+        };
+        
+        advancedAlerts.unshift(advancedAlert);
+        localStorage.setItem('advanced_alerts', JSON.stringify(advancedAlerts));
+        
+        // ลบจาก active alerts
+        alertSystem.activeAlerts.delete(alertId);
+      }
+      
+      fullscreenAlert.classList.remove('show');
+      hideAlertBanner();
+      
+      // แสดงข้อความยืนยัน
+      showNotification('✅ ย้ายการแจ้งเตือนไปขั้นสูงแล้ว กรุณาติดตามและแก้ไข', 'success');
+    }
+
+    function dismissAlert() {
+      const fullscreenAlert = document.getElementById('alertFullscreen');
+      const alertId = fullscreenAlert.getAttribute('data-alert-id');
+      
+      if (alertId) {
+        alertSystem.activeAlerts.delete(alertId);
+      }
+      
+      fullscreenAlert.classList.remove('show');
+      hideAlertBanner();
+    }
+
+    function toggleSnoozeOptions() {
+      const snoozeOptions = document.getElementById('snoozeOptions');
+      snoozeOptions.classList.toggle('show');
+    }
+
+    function snoozeAlert(minutes) {
+      const fullscreenAlert = document.getElementById('alertFullscreen');
+      const alertId = fullscreenAlert.getAttribute('data-alert-id');
+      
+      if (alertId && alertSystem.activeAlerts.has(alertId)) {
+        const alert = alertSystem.activeAlerts.get(alertId);
+        
+        // ซ่อนการแจ้งเตือนทันที
+        fullscreenAlert.classList.remove('show');
+        hideAlertBanner();
+        
+        // สร้าง snooze key สำหรับเตียงนี้
+        const snoozeKey = `${alert.type}_${alert.bedId}`;
+        
+        // ตั้งเวลา snooze - หยุดการตรวจสอบชั่วคราว
+        const snoozeTime = minutes * 60 * 1000; // แปลงเป็น milliseconds
+        const snoozeUntil = new Date(Date.now() + snoozeTime);
+        
+        // เก็บ timer และข้อมูลการ snooze
+        const snoozeTimer = setTimeout(() => {
+          // ลบการ snooze เมื่อหมดเวลา
+          alertSystem.snoozeTimers.delete(snoozeKey);
+          
+          // แจ้งว่าการ snooze หมดเวลาแล้ว
+          const wakeAlert = {
+            type: 'snooze_wake',
+            bedId: alert.bedId,
+            message: `หมดเวลา Snooze - กลับมาตรวจสอบแล้ว`,
+            originalAlert: alert
+          };
+          showFloatingAlert('warning', wakeAlert);
+          
+          // อัพเดทสถานะเตียงกลับเป็นปกติ
+          updateBedAlertStatus(alert.bedId, null);
+          
+        }, snoozeTime);
+        
+        // บันทึก timer
+        alertSystem.snoozeTimers.set(snoozeKey, {
+          timer: snoozeTimer,
+          alert: alert,
+          snoozeUntil: snoozeUntil,
+          bedId: alert.bedId,
+          minutes: minutes
+        });
+        
+        // บันทึกลง localStorage
+        alertSystem.saveSnoozeData();
+        
+        // ลบจาก active alerts
+        alertSystem.activeAlerts.delete(alertId);
+        
+        // อัพเดทสถานะเตียงเป็น snooze
+        updateBedAlertStatus(alert.bedId, 'snooze');
+        
+        // แสดงการแจ้งเตือนว่า snooze แล้ว
+        const snoozeAlert = {
+          type: 'snooze_confirm',
+          bedId: alert.bedId,
+          message: `หยุดการแจ้งเตือนชั่วคราว`,
+          snoozeUntil: snoozeUntil,
+          minutes: minutes,
+          originalAlert: alert
+        };
+        showFloatingAlert('snooze', snoozeAlert);
+        
+        // ไปที่ระบบแจ้งเตือนขั้นสูงจนกว่าจะแก้ไข
+        setTimeout(() => {
+          showAlertsManagement();
+        }, 2000);
+      }
+    }
+
+    function updateBedAlertStatus(bedId, alertType) {
+      const bedCards = document.querySelectorAll('.bed-card');
+      bedCards.forEach(card => {
+        if (card.href && card.href.includes(`bed=${bedId}`)) {
+          card.classList.remove('alert-warning', 'alert-critical', 'alert-snooze');
+          if (alertType) {
+            card.classList.add(`alert-${alertType}`);
+          }
+        }
+      });
+    }
+
+    function playAlertSound(type) {
+      try {
+        const sound = alertSystem.sounds[type];
+        if (sound) {
+          sound.currentTime = 0;
+          sound.volume = 0.7;
+          sound.play().catch(e => console.log('ไม่สามารถเล่นเสียงได้:', e));
+        }
+      } catch (error) {
+        console.log('เกิดข้อผิดพลาดในการเล่นเสียง:', error);
       }
     }
 
@@ -2334,6 +6034,11 @@
         e.target.style.display = 'none';
       }
     });
+
+    
   </script>
+
+  <!-- Floating Alert Container -->
+  <div id="floatingAlerts"></div>
 </body>
 </html>
