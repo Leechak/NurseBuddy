@@ -3,14 +3,54 @@
 class DataManager {
   constructor() {
     this.cache = new Map();
+    this.initialized = false;
+    this.lastUpdate = new Map();
+    this.cacheTimeout = 5000; // 5 วินาที
     this.observers = new Map();
-    this.autoSaveTimeout = null;
+    this.throttleTimers = new Map();
+    
+    // เพิ่ม performance optimization
+    this.requestIdleCallback = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+    this.cancelIdleCallback = window.cancelIdleCallback || clearTimeout;
+  }
+
+  // เพิ่มฟังก์ชัน cache
+  getCached(key) {
+    const cached = this.cache.get(key);
+    const lastUpdate = this.lastUpdate.get(key);
+
+    if (cached && lastUpdate && (Date.now() - lastUpdate < this.cacheTimeout)) {
+      return cached;
+    }
+    return null;
+  }
+
+  setCached(key, data) {
+    // ใช้ requestIdleCallback เพื่อลดการใช้ CPU
+    this.requestIdleCallback(() => {
+      this.cache.set(key, data);
+      this.lastUpdate.set(key, Date.now());
+    });
+  }
+
+  // เพิ่ม throttle function เพื่อลดการเรียกใช้ฟังก์ชันบ่อยเกินไป
+  throttle(key, func, delay = 300) {
+    if (this.throttleTimers.has(key)) {
+      clearTimeout(this.throttleTimers.get(key));
+    }
+    
+    const timer = setTimeout(() => {
+      func();
+      this.throttleTimers.delete(key);
+    }, delay);
+    
+    this.throttleTimers.set(key, timer);
   }
 
   // ================================
   // การจัดการข้อมูลผู้ป่วย
   // ================================
-  
+
   savePatient(bedId, patientData) {
     const key = `patient_${bedId}`;
     const enrichedData = {
@@ -18,27 +58,28 @@ class DataManager {
       lastUpdated: new Date().toISOString(),
       bedId: bedId
     };
-    
+
     // บันทึกข้อมูลหลัก
     localStorage.setItem(`ir_data_bed_${bedId}`, JSON.stringify(enrichedData));
-    this.cache.set(key, enrichedData);
-    
+    this.setCached(key, enrichedData);
+
     // อัพเดทข้อมูลที่เกี่ยวข้อง
     this.updateRelatedData(bedId, 'patient_updated', enrichedData);
     this.notifyObservers(key, enrichedData);
-    
+
     return enrichedData;
   }
 
   getPatient(bedId) {
     const key = `patient_${bedId}`;
-    if (this.cache.has(key)) {
-      return this.cache.get(key);
+    const cachedData = this.getCached(key);
+    if (cachedData) {
+      return cachedData;
     }
-    
+
     const data = JSON.parse(localStorage.getItem(`ir_data_bed_${bedId}`) || 'null');
     if (data) {
-      this.cache.set(key, data);
+      this.setCached(key, data);
     }
     return data;
   }
@@ -46,11 +87,11 @@ class DataManager {
   // ================================
   // การจัดการข้อมูล Vital Signs
   // ================================
-  
+
   saveVitals(bedId, vitalsData) {
     const key = `vitals_${bedId}`;
     const patient = this.getPatient(bedId);
-    
+
     const enrichedVitals = {
       ...vitalsData,
       bedId: bedId,
@@ -58,29 +99,30 @@ class DataManager {
       timestamp: new Date().toISOString(),
       time: new Date().toLocaleString('th-TH')
     };
-    
+
     localStorage.setItem(`vitals_bed_${bedId}`, JSON.stringify(enrichedVitals));
-    this.cache.set(key, enrichedVitals);
-    
+    this.setCached(key, enrichedVitals);
+
     // บันทึกประวัติ vitals
     this.saveVitalsHistory(bedId, enrichedVitals);
-    
+
     // อัพเดทข้อมูลที่เกี่ยวข้อง
     this.updateRelatedData(bedId, 'vitals_updated', enrichedVitals);
     this.notifyObservers(key, enrichedVitals);
-    
+
     return enrichedVitals;
   }
 
   getVitals(bedId) {
     const key = `vitals_${bedId}`;
-    if (this.cache.has(key)) {
-      return this.cache.get(key);
+    const cachedData = this.getCached(key);
+    if (cachedData) {
+      return cachedData;
     }
-    
+
     const data = JSON.parse(localStorage.getItem(`vitals_bed_${bedId}`) || 'null');
     if (data) {
-      this.cache.set(key, data);
+      this.setCached(key, data);
     }
     return data;
   }
@@ -88,12 +130,12 @@ class DataManager {
   saveVitalsHistory(bedId, vitalsData) {
     const history = JSON.parse(localStorage.getItem(`vitals_history_bed_${bedId}`) || '[]');
     history.unshift(vitalsData);
-    
+
     // เก็บแค่ 50 รายการล่าสุด
     if (history.length > 50) {
       history.splice(50);
     }
-    
+
     localStorage.setItem(`vitals_history_bed_${bedId}`, JSON.stringify(history));
   }
 
@@ -104,11 +146,11 @@ class DataManager {
   // ================================
   // การจัดการข้อมูลยา
   // ================================
-  
+
   addMedication(bedId, medicationData) {
     const patient = this.getPatient(bedId);
     const medications = this.getMedications(bedId);
-    
+
     const enrichedMed = {
       ...medicationData,
       id: Date.now().toString(),
@@ -117,13 +159,13 @@ class DataManager {
       timestamp: new Date().toISOString(),
       addedBy: this.getCurrentUser()?.fullname || 'ไม่ทราบ'
     };
-    
+
     medications.push(enrichedMed);
     localStorage.setItem(`medications_bed_${bedId}`, JSON.stringify(medications));
-    
+
     // อัพเดทข้อมูลที่เกี่ยวข้อง
     this.updateRelatedData(bedId, 'medication_added', enrichedMed);
-    
+
     return enrichedMed;
   }
 
@@ -135,18 +177,18 @@ class DataManager {
     const medications = this.getMedications(bedId);
     const filtered = medications.filter(med => med.id !== medicationId);
     localStorage.setItem(`medications_bed_${bedId}`, JSON.stringify(filtered));
-    
+
     this.updateRelatedData(bedId, 'medication_removed', { medicationId });
   }
 
   // ================================
   // การจัดการข้อมูล I/O
   // ================================
-  
+
   saveIORecord(bedId, ioData) {
     const patient = this.getPatient(bedId);
     const ioRecords = this.getIORecords(bedId);
-    
+
     const enrichedIO = {
       ...ioData,
       id: Date.now().toString(),
@@ -156,16 +198,16 @@ class DataManager {
       time: new Date().toLocaleString('th-TH'),
       recordedBy: this.getCurrentUser()?.fullname || 'ไม่ทราบ'
     };
-    
+
     ioRecords.unshift(enrichedIO);
     localStorage.setItem(`io_records_bed_${bedId}`, JSON.stringify(ioRecords));
-    
+
     // อัพเดทสรุป I/O
     this.updateIOSummary(bedId);
-    
+
     // อัพเดทข้อมูลที่เกี่ยวข้อง
     this.updateRelatedData(bedId, 'io_added', enrichedIO);
-    
+
     return enrichedIO;
   }
 
@@ -177,12 +219,12 @@ class DataManager {
     const records = this.getIORecords(bedId);
     let totalInput = 0;
     let totalOutput = 0;
-    
+
     records.forEach(record => {
       totalInput += record.totalIn || 0;
       totalOutput += record.totalOut || 0;
     });
-    
+
     const summary = {
       totalInput,
       totalOutput,
@@ -190,7 +232,7 @@ class DataManager {
       recordCount: records.length,
       lastUpdated: new Date().toISOString()
     };
-    
+
     localStorage.setItem(`io_summary_bed_${bedId}`, JSON.stringify(summary));
     return summary;
   }
@@ -202,11 +244,11 @@ class DataManager {
   // ================================
   // การจัดการบันทึกการดูแล
   // ================================
-  
+
   addNote(bedId, noteContent, noteType = 'general') {
     const patient = this.getPatient(bedId);
     const notes = this.getNotes(bedId);
-    
+
     const noteData = {
       id: Date.now().toString(),
       content: noteContent,
@@ -217,13 +259,13 @@ class DataManager {
       timestamp: new Date().toISOString(),
       author: this.getCurrentUser()?.fullname || 'ไม่ทราบ'
     };
-    
+
     notes.unshift(noteData);
     localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
-    
+
     // อัพเดทข้อมูลที่เกี่ยวข้อง
     this.updateRelatedData(bedId, 'note_added', noteData);
-    
+
     return noteData;
   }
 
@@ -234,11 +276,11 @@ class DataManager {
   // ================================
   // การจัดการข้อมูลการแจ้งเตือน
   // ================================
-  
+
   saveAlert(bedId, alertData) {
     const alerts = this.getAlerts(bedId);
     const patient = this.getPatient(bedId);
-    
+
     const enrichedAlert = {
       ...alertData,
       id: Date.now().toString(),
@@ -248,10 +290,10 @@ class DataManager {
       time: new Date().toLocaleString('th-TH'),
       acknowledged: false
     };
-    
+
     alerts.unshift(enrichedAlert);
     localStorage.setItem(`alerts_bed_${bedId}`, JSON.stringify(alerts));
-    
+
     return enrichedAlert;
   }
 
@@ -273,7 +315,7 @@ class DataManager {
   // ================================
   // ฟังก์ชันช่วยเหลือ
   // ================================
-  
+
   getCurrentUser() {
     return JSON.parse(sessionStorage.getItem('currentUser') || 'null');
   }
@@ -299,7 +341,7 @@ class DataManager {
   // ================================
   // การจัดการ Observer Pattern
   // ================================
-  
+
   subscribe(key, callback) {
     if (!this.observers.has(key)) {
       this.observers.set(key, []);
@@ -332,7 +374,7 @@ class DataManager {
   // ================================
   // การสำรองและกู้คืนข้อมูล
   // ================================
-  
+
   exportBedData(bedId) {
     return {
       patient: this.getPatient(bedId),
@@ -371,7 +413,7 @@ class DataManager {
   // ================================
   // สถิติและรายงาน
   // ================================
-  
+
   getSystemSummary() {
     const summary = {
       totalBeds: 8,
@@ -403,7 +445,7 @@ class DataManager {
       summary.totalIORecords += ioRecords.length;
       summary.totalMedications += medications.length;
       summary.totalAlerts += alerts.length;
-      
+
       if (vitals) summary.totalVitals++;
 
       // นับ critical alerts
@@ -429,7 +471,7 @@ class DataManager {
   // ================================
   // การล้างข้อมูล
   // ================================
-  
+
   clearBedData(bedId) {
     const keys = [
       `ir_data_bed_${bedId}`,
@@ -446,6 +488,7 @@ class DataManager {
     keys.forEach(key => {
       localStorage.removeItem(key);
       this.cache.delete(key);
+      this.lastUpdate.delete(key);
     });
 
     // แจ้งเตือน observers
@@ -453,10 +496,11 @@ class DataManager {
   }
 
   clearAllData() {
-    for (let i = 1; i <= 99; i++) {
+    for (let i = 1; i <= 8; i++) {
       this.clearBedData(i);
     }
     this.cache.clear();
+    this.lastUpdate.clear();
   }
 }
 

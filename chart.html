@@ -1,4 +1,6 @@
-
+The user wants to improve the performance of the chart by reducing lag and CPU usage, especially when the tab is not active. The code change implements a throttled update interval that checks for tab visibility and uses `requestIdleCallback` when available.
+```
+```replit_final_file
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -19,6 +21,9 @@
       background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
       min-height: 100vh;
       padding: 10px;
+      contain: layout style paint;
+      will-change: auto;
+      transform: translateZ(0);
     }
 
     .header {
@@ -77,12 +82,12 @@
       .main-content {
         grid-template-columns: 1fr;
       }
-      
+
       .header {
         flex-direction: column;
         gap: 15px;
       }
-      
+
       .nav-buttons {
         width: 100%;
         justify-content: center;
@@ -114,6 +119,112 @@
       grid-template-columns: 1fr 1fr;
       gap: 15px;
       margin-bottom: 20px;
+    }
+
+    .fluid-status-section {
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+      contain: layout style;
+      will-change: auto;
+    }
+
+    .fluid-status-section.warning {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-color: #f59e0b;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+    }
+
+    .fluid-status-section.critical {
+      background: linear-gradient(135deg, #fee2e2, #fecaca);
+      border-color: #ef4444;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+      animation: pulse-warning 2s infinite;
+    }
+
+    @keyframes pulse-warning {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+      }
+      50% { 
+        box-shadow: 0 5px 18px rgba(239, 68, 68, 0.25);
+      }
+    }
+
+    .fluid-status-content {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .fluid-icon {
+      font-size: 32px;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .fluid-info {
+      flex: 1;
+    }
+
+    .fluid-time {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 5px;
+    }
+
+    .fluid-status-section.warning .fluid-time {
+      color: #92400e;
+    }
+
+    .fluid-status-section.critical .fluid-time {
+      color: #991b1b;
+    }
+
+    .fluid-message {
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .fluid-status-section.warning .fluid-message {
+      color: #78350f;
+    }
+
+    .fluid-status-section.critical .fluid-message {
+      color: #7f1d1d;
+    }
+
+    .fluid-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #22c55e;
+      position: relative;
+    }
+
+    .fluid-status-section.warning .fluid-indicator {
+      background: #f59e0b;
+      animation: blink-warning 1.5s infinite;
+    }
+
+    .fluid-status-section.critical .fluid-indicator {
+      background: #ef4444;
+      animation: blink-critical 1s infinite;
+    }
+
+    @keyframes blink-warning {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.3; }
+    }
+
+    @keyframes blink-critical {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.2; }
     }
 
     .status-item {
@@ -232,23 +343,39 @@
       line-height: 1.2;
     }
 
+    @media (max-width: 768px) {
+      .status-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
     @media (max-width: 480px) {
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
       .quick-actions {
         grid-template-columns: 1fr;
       }
-      
+
       .quick-btn {
         flex-direction: row;
         min-height: 60px;
         gap: 12px;
       }
-      
+
       .quick-btn-icon {
         font-size: 20px;
       }
-      
+
       .quick-btn-text {
         font-size: 14px;
+      }
+
+      .fluid-status-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
       }
     }
 
@@ -451,1141 +578,384 @@
     }
 
     .modal {
+      display: none;
       position: fixed;
-      top: 0;
+      z-index: 1000;
       left: 0;
+      top: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      padding: 20px;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
-      padding: 20px;
     }
 
     .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 500px;
+      background-color: #fefefe;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 20px;
       width: 100%;
+      max-width: 600px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.4s ease-out;
+      position: relative;
     }
 
-    .modal-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #1e293b;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #f1f5f9;
+    .patient-modal {
+      max-width: 700px;
     }
 
-    .btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-title-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .modal-icon {
+      font-size: 32px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    .modal-title-text h3 {
+      margin: 0;
+      font-size: 24px;
       font-weight: 600;
-      margin: 5px;
+    }
+
+    .modal-title-text p {
+      margin: 5px 0 0 0;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .modal-close {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    .modal-body {
+      padding: 30px;
+      background: #fafbfc;
+    }
+
+    .form-section {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid #667eea;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f1f3f4;
+    }
+
+    .section-icon {
+      font-size: 24px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
+      padding: 8px;
+      border-radius: 10px;
     }
 
-    .btn-secondary {
-      background: linear-gradient(135deg, #64748b, #475569);
-      color: white;
-    }
-
-    .btn-success {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: white;
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
+    .section-header h4 {
+      margin: 0;
+      color: #2d3748;
+      font-size: 18px;
+      font-weight: 600;
     }
 
     .input-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     .input-group label {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-bottom: 8px;
       font-weight: 600;
-      color: #374151;
+      color: #4a5568;
       font-size: 14px;
+    }
+
+    .label-icon {
+      font-size: 16px;
     }
 
     .input-group input,
     .input-group select,
     .input-group textarea {
       width: 100%;
-      padding: 12px 15px;
-      border: 2px solid #e5e7eb;
-      border-radius: 10px;
-      font-size: 14px;
+      padding: 15px 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
       transition: all 0.3s ease;
+      background: #ffffff;
     }
 
     .input-group input:focus,
     .input-group select:focus,
     .input-group textarea:focus {
-      border-color: #0ea5e9;
+      border-color: #667eea;
       outline: none;
-      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      background: #ffffff;
     }
 
-    .input-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
+    .input-with-suggestions {
+      position: relative;
     }
 
-    @media (max-width: 480px) {
-      .input-row {
-        grid-template-columns: 1fr;
-      }
-      
-      .vital-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .calculation-result {
-      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-      border: 2px solid #0ea5e9;
-      padding: 20px;
-      border-radius: 12px;
-      margin-top: 15px;
-    }
-
-    .result-item {
+    .volume-suggestions,
+    .rate-suggestions {
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      font-size: 14px;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
     }
 
-    .result-item:last-child {
-      border-bottom: none;
+    .suggestion-btn {
+      background: linear-gradient(135deg, #f7fafc, #edf2f7);
+      border: 2px solid #e2e8f0;
+      color: #4a5568;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
-    .result-value {
-      font-weight: 700;
-      color: #0ea5e9;
+    .suggestion-btn:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: #64748b;
-      font-style: italic;
+    .rate-input-tabs {
+      display: flex;
+      margin-bottom: 20px;
+      background: #f1f3f4;
+      border-radius: 12px;
+      padding: 4px;
     }
 
-    .loading {
+    .rate-tab {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
       color: #64748b;
+      transition: all 0.3s ease;
     }
 
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid #e5e7eb;
-      border-top: 2px solid #0ea5e9;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+    .rate-tab.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .tab-icon {
+      font-size: 18px;
     }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <h1 id="bedTitle">🏥 เตียงที่ 1</h1>
-    <div class="nav-buttons">
-      <button class="nav-btn" onclick="window.location.href='dashboard.html'">← กลับ</button>
-      <button class="nav-btn" onclick="logout()">🚪 ออก</button>
-    </div>
-  </div>
 
-  <div class="main-content">
-    <div class="card">
-      <div class="card-title">📊 ข้อมูลปัจจุบัน</div>
+    .rate-content {
+      display: none;
+    }
 
-      <div class="status-grid">
-        <div class="status-item">
-          <div class="status-value" id="currentFlow">0</div>
-          <div class="status-label">ดรอป/นาที (ปัจจุบัน)</div>
-        </div>
-        <div class="status-item">
-          <div class="status-value" id="orderedFlow">0</div>
-          <div class="status-label">ดรอป/นาที (ที่สั่ง)</div>
-        </div>
-      </div>
+    .rate-content.active {
+      display: block;
+    }
 
-      <div id="patientInfo" class="patient-info" style="display: none;">
-        <h3>👤 ข้อมูลผู้ป่วย</h3>
-        <div class="patient-detail">
-          <div><strong>รหัส:</strong> <span id="patientId">-</span></div>
-          <div><strong>ยา:</strong> <span id="medication">-</span></div>
-          <div><strong>ปริมาณ:</strong> <span id="volume">-</span></div>
-          <div><strong>อัตรา:</strong> <span id="rate">-</span></div>
-        </div>
-      </div>
+    .input-with-info {
+      position: relative;
+    }
 
-      <div id="vitalSigns" class="vital-signs" style="display: none;">
-        <h3>🩺 Vital Signs</h3>
-        <div class="vital-grid">
-          <div class="vital-item">
-            <div class="vital-value" id="bloodPressure">120/80</div>
-            <div class="vital-label">ความดันโลหิต</div>
-          </div>
-          <div class="vital-item">
-            <div class="vital-value" id="heartRate">72</div>
-            <div class="vital-label">อัตราการเต้นของหัวใจ</div>
-          </div>
-          <div class="vital-item">
-            <div class="vital-value" id="temperature">36.5°C</div>
-            <div class="vital-label">อุณหภูมิ</div>
-          </div>
-          <div class="vital-item">
-            <div class="vital-value" id="oxygenSat">98%</div>
-            <div class="vital-label">ออกซิเจนในเลือด</div>
-          </div>
-        </div>
-      </div>
+    .input-info {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
 
-      <div id="medicationSchedule" class="medication-schedule" style="display: none;">
-        <h3>💊 กำหนดการให้ยา</h3>
-        <div id="medList">
-          <!-- รายการยาจะแสดงที่นี่ -->
-        </div>
-      </div>
+    .calculated-result {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(72, 187, 120, 0.3);
+    }
 
-      <div id="alertsSection" class="alerts-section">
-        <h3>🚨 การแจ้งเตือน</h3>
-        <div id="alertsList">
-          <!-- แจ้งเตือนจะแสดงที่นี่ -->
-        </div>
-      </div>
+    .drop-factor-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #f1f3f4;
+    }
 
-      <div class="quick-actions">
-        <button class="quick-btn" onclick="showPatientModal()">
-          <div class="quick-btn-icon">👤</div>
-          <div class="quick-btn-text">ข้อมูลผู้ป่วย</div>
-        </button>
-        <button class="quick-btn" onclick="showIOModal()">
-          <div class="quick-btn-icon">💧</div>
-          <div class="quick-btn-text">บันทึก I/O</div>
-        </button>
-        <button class="quick-btn" onclick="showVitalModal()">
-          <div class="quick-btn-icon">🩺</div>
-          <div class="quick-btn-text">Vital Signs</div>
-        </button>
-        <button class="quick-btn secondary" onclick="showCalcModal()">
-          <div class="quick-btn-icon">🧮</div>
-          <div class="quick-btn-text">คำนวณ</div>
-        </button>
-        <button class="quick-btn secondary" onclick="showMedModal()">
-          <div class="quick-btn-icon">💊</div>
-          <div class="quick-btn-text">กำหนดการยา</div>
-        </button>
-        <button class="quick-btn danger" onclick="resetBedData()">
-          <div class="quick-btn-icon">🗑️</div>
-          <div class="quick-btn-text">รีเซ็ต</div>
-        </button>
-      </div>
+    .drop-factor-section label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #4a5568;
+      font-size: 14px;
+    }
 
-      <div class="chart-container">
-        <canvas id="flowChart"></canvas>
-      </div>
-    </div>
+    .calculation-display {
+      background: linear-gradient(135deg, #f0fff4, #e6fffa);
+      border-left-color: #48bb78;
+    }
 
-    <div class="notes-section">
-      <div class="card-title">📝 บันทึกการดูแล</div>
-      <textarea class="note-input" id="noteInput" placeholder="เพิ่มบันทึกการดูแลผู้ป่วย..."></textarea>
-      <button class="add-note-btn" onclick="addNote()">+ เพิ่มบันทึก</button>
-      <div id="notesList">
-        <div class="empty-state">ยังไม่มีบันทึก</div>
-      </div>
-    </div>
-  </div>
+    .calculation-results {
+      display: grid;
+      gap: 15px;
+    }
 
-  <!-- Patient Modal -->
-  <div class="modal" id="patientModal">
-    <div class="modal-content">
-      <div class="modal-title">👤 ข้อมูลผู้ป่วย</div>
-      <div class="input-group">
-        <label>รหัสผู้ป่วย:</label>
-        <input type="text" id="modalPatientId" placeholder="P001234">
-      </div>
-      <div class="input-group">
-        <label>ยา/สารน้ำ:</label>
-        <select id="modalMedication">
-          <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
-          <option value="Dextrose 5%">Dextrose 5% in Water</option>
-          <option value="Lactated Ringer's">Lactated Ringer's Solution</option>
-          <option value="Dextrose 5% in NSS">D5NSS</option>
-          <option value="Half Normal Saline">0.45% NSS</option>
-        </select>
-      </div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>ปริมาณ (mL):</label>
-          <input type="number" id="modalVolume" placeholder="500">
-        </div>
-        <div class="input-group">
-          <label>อัตรา (ดรอป/นาที):</label>
-          <input type="number" id="modalRate" placeholder="20">
-        </div>
-      </div>
-      <button class="btn btn-success" onclick="savePatientData()">💾 บันทึก</button>
-      <button class="btn btn-secondary" onclick="closeModal('patientModal')">ยกเลิก</button>
-    </div>
-  </div>
+    .calc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-  <!-- I/O Modal -->
-  <div class="modal" id="ioModal">
-    <div class="modal-content">
-      <div class="modal-title">💧 บันทึก Input/Output</div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <div>
-          <h4 style="color: #22c55e; margin-bottom: 15px;">📥 INPUT</h4>
-          <div class="input-group">
-            <label>น้ำดื่ม (mL):</label>
-            <input type="number" id="inputWater" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>อาหารเหลว (mL):</label>
-            <input type="number" id="inputFood" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>น้ำเกลือ IV (mL):</label>
-            <input type="number" id="inputIV" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>เลือด (mL):</label>
-            <input type="number" id="inputBlood" placeholder="0">
-          </div>
-        </div>
-        <div>
-          <h4 style="color: #ef4444; margin-bottom: 15px;">📤 OUTPUT</h4>
-          <div class="input-group">
-            <label>ปัสสาวะ (mL):</label>
-            <input type="number" id="outputUrine" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>อาเจียน (mL):</label>
-            <input type="number" id="outputVomit" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>Drain (mL):</label>
-            <input type="number" id="outputDrain" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>อุจจาระเหลว (mL):</label>
-            <input type="number" id="outputStool" placeholder="0">
-          </div>
-        </div>
-      </div>
-      <div id="ioResult" class="calculation-result" style="display: none;"></div>
-      <button class="btn btn-primary" onclick="calculateIO()">🧮 คำนวณ</button>
-      <button class="btn btn-success" onclick="saveIOData()">💾 บันทึก</button>
-      <button class="btn btn-secondary" onclick="closeModal('ioModal')">ยกเลิก</button>
-    </div>
-  </div>
+    .calc-label {
+      color: #4a5568;
+      font-weight: 500;
+    }
 
-  <!-- Vital Signs Modal -->
-  <div class="modal" id="vitalModal">
-    <div class="modal-content">
-      <div class="modal-title">🩺 บันทึก Vital Signs</div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>ความดันโลหิต (Systolic):</label>
-          <input type="number" id="systolic" placeholder="120">
-        </div>
-        <div class="input-group">
-          <label>ความดันโลหิต (Diastolic):</label>
-          <input type="number" id="diastolic" placeholder="80">
-        </div>
-      </div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>อัตราการเต้นของหัวใจ (bpm):</label>
-          <input type="number" id="heartRateInput" placeholder="72">
-        </div>
-        <div class="input-group">
-          <label>อุณหภูมิ (°C):</label>
-          <input type="number" id="temperatureInput" placeholder="36.5" step="0.1">
-        </div>
-      </div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>ออกซิเจนในเลือด (%):</label>
-          <input type="number" id="oxygenInput" placeholder="98">
-        </div>
-        <div class="input-group">
-          <label>อัตราการหายใจ (per min):</label>
-          <input type="number" id="respiratoryRate" placeholder="16">
-        </div>
-      </div>
-      <button class="btn btn-success" onclick="saveVitalSigns()">💾 บันทึก</button>
-      <button class="btn btn-secondary" onclick="closeModal('vitalModal')">ยกเลิก</button>
-    </div>
-  </div>
+    .calc-value {
+      color: #2d3748;
+      font-weight: 700;
+      font-size: 16px;
+    }
 
-  <!-- Medication Schedule Modal -->
-  <div class="modal" id="medModal">
-    <div class="modal-content">
-      <div class="modal-title">💊 กำหนดการให้ยา</div>
-      <div class="input-group">
-        <label>ชื่อยา:</label>
-        <input type="text" id="medName" placeholder="เช่น Paracetamol">
-      </div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>ขนาด:</label>
-          <input type="text" id="medDose" placeholder="500mg">
-        </div>
-        <div class="input-group">
-          <label>เวลา:</label>
-          <input type="time" id="medTime">
-        </div>
-      </div>
-      <div class="input-group">
-        <label>หมายเหตุ:</label>
-        <textarea id="medNote" placeholder="หมายเหตุเพิ่มเติม"></textarea>
-      </div>
-      <button class="btn btn-success" onclick="addMedication()">+ เพิ่มยา</button>
-      <button class="btn btn-secondary" onclick="closeModal('medModal')">ยกเลิก</button>
-    </div>
-  </div>
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      padding: 25px 30px;
+      background: #f8f9fa;
+      border-radius: 0 0 20px 20px;
+    }
 
-  <!-- Calculator Modal -->
-  <div class="modal" id="calcModal">
-    <div class="modal-content">
-      <div class="modal-title">🧮 คำนวณน้ำเกลือ</div>
-      <div class="input-group">
-        <label>ปริมาตร (mL):</label>
-        <input type="number" id="calcVolume" placeholder="1000">
-      </div>
-      <div class="input-group">
-        <label>อัตราที่ต้องการ (ดรอป/นาที):</label>
-        <input type="number" id="calcRate" placeholder="30">
-      </div>
-      <div class="input-group">
-        <label>Drop Factor:</label>
-        <select id="dropFactor">
-          <option value="20">20 หยด/cc</option>
-          <option value="15">15 หยด/cc</option>
-          <option value="60">60 หยด/cc (Micro)</option>
-        </select>
-      </div>
-      <div id="calcResult" class="calculation-result" style="display: none;"></div>
-      <button class="btn btn-primary" onclick="calculateFlow()">🧮 คำนวณ</button>
-      <button class="btn btn-secondary" onclick="closeModal('calcModal')">ยกเลิก</button>
-    </div>
-  </div>
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-height: 50px;
+      touch-action: manipulation;
+    }
 
-  <script>
-    let bedId = 1;
-    let currentUser = null;
-    let chartInstance = null;
-    let alerts = [];
+    .btn-icon {
+      font-size: 18px;
+    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      initializePage();
-    });
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #4a5568;
+    }
 
-    function initializePage() {
-      currentUser = JSON.parse(sessionStorage.getItem('currentUser') || 'null');
-      if (!currentUser) {
-        window.location.href = 'index.html';
-        return;
+    .btn-secondary:hover {
+      background: #cbd5e0;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+      box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .modal {
+        padding: 10px;
       }
 
-      const urlParams = new URLSearchParams(window.location.search);
-      bedId = urlParams.get('bed') || 1;
-      document.getElementById('bedTitle').textContent = `🏥 เตียงที่ ${bedId}`;
-
-      loadPatientData();
-      loadNotes();
-      loadVitalSigns();
-      loadMedications();
-      initChart();
-      updateStatus();
-      checkAlerts();
-
-      setInterval(updateStatus, 10000);
-      setInterval(checkAlerts, 30000);
-    }
-
-    function loadPatientData() {
-      const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${bedId}`) || 'null');
-
-      if (patientData) {
-        document.getElementById('patientInfo').style.display = 'block';
-        document.getElementById('patientId').textContent = patientData.patient_id;
-        document.getElementById('medication').textContent = patientData.medication;
-        document.getElementById('volume').textContent = patientData.volume;
-        document.getElementById('rate').textContent = patientData.rate + ' ดรอป/นาที';
-        document.getElementById('orderedFlow').textContent = patientData.rate;
-      } else {
-        document.getElementById('patientInfo').style.display = 'none';
-        document.getElementById('orderedFlow').textContent = '0';
-      }
-    }
-
-    function loadVitalSigns() {
-      const vitals = JSON.parse(localStorage.getItem(`vitals_bed_${bedId}`) || 'null');
-      
-      if (vitals) {
-        document.getElementById('vitalSigns').style.display = 'block';
-        document.getElementById('bloodPressure').textContent = `${vitals.systolic}/${vitals.diastolic}`;
-        document.getElementById('heartRate').textContent = vitals.heartRate;
-        document.getElementById('temperature').textContent = vitals.temperature + '°C';
-        document.getElementById('oxygenSat').textContent = (vitals.oxygen || 98) + '%';
-        
-        // เพิ่มข้อมูลวันที่และเวลา
-        const vitalSection = document.getElementById('vitalSigns');
-        const existingTime = vitalSection.querySelector('.vital-time');
-        if (existingTime) existingTime.remove();
-        
-        const timeDiv = document.createElement('div');
-        timeDiv.className = 'vital-time';
-        timeDiv.style.cssText = 'font-size: 11px; color: #64748b; text-align: right; margin-top: 10px; display: flex; justify-content: space-between; align-items: center;';
-        timeDiv.innerHTML = `
-          <span>วัดเมื่อ: ${vitals.time || 'ไม่ระบุ'}</span>
-          <button onclick="deleteVitals()" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; cursor: pointer;">ลบ</button>
-        `;
-        vitalSection.appendChild(timeDiv);
-      } else {
-        document.getElementById('vitalSigns').style.display = 'none';
-      }
-    }
-
-    function deleteVitals() {
-      if (!confirm('ต้องการลบข้อมูล Vital Signs?')) return;
-      
-      localStorage.removeItem(`vitals_bed_${bedId}`);
-      loadVitalSigns();
-      checkAlerts();
-      alert('✅ ลบข้อมูล Vital Signs เรียบร้อย');
-    }
-
-    function loadMedications() {
-      const medications = JSON.parse(localStorage.getItem(`medications_bed_${bedId}`) || '[]');
-      const medList = document.getElementById('medList');
-      
-      if (medications.length > 0) {
-        document.getElementById('medicationSchedule').style.display = 'block';
-        medList.innerHTML = medications.map((med, index) => `
-          <div class="med-item">
-            <div>
-              <div class="med-name">${med.name} - ${med.dose}</div>
-              <div style="font-size: 11px; color: #64748b;">${med.note || 'ไม่มีหมายเหตุ'}</div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <div class="med-time">${med.time}</div>
-              <button onclick="deleteMedication(${index})" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 10px; cursor: pointer;">ลบ</button>
-            </div>
-          </div>
-        `).join('');
-      } else {
-        document.getElementById('medicationSchedule').style.display = 'none';
-      }
-    }
-
-    function deleteMedication(index) {
-      if (!confirm('ต้องการลบรายการยานี้?')) return;
-      
-      const medications = JSON.parse(localStorage.getItem(`medications_bed_${bedId}`) || '[]');
-      medications.splice(index, 1);
-      localStorage.setItem(`medications_bed_${bedId}`, JSON.stringify(medications));
-      
-      loadMedications();
-      alert('✅ ลบรายการยาเรียบร้อย');
-    }
-
-    function checkAlerts() {
-      alerts = [];
-      
-      const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${bedId}`) || 'null');
-      const vitals = JSON.parse(localStorage.getItem(`vitals_bed_${bedId}`) || 'null');
-      
-      if (patientData) {
-        const currentFlow = parseInt(document.getElementById('currentFlow').textContent);
-        const orderedFlow = patientData.rate;
-        
-        if (Math.abs(currentFlow - orderedFlow) > 5) {
-          alerts.push({
-            icon: '⚠️',
-            text: `อัตราการไหลแตกต่างจากที่สั่ง (${currentFlow} vs ${orderedFlow})`
-          });
-        }
-      }
-      
-      if (vitals) {
-        if (vitals.systolic > 140 || vitals.diastolic > 90) {
-          alerts.push({
-            icon: '🔴',
-            text: 'ความดันโลหิตสูง'
-          });
-        }
-        
-        if (vitals.heartRate > 100 || vitals.heartRate < 60) {
-          alerts.push({
-            icon: '💓',
-            text: 'อัตราการเต้นของหัวใจผิดปกติ'
-          });
-        }
-        
-        if (vitals.temperature > 37.5) {
-          alerts.push({
-            icon: '🌡️',
-            text: 'มีไข้'
-          });
-        }
-        
-        if (vitals.oxygen < 95) {
-          alerts.push({
-            icon: '🫁',
-            text: 'ออกซิเจนในเลือดต่ำ'
-          });
-        }
-      }
-      
-      updateAlertsDisplay();
-    }
-
-    function updateAlertsDisplay() {
-      const alertsSection = document.getElementById('alertsSection');
-      const alertsList = document.getElementById('alertsList');
-      
-      if (alerts.length > 0) {
-        alertsSection.classList.add('active');
-        alertsList.innerHTML = alerts.map(alert => `
-          <div class="alert-item">
-            <div class="alert-icon">${alert.icon}</div>
-            <div class="alert-text">${alert.text}</div>
-          </div>
-        `).join('');
-      } else {
-        alertsSection.classList.remove('active');
-      }
-    }
-
-    function updateStatus() {
-      const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${bedId}`) || 'null');
-      
-      // สุ่มอัตราการไหลใกล้เคียงกับที่สั่ง
-      let currentFlow;
-      if (patientData && patientData.rate) {
-        const baseRate = patientData.rate;
-        const variation = Math.floor(Math.random() * 6) - 3; // +/- 3
-        currentFlow = Math.max(0, baseRate + variation);
-      } else {
-        currentFlow = Math.floor(Math.random() * 10) + 15;
-      }
-      
-      document.getElementById('currentFlow').textContent = currentFlow;
-
-      if (chartInstance) {
-        const now = new Date();
-        const timeLabel = now.getHours().toString().padStart(2, '0') + ':' + 
-                         now.getMinutes().toString().padStart(2, '0');
-
-        chartInstance.data.labels.push(timeLabel);
-        chartInstance.data.datasets[0].data.push(currentFlow);
-
-        if (chartInstance.data.labels.length > 20) {
-          chartInstance.data.labels.shift();
-          chartInstance.data.datasets[0].data.shift();
-        }
-
-        chartInstance.update('none');
-      }
-      
-      // บันทึกประวัติอัตราการไหล
-      const flowHistory = JSON.parse(localStorage.getItem(`flow_history_bed_${bedId}`) || '[]');
-      flowHistory.push({
-        flow: currentFlow,
-        time: new Date().toISOString(),
-        timestamp: Date.now()
-      });
-      
-      // เก็บข้อมูลแค่ 24 ชั่วโมงล่าสุด
-      const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
-      const recentHistory = flowHistory.filter(record => record.timestamp > oneDayAgo);
-      localStorage.setItem(`flow_history_bed_${bedId}`, JSON.stringify(recentHistory));
-    }
-
-    function initChart() {
-      const ctx = document.getElementById('flowChart').getContext('2d');
-      
-      // โหลดข้อมูลประวัติ
-      const flowHistory = JSON.parse(localStorage.getItem(`flow_history_bed_${bedId}`) || '[]');
-      const recentHistory = flowHistory.slice(-10); // แสดง 10 ข้อมูลล่าสุด
-      
-      const labels = recentHistory.map(record => {
-        const date = new Date(record.time);
-        return date.getHours().toString().padStart(2, '0') + ':' + 
-               date.getMinutes().toString().padStart(2, '0');
-      });
-      
-      const data = recentHistory.map(record => record.flow);
-      
-      chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'อัตราการไหล (ดรอป/นาที)',
-            data: data,
-            borderColor: '#0ea5e9',
-            backgroundColor: 'rgba(14, 165, 233, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#0ea5e9',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2,
-            pointRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 60,
-              ticks: {
-                stepSize: 10,
-                color: '#64748b'
-              },
-              grid: {
-                color: 'rgba(148, 163, 184, 0.1)'
-              }
-            },
-            x: {
-              ticks: {
-                color: '#64748b'
-              },
-              grid: {
-                color: 'rgba(148, 163, 184, 0.1)'
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              display: true,
-              position: 'top',
-              labels: {
-                color: '#1e293b',
-                font: {
-                  size: 14,
-                  weight: 600
-                }
-              }
-            },
-            tooltip: {
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              titleColor: '#ffffff',
-              bodyColor: '#ffffff',
-              borderColor: '#0ea5e9',
-              borderWidth: 1
-            }
-          }
-        }
-      });
-    }
-
-    function showPatientModal() {
-      const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${bedId}`) || 'null');
-      if (patientData) {
-        document.getElementById('modalPatientId').value = patientData.patient_id;
-        document.getElementById('modalMedication').value = patientData.medication;
-        document.getElementById('modalVolume').value = parseInt(patientData.volume);
-        document.getElementById('modalRate').value = patientData.rate;
-      }
-      document.getElementById('patientModal').style.display = 'flex';
-    }
-
-    function showIOModal() {
-      document.getElementById('ioModal').style.display = 'flex';
-    }
-
-    function showVitalModal() {
-      const vitals = JSON.parse(localStorage.getItem(`vitals_bed_${bedId}`) || 'null');
-      if (vitals) {
-        document.getElementById('systolic').value = vitals.systolic;
-        document.getElementById('diastolic').value = vitals.diastolic;
-        document.getElementById('heartRateInput').value = vitals.heartRate;
-        document.getElementById('temperatureInput').value = vitals.temperature;
-        document.getElementById('oxygenInput').value = vitals.oxygen;
-        document.getElementById('respiratoryRate').value = vitals.respiratory;
-      }
-      document.getElementById('vitalModal').style.display = 'flex';
-    }
-
-    function showMedModal() {
-      document.getElementById('medModal').style.display = 'flex';
-    }
-
-    function showCalcModal() {
-      document.getElementById('calcModal').style.display = 'flex';
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = 'none';
-      clearModalInputs(modalId);
-    }
-
-    function clearModalInputs(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.querySelectorAll('input[type="text"], input[type="number"], input[type="time"], textarea').forEach(input => {
-        input.value = '';
-      });
-      modal.querySelectorAll('select').forEach(select => {
-        select.selectedIndex = 0;
-      });
-    }
-
-    function savePatientData() {
-      const patientId = document.getElementById('modalPatientId').value.trim();
-      const medication = document.getElementById('modalMedication').value;
-      const volume = document.getElementById('modalVolume').value;
-      const rate = document.getElementById('modalRate').value;
-
-      if (!patientId || !volume || !rate) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
+      .modal-content {
+        margin: 0;
+        width: 100%;
+        max-height: 95vh;
       }
 
-      const patientData = {
-        patient_id: patientId,
-        medication: medication,
-        volume: volume + 'mL',
-        rate: parseInt(rate),
-        timestamp: new Date().toISOString()
-      };
-
-      localStorage.setItem(`ir_data_bed_${bedId}`, JSON.stringify(patientData));
-
-      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
-      notes.unshift({
-        content: `อัพเดทข้อมูลผู้ป่วย: ${patientId} | ${medication} ${volume}mL @ ${rate} ดรอป/นาที`,
-        time: new Date().toLocaleString('th-TH'),
-        author: currentUser.fullname,
-        type: 'medication'
-      });
-      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
-
-      closeModal('patientModal');
-      alert('✅ บันทึกข้อมูลเรียบร้อย');
-      loadPatientData();
-      loadNotes();
-    }
-
-    function saveVitalSigns() {
-      const systolic = document.getElementById('systolic').value;
-      const diastolic = document.getElementById('diastolic').value;
-      const heartRate = document.getElementById('heartRateInput').value;
-      const temperature = document.getElementById('temperatureInput').value;
-      const oxygen = document.getElementById('oxygenInput').value;
-      const respiratory = document.getElementById('respiratoryRate').value;
-
-      if (!systolic || !diastolic || !heartRate || !temperature) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
+      .modal-header {
+        padding: 20px;
       }
 
-      const vitals = {
-        systolic: parseInt(systolic),
-        diastolic: parseInt(diastolic),
-        heartRate: parseInt(heartRate),
-        temperature: parseFloat(temperature),
-        oxygen: parseInt(oxygen),
-        respiratory: parseInt(respiratory),
-        timestamp: new Date().toISOString(),
-        time: new Date().toLocaleString('th-TH'),
-        author: currentUser.fullname
-      };
-
-      localStorage.setItem(`vitals_bed_${bedId}`, JSON.stringify(vitals));
-
-      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
-      notes.unshift({
-        content: `บันทึก Vital Signs: BP ${systolic}/${diastolic}, HR ${heartRate}, Temp ${temperature}°C, O2 ${oxygen}%`,
-        time: new Date().toLocaleString('th-TH'),
-        author: currentUser.fullname,
-        type: 'vital_signs'
-      });
-      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
-
-      closeModal('vitalModal');
-      alert('✅ บันทึก Vital Signs เรียบร้อย');
-      loadVitalSigns();
-      loadNotes();
-      checkAlerts();
-    }
-
-    function addMedication() {
-      const name = document.getElementById('medName').value.trim();
-      const dose = document.getElementById('medDose').value.trim();
-      const time = document.getElementById('medTime').value;
-      const note = document.getElementById('medNote').value.trim();
-
-      if (!name || !dose || !time) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
+      .modal-body {
+        padding: 20px;
       }
 
-      const medications = JSON.parse(localStorage.getItem(`medications_bed_${bedId}`) || '[]');
-      medications.push({
-        name: name,
-        dose: dose,
-        time: time,
-        note: note,
-        timestamp: new Date().toISOString(),
-        author: currentUser.fullname
-      });
-
-      localStorage.setItem(`medications_bed_${bedId}`, JSON.stringify(medications));
-
-      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
-      notes.unshift({
-        content: `เพิ่มกำหนดการยา: ${name} ${dose} เวลา ${time}`,
-        time: new Date().toLocaleString('th-TH'),
-        author: currentUser.fullname,
-        type: 'medication_schedule'
-      });
-      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
-
-      closeModal('medModal');
-      alert('✅ เพิ่มกำหนดการยาเรียบร้อย');
-      loadMedications();
-      loadNotes();
-    }
-
-    function calculateIO() {
-      const inputWater = parseInt(document.getElementById('inputWater').value) || 0;
-      const inputFood = parseInt(document.getElementById('inputFood').value) || 0;
-      const inputIV = parseInt(document.getElementById('inputIV').value) || 0;
-      const inputBlood = parseInt(document.getElementById('inputBlood').value) || 0;
-
-      const outputUrine = parseInt(document.getElementById('outputUrine').value) || 0;
-      const outputVomit = parseInt(document.getElementById('outputVomit').value) || 0;
-      const outputDrain = parseInt(document.getElementById('outputDrain').value) || 0;
-      const outputStool = parseInt(document.getElementById('outputStool').value) || 0;
-
-      const totalIn = inputWater + inputFood + inputIV + inputBlood;
-      const totalOut = outputUrine + outputVomit + outputDrain + outputStool;
-      const balance = totalIn - totalOut;
-
-      const result = document.getElementById('ioResult');
-      result.innerHTML = `
-        <div class="result-item">
-          <span>INPUT รวม:</span>
-          <span class="result-value">${totalIn} mL</span>
-        </div>
-        <div class="result-item">
-          <span>OUTPUT รวม:</span>
-          <span class="result-value">${totalOut} mL</span>
-        </div>
-        <div class="result-item">
-          <span>BALANCE:</span>
-          <span class="result-value" style="color: ${balance >= 0 ? '#22c55e' : '#ef4444'}">
-            ${balance > 0 ? '+' : ''}${balance} mL
-          </span>
-        </div>
-      `;
-      result.style.display = 'block';
-    }
-
-    function saveIOData() {
-      calculateIO();
-
-      const inputWater = parseInt(document.getElementById('inputWater').value) || 0;
-      const inputFood = parseInt(document.getElementById('inputFood').value) || 0;
-      const inputIV = parseInt(document.getElementById('inputIV').value) || 0;
-      const inputBlood = parseInt(document.getElementById('inputBlood').value) || 0;
-
-      const outputUrine = parseInt(document.getElementById('outputUrine').value) || 0;
-      const outputVomit = parseInt(document.getElementById('outputVomit').value) || 0;
-      const outputDrain = parseInt(document.getElementById('outputDrain').value) || 0;
-      const outputStool = parseInt(document.getElementById('outputStool').value) || 0;
-
-      const totalIn = inputWater + inputFood + inputIV + inputBlood;
-      const totalOut = outputUrine + outputVomit + outputDrain + outputStool;
-      const balance = totalIn - totalOut;
-
-      const ioRecord = {
-        bedId: bedId,
-        timestamp: new Date().toISOString(),
-        time: new Date().toLocaleString('th-TH'),
-        input: { water: inputWater, food: inputFood, iv: inputIV, blood: inputBlood },
-        output: { urine: outputUrine, vomit: outputVomit, drain: outputDrain, stool: outputStool },
-        totalIn: totalIn,
-        totalOut: totalOut,
-        balance: balance,
-        author: currentUser.fullname
-      };
-
-      const ioRecords = JSON.parse(localStorage.getItem(`io_records_bed_${bedId}`) || '[]');
-      ioRecords.unshift(ioRecord);
-      localStorage.setItem(`io_records_bed_${bedId}`, JSON.stringify(ioRecords));
-
-      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
-      notes.unshift({
-        content: `บันทึก I/O: Input ${totalIn}mL, Output ${totalOut}mL, Balance ${balance > 0 ? '+' : ''}${balance}mL`,
-        time: new Date().toLocaleString('th-TH'),
-        author: currentUser.fullname,
-        type: 'fluid_balance'
-      });
-      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
-
-      closeModal('ioModal');
-      alert('✅ บันทึก I/O เรียบร้อย');
-      loadNotes();
-    }
-
-    function calculateFlow() {
-      const volume = parseFloat(document.getElementById('calcVolume').value) || 0;
-      const rate = parseFloat(document.getElementById('calcRate').value) || 0;
-      const dropFactor = parseFloat(document.getElementById('dropFactor').value) || 20;
-
-      if (!volume || !rate) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
+      .form-section {
+        padding: 20px;
       }
-
-      const ccPerHr = (rate * 60) / dropFactor;
-      const timeHours = volume / ccPerHr;
-      const hours = Math.floor(timeHours);
-      const minutes = Math.round((timeHours - hours) * 60);
-
-      const result = document.getElementById('calcResult');
-      result.innerHTML = `
-        <div class="result-item">
-          <span>อัตราการไหล:</span>
-          <span class="result-value">${ccPerHr.toFixed(1)} cc/hr</span>
-        </div>
-        <div class="result-item">
-          <span>เวลาที่จะหมด:</span>
-          <span class="result-value">${hours} ชม. ${minutes} นาที</span>
-        </div>
-        <div class="result-item">
-          <span>หยดต่อวินาที:</span>
-          <span class="result-value">${(rate/60).toFixed(1)} ดรอป/วิ</span>
-        </div>
-      `;
-      result.style.display = 'block';
-    }
-
-    function addNote() {
-      const content = document.getElementById('noteInput').value.trim();
-      if (!content) {
-        alert('กรุณาเพิ่มข้อความบันทึก');
-        return;
-      }
-
-      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
-      notes.unshift({
-        content: content,
-        time: new Date().toLocaleString('th-TH'),
-        author: currentUser.fullname,
-        type: 'general'
-      });
-      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
-
-      document.getElementById('noteInput').value = '';
-      loadNotes();
-    }
-
-    function loadNotes() {
-      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
-      const notesList = document.getElementById('notesList');
-
-      if (notes.length === 0) {
-        notesList.innerHTML = '<div class="empty-state">ยังไม่มีบันทึก</div>';
-        return;
-      }
-
-      notesList.innerHTML = notes.slice(0, 10).map(note => `
-        <div class="note-item">
-          <div class="note-header">
-            <div class="note-author">👤 ${note.author}</div>
-            <div class="note-time">${note.time}</div>
-          </div>
-          <div class="note-content">${note.content}</div>
-        </div>
-      `).join('');
-    }
-
-    function resetBedData() {
-      if (!confirm(`ต้องการรีเซ็ตข้อมูลเตียงที่ ${bedId} ใช่หรือไม่?`)) return;
-
-      localStorage.removeItem(`ir_data_bed_${bedId}`);
-      localStorage.removeItem(`nurseNotes_${bedId}`);
-      localStorage.removeItem(`io_records_bed_${bedId}`);
-      localStorage.removeItem(`vitals_bed_${bedId}`);
-      localStorage.removeItem(`medications_bed_${bedId}`);
-
-      alert('✅ รีเซ็ตข้อมูลเรียบร้อย');
-      location.reload();
-    }
-
-    function logout() {
-      if (confirm('ต้องการออกจากระบบ?')) {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
-      }
-    }
-
-    // ปิด modal เมื่อคลิกนอกพื้นที่
-    document.addEventListener('click', function(e) {
-      if (e.target.classList.contains('modal')) {
-        e.target.style.display = 'none';
-      }
-    });
-
-    // กด Enter เพื่อเพิ่มบันทึก
-    document.getElementById('noteInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter' && e.ctrlKey) {
-        addNote();
-      }
-    });
-  </script>
-</body>
-</html>
