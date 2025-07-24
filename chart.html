@@ -1094,6 +1094,10 @@
         <h3>👤 ข้อมูลผู้ป่วย</h3>
         <div class="patient-detail">
           <div><strong>รหัส:</strong> <span id="patientId">-</span></div>
+          <div><strong>ชื่อ:</strong> <span id="patientName">-</span></div>
+          <div><strong>อายุ:</strong> <span id="patientAge">-</span></div>
+          <div><strong>เพศ:</strong> <span id="patientGender">-</span></div>
+          <div><strong>น้ำหนัก:</strong> <span id="patientWeight">-</span></div>
           <div><strong>ยา:</strong> <span id="medication">-</span></div>
           <div><strong>ปริมาณ:</strong> <span id="volume">-</span></div>
           <div><strong>อัตรา:</strong> <span id="rate">-</span></div>
@@ -1452,6 +1456,10 @@
       if (patientData) {
         document.getElementById('patientInfo').style.display = 'block';
         document.getElementById('patientId').textContent = patientData.patient_id;
+        document.getElementById('patientName').textContent = patientData.name || '-';
+        document.getElementById('patientAge').textContent = patientData.age || '-';
+        document.getElementById('patientGender').textContent = patientData.gender || '-';
+        document.getElementById('patientWeight').textContent = patientData.weight || '-';
         document.getElementById('medication').textContent = patientData.medication;
         document.getElementById('volume').textContent = patientData.volume;
         document.getElementById('rate').textContent = patientData.rate + ' ดรอป/นาที';
@@ -1462,6 +1470,10 @@
       } else {
         document.getElementById('patientInfo').style.display = 'none';
         document.getElementById('orderedFlow').textContent = '0';
+        document.getElementById('patientName').textContent = '-';
+        document.getElementById('patientAge').textContent = '-';
+        document.getElementById('patientGender').textContent = '-';
+        document.getElementById('patientWeight').textContent = '-';
         clearIVCalculator();
       }
     }
