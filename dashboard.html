@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NurseBuddy Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
     * {
       margin: 0;
@@ -2342,44 +2343,6 @@
     </div>
   </div>
 
-  <!-- Quick Add Modal -->
-  <div class="modal" id="quickAddModal">
-    <div class="modal-content">
-      <h3>⚡ เพิ่มผู้ป่วยใหม่</h3>
-      <div class="input-group">
-        <label>เตียงที่:</label>
-        <select id="bedSelect">
-          <option value="">เลือกเตียง</option>
-        </select>
-      </div>
-      <div class="input-group">
-        <label>รหัสผู้ป่วย:</label>
-        <input type="text" id="patientId" placeholder="P001234">
-      </div>
-      <div class="input-group">
-        <label>ยา/สารน้ำ:</label>
-        <select id="medication">
-          <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
-          <option value="Dextrose 5%">Dextrose 5% in Water</option>
-          <option value="Lactated Ringer's">Lactated Ringer's Solution</option>
-          <option value="Dextrose 5% in NSS">D5NSS</option>
-          <option value="Half Normal Saline">0.45% NSS</option>
-        </select>
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-        <div class="input-group">
-          <label>ปริมาณ (mL):</label>
-          <input type="number" id="volume" placeholder="500">
-        </div>
-        <div class="input-group">
-          <label>อัตรา (ดรอป/นาที):</label>
-          <input type="number" id="rate" placeholder="20">
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="savePatient()">💾 บันทึกและไปที่เตียง</button>
-      <button class="btn btn-secondary" onclick="closeModal('quickAddModal')">ยกเลิก</button>
-    </div>
-  </div>
 
   <!-- I/O Modal -->
   <div class="modal" id="ioModal">
@@ -2972,38 +2935,6 @@
       document.getElementById(modalId).style.display = 'none';
     }
 
-    function savePatient() {
-      const bedNum = document.getElementById('bedSelect').value;
-      const patientId = document.getElementById('patientId').value;
-      const medication = document.getElementById('medication').value;
-      const volume = document.getElementById('volume').value;
-      const rate = document.getElementById('rate').value;
-
-      if (!bedNum || !patientId || !volume || !rate) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
-      }
-
-      const data = {
-        patient_id: patientId,
-        medication: medication,
-        volume: volume + 'mL',
-        rate: parseInt(rate)
-      };
-
-      dataManager.savePatient(bedNum, data);
-      closeModal('quickAddModal');
-      alert('✅ บันทึกข้อมูลเรียบร้อย');
-      
-      // รีเฟรชข้อมูล
-      loadBedsData();
-      updateSummary();
-      
-      // ไปที่หน้าเตียง
-      setTimeout(() => {
-        window.location.href = `chart.html?bed=${bedNum}`;
-      }, 500);
-    }
 
     function saveIO() {
       const bedNum = document.getElementById('ioBedSelect').value;
