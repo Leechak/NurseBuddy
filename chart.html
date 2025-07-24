@@ -1225,7 +1225,7 @@
       </div>
 
       <div class="quick-actions">
-        <button class="quick-btn" onclick="showPatientModal()">
+        <button class="quick-btn" onclick="openPatientModal(bedId)">
           <div class="quick-btn-icon">👤</div>
           <div class="quick-btn-text">ข้อมูลผู้ป่วย</div>
         </button>
@@ -1266,40 +1266,7 @@
     </div>
   </div>
 
-  <!-- Patient Modal -->
-  <div class="modal" id="patientModal">
-    <div class="modal-content">
-      <div class="modal-title">👤 ข้อมูลผู้ป่วย</div>
-      <div class="input-group">
-        <label>รหัสผู้ป่วย:</label>
-        <input type="text" id="modalPatientId" placeholder="P001234">
-      </div>
-      <div class="input-group">
-        <label>ยา/สารน้ำ:</label>
-```text
 
-        <select id="modalMedication">
-          <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
-          <option value="Dextrose 5%">Dextrose 5% in Water</option>
-          <option value="Lactated Ringer's">Lactated Ringer's Solution</option>
-          <option value="Dextrose 5% in NSS">D5NSS</option>
-          <option value="Half Normal Saline">0.45% NSS</option>
-        </select>
-      </div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>ปริมาณ (mL):</label>
-          <input type="number" id="modalVolume" placeholder="500">
-        </div>
-        <div class="input-group">
-          <label>อัตรา (ดรอป/นาที):</label>
-          <input type="number" id="modalRate" placeholder="20">
-        </div>
-      </div>
-      <button class="btn btn-success" onclick="savePatientData()">💾 บันทึก</button>
-      <button class="btn btn-secondary" onclick="closeModal('patientModal')">ยกเลิก</button>
-    </div>
-  </div>
 
   <!-- I/O Modal -->
   <div class="modal" id="ioModal">
@@ -1972,14 +1939,7 @@
     }
 
     function showPatientModal() {
-      const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${bedId}`) || 'null');
-      if (patientData) {
-        document.getElementById('modalPatientId').value = patientData.patient_id;
-        document.getElementById('modalMedication').value = patientData.medication;
-        document.getElementById('modalVolume').value = parseInt(patientData.volume);
-        document.getElementById('modalRate').value = patientData.rate;
-      }
-      document.getElementById('patientModal').style.display = 'flex';
+      openPatientModal(bedId);
     }
 
     function showIOModal() {
@@ -2022,41 +1982,6 @@
       });
     }
 
-    function savePatientData() {
-      const patientId = document.getElementById('modalPatientId').value.trim();
-      const medication = document.getElementById('modalMedication').value;
-      const volume = document.getElementById('modalVolume').value;
-      const rate = document.getElementById('modalRate').value;
-
-      if (!patientId || !volume || !rate) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
-      }
-
-      const patientData = {
-        patient_id: patientId,
-        medication: medication,
-        volume: volume + 'mL',
-        rate: parseInt(rate),
-        timestamp: new Date().toISOString()
-      };
-
-      localStorage.setItem(`ir_data_bed_${bedId}`, JSON.stringify(patientData));
-
-      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
-      notes.unshift({
-        content: `อัพเดทข้อมูลผู้ป่วย: ${patientId} | ${medication} ${volume}mL @ ${rate} ดรอป/นาที`,
-        time: new Date().toLocaleString('th-TH'),
-        author: currentUser.fullname,
-        type: 'medication'
-      });
-      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
-
-      closeModal('patientModal');
-      alert('✅ บันทึกข้อมูลและคำนวณน้ำเกลือเรียบร้อย');
-      loadPatientData(); // This will auto-populate and calculate IV
-      loadNotes();
-    }
 
     function saveVitalSigns() {
       const systolic = document.getElementById('systolic').value;
@@ -3132,6 +3057,14 @@
       alert('บันทึกผลการคำนวณเรียบร้อย');
     }
 
+  </script>
+
+  <script src="patient-modal.js"></script>
+  <script>
+    window.addEventListener('patientSaved', e => {
+      loadPatientData();
+      loadNotes();
+    });
   </script>
 </body>
 </html>
