@@ -30,6 +30,7 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3);
+      will-change: transform;
     }
 
     .header h1 {
@@ -240,6 +241,7 @@
         flex-direction: row;
         min-height: 60px;
         gap: 12px;
+        transition: none;
       }
 
       .quick-btn-icon {
@@ -568,6 +570,18 @@
 
       .status-grid {
         grid-template-columns: 1fr;
+      }
+
+      .quick-btn,
+      .quick-btn:hover,
+      .quick-btn:active {
+        transition: none;
+        transform: none;
+      }
+
+      .countdown-display.urgent,
+      .progress-fill.urgent {
+        animation: none;
       }
     }
 
@@ -1024,6 +1038,14 @@
 
     .progress-fill.urgent {
       background: linear-gradient(90deg, #ef4444, #dc2626);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
     }
 
     @media (max-width: 768px) {
