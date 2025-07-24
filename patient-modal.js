@@ -9,58 +9,71 @@
       <div class="modal" id="globalPatientModal">
         <div class="modal-content">
           <div class="modal-title">👤 ข้อมูลผู้ป่วย</div>
-          <div class="input-group">
-            <label>เตียงที่:</label>
-            <select id="globalBedSelect"></select>
-          </div>
-          <div class="input-group">
-            <label>รหัสผู้ป่วย:</label>
-            <input type="text" id="globalPatientId" placeholder="P001234">
-          </div>
-          <div class="input-group">
-            <label>ชื่อ-สกุล:</label>
-            <input type="text" id="globalPatientName" placeholder="ชื่อผู้ป่วย">
-          </div>
-          <div class="input-row">
-            <div class="input-group">
-              <label>อายุ:</label>
-              <input type="number" id="globalAge" placeholder="25">
+
+          <div class="modal-section">
+            <div class="section-title">ข้อมูลทั่วไป</div>
+            <div class="input-row">
+              <div class="input-group">
+                <label>เตียงที่:</label>
+                <select id="globalBedSelect"></select>
+              </div>
+              <div class="input-group">
+                <label>รหัสผู้ป่วย:</label>
+                <input type="text" id="globalPatientId" placeholder="P001234">
+              </div>
             </div>
             <div class="input-group">
-              <label>น้ำหนัก (กก.):</label>
-              <input type="number" id="globalWeight" placeholder="60">
+              <label>ชื่อ-สกุล:</label>
+              <input type="text" id="globalPatientName" placeholder="ชื่อผู้ป่วย">
             </div>
-          </div>
-          <div class="input-group">
-            <label>เพศ:</label>
-            <select id="globalGender">
-              <option value="male">ชาย</option>
-              <option value="female">หญิง</option>
-              <option value="other">อื่นๆ</option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label>ยา/สารน้ำ:</label>
-            <select id="globalMedication">
-              <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
-              <option value="Dextrose 5%">Dextrose 5% in Water</option>
-              <option value="Lactated Ringer's">Lactated Ringer's Solution</option>
-              <option value="Dextrose 5% in NSS">D5NSS</option>
-              <option value="Half Normal Saline">0.45% NSS</option>
-            </select>
-          </div>
-          <div class="input-row">
-            <div class="input-group">
-              <label>ปริมาณ (mL):</label>
-              <input type="number" id="globalVolume" placeholder="500">
+            <div class="input-row">
+              <div class="input-group">
+                <label>อายุ:</label>
+                <input type="number" id="globalAge" placeholder="25">
+              </div>
+              <div class="input-group">
+                <label>น้ำหนัก (กก.):</label>
+                <input type="number" id="globalWeight" placeholder="60">
+              </div>
             </div>
             <div class="input-group">
-              <label>อัตรา (ดรอป/นาที):</label>
-              <input type="number" id="globalRate" placeholder="20">
+              <label>เพศ:</label>
+              <select id="globalGender">
+                <option value="male">ชาย</option>
+                <option value="female">หญิง</option>
+                <option value="other">อื่นๆ</option>
+              </select>
             </div>
           </div>
-          <button class="btn btn-primary" id="globalPatientSave">💾 บันทึก</button>
-          <button class="btn btn-secondary" id="globalPatientCancel">ยกเลิก</button>
+
+          <div class="modal-section">
+            <div class="section-title">การให้สารน้ำ/ยา</div>
+            <div class="input-group">
+              <label>ยา/สารน้ำ:</label>
+              <select id="globalMedication">
+                <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
+                <option value="Dextrose 5%">Dextrose 5% in Water</option>
+                <option value="Lactated Ringer's">Lactated Ringer's Solution</option>
+                <option value="Dextrose 5% in NSS">D5NSS</option>
+                <option value="Half Normal Saline">0.45% NSS</option>
+              </select>
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label>ปริมาณ (mL):</label>
+                <input type="number" id="globalVolume" placeholder="500">
+              </div>
+              <div class="input-group">
+                <label>อัตรา (ดรอป/นาที):</label>
+                <input type="number" id="globalRate" placeholder="20">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn btn-secondary" id="globalPatientCancel">ยกเลิก</button>
+            <button class="btn btn-primary" id="globalPatientSave">💾 บันทึก</button>
+          </div>
         </div>
       </div>`;
     document.body.appendChild(div.firstElementChild);
