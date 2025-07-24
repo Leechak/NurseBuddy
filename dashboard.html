@@ -2,7 +2,6 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NurseBuddy Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -982,6 +981,22 @@
       }
 
       .alert-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .alert-banner button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      margin-left: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .alert-banner button:hover {
+      background: rgba(255,255,255,0.3);
+    }
         padding: 12px 10px;
         font-size: 13px;
       }
@@ -1725,6 +1740,22 @@
     }
 
     .alert-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .alert-banner button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      margin-left: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .alert-banner button:hover {
+      background: rgba(255,255,255,0.3);
+    }
       position: fixed;
       top: 0;
       left: 0;
@@ -2210,11 +2241,61 @@
       }
 
       .alert-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .alert-banner button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      margin-left: 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .alert-banner button:hover {
+      background: rgba(255,255,255,0.3);
+    }
         padding: 15px;
         font-size: 14px;
       }
     }
 
+    .mobile-nav {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        justify-content: space-around;
+        padding: 8px 0;
+        z-index: 1001;
+      }
+      .mobile-nav button {
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #0284c7;
+        font-size: 20px;
+      }
+      .mobile-nav button span.label {
+        font-size: 12px;
+        margin-top: 2px;
+      }
+      .quick-actions {
+        display: none;
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.001ms !important;
@@ -2228,6 +2309,7 @@
   <!-- Alert Banner -->
   <div class="alert-banner" id="alertBanner">
     <div id="bannerMessage">🚨 การแจ้งเตือนระบบ</div>
+    <button id="bannerDetailBtn" onclick="showAlertsManagement()" style="margin-left:10px; padding:4px 8px; background:rgba(255,255,255,0.2); border:none; border-radius:6px; color:white; font-size:12px;">ดูรายละเอียด</button>
   </div>
 
   <!-- Full Screen Alert -->
@@ -2273,6 +2355,8 @@
     <button class="admin-btn secondary" onclick="openSummaryModal()">📊 สรุป</button>
     <button class="admin-btn secondary" onclick="openPasswordManagement()" id="passwordManageBtn" style="display: none;">🔐 จัดการรหัสผ่าน</button>
     <button class="admin-btn" onclick="openResetModal()">🗑️ รีเซ็ต</button>
+    <button class="admin-btn secondary" onclick="exportAllData()">⬇️ นำออก</button>
+    <button class="admin-btn secondary" onclick="importAllData()">⬆️ นำเข้า</button>
     <button class="admin-btn secondary" onclick="logout()">🚪 ออก</button>
   </div>
 
@@ -4766,7 +4850,7 @@ Vital Signs: ${summary.totalVitals} รายการ
     }
 
     function openResetModal() {
-      document.getElementById('resetModal').style.display = 'flex';
+      document.getElementById("resetModal").style.display = "flex";
     }
 
     function resetAllData() {
@@ -4782,6 +4866,48 @@ Vital Signs: ${summary.totalVitals} รายการ
     // เพิ่มฟังก์ชันที่หายไป
     function loadAlertsHistory() {
       let allAlerts = [];
+    function exportAllData() {
+      const summary = dataManager.getSystemSummary();
+      const result = {};
+      for (let i = 1; i <= summary.totalBeds; i++) {
+        result['bed_' + i] = dataManager.exportBedData(i);
+      }
+      const blob = new Blob([JSON.stringify(result, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'nursebuddy_backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importAllData() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          try {
+            const data = JSON.parse(evt.target.result);
+            for (const key in data) {
+              const num = parseInt(key.replace('bed_',''));
+              if (!isNaN(num)) {
+                dataManager.importBedData(num, data[key]);
+              }
+            }
+            alert('นำเข้าข้อมูลเรียบร้อยแล้ว');
+            location.reload();
+          } catch(err) {
+            alert('ไฟล์ไม่ถูกต้อง');
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    }
       
       // จำลองประวัติการแจ้งเตือน
       for (let i = 1; i <= 8; i++) {
@@ -6072,6 +6198,11 @@ Vital Signs: ${summary.totalVitals} รายการ
     
   </script>
 
+  <div class="mobile-nav">
+    <button onclick="showQuickAdd()">🏥<span class="label">ใหม่</span></button>
+    <button onclick="showIOEntry()">💧<span class="label">I/O</span></button>
+    <button onclick="showAlertsManagement()">🔔<span class="label">แจ้งเตือน</span></button>
+  </div>
   <!-- Floating Alert Container -->
   <div id="floatingAlerts"></div>
 </body>
