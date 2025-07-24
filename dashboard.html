@@ -2955,8 +2955,7 @@
     }
 
     function showQuickAdd() {
-      setupBedSelectors();
-      document.getElementById('quickAddModal').style.display = 'flex';
+      openPatientModal();
     }
 
     function showIOEntry() {
@@ -5001,7 +5000,7 @@ Vital Signs: ${summary.totalVitals} รายการ
           </h3>
           
           <div style="display: grid; gap: 15px;">
-            <button class="btn btn-primary" onclick="showQuickAdd(); this.closest('.modal').remove();">
+            <button class="btn btn-primary" onclick="openPatientModal(); this.closest('.modal').remove();">
               🏥 เพิ่มผู้ป่วยใหม่
             </button>
             
@@ -6070,6 +6069,17 @@ Vital Signs: ${summary.totalVitals} รายการ
     });
 
     
+  </script>
+
+  <script src="patient-modal.js"></script>
+  <script>
+    window.addEventListener('patientSaved', e => {
+      loadBedsData();
+      updateSummary();
+      setTimeout(() => {
+        window.location.href = `chart.html?bed=${e.detail.bedId}`;
+      }, 500);
+    });
   </script>
 
   <!-- Floating Alert Container -->
