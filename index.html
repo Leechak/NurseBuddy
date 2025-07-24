@@ -514,6 +514,22 @@
       color: #1e40af;
       margin-bottom: 5px;
     }
+.register-guide {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(16, 185, 129, 0.05);
+  border-left: 4px solid #10b981;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.register-guide ol {
+  margin: 0;
+  padding-left: 20px;
+}
+.register-guide li {
+  margin-bottom: 6px;
+}
 
     @media (max-width: 768px) {
       .login-container {
@@ -631,13 +647,13 @@
         <form id="registerForm" class="auth-form" onsubmit="return register(event);">
           <div class="input-group">
             <label for="regUsername">ชื่อผู้ใช้ (ภาษาอังกฤษ)</label>
-            <input type="text" id="regUsername" placeholder="เช่น nurse03, doctor01" required />
+            <input type="text" id="regUsername" placeholder="เช่น nurse03, doctor01" required  title="ใช้ตัวอักษรอังกฤษหรือตัวเลขเท่านั้น" />
           </div>
 
           <div class="input-group">
             <label for="regPassword">รหัสผ่าน</label>
             <div class="password-container">
-              <input type="password" id="regPassword" placeholder="รหัสผ่านอย่างน้อย 6 ตัว" required minlength="6" />
+              <input type="password" id="regPassword" placeholder="รหัสผ่านอย่างน้อย 6 ตัว" required minlength="6"  title="อย่างน้อย 6 ตัว" />
               <button type="button" class="password-toggle" onclick="togglePassword('regPassword')">
                 <span>👁️</span>
               </button>
@@ -646,20 +662,30 @@
 
           <div class="input-group">
             <label for="regFullname">ชื่อ-นามสกุล (ภาษาไทย)</label>
-            <input type="text" id="regFullname" placeholder="เช่น พยาบาลสมหญิง ใจดี" required />
+            <input type="text" id="regFullname" placeholder="เช่น พยาบาลสมหญิง ใจดี" required  title="ชื่อ-นามสกุลที่ใช้แสดงในระบบ" />
           </div>
 
           <div class="input-group">
             <label for="regRole">บทบาท</label>
-            <select id="regRole" style="width: 100%; padding: 16px 20px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; background: white;">
+            <select id="regRole" style="width: 100%; padding: 16px 20px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; background: white;" title="เลือกบทบาทของคุณ" >
               <option value="nurse">👩‍⚕️ พยาบาล</option>
               <option value="doctor">👨‍⚕️ บุคลากรอื่น ๆ</option>
             </select>
           </div>
 
-          <button type="submit" class="auth-btn register-btn">📝 ส่งคำขอสมัคร</button>
+          <button type="submit" class="auth-btn register-btn" title="ส่งคำขอสมัครเพื่อรออนุมัติ">📝 ส่งคำขอสมัคร</button>
         </form>
       </div>
+        <div class="register-guide">
+          <strong>ขั้นตอนสมัครใช้งาน</strong>
+          <ol>
+            <li>กรอกชื่อผู้ใช้และรหัสผ่านให้ครบถ้วน</li>
+            <li>ระบุชื่อ-นามสกุล และบทบาท</li>
+            <li>กดปุ่ม "ส่งคำขอสมัคร"</li>
+            <li>รอผู้ดูแลระบบตรวจสอบและอนุมัติ</li>
+            <li>เมื่ออนุมัติแล้วจึงสามารถเข้าสู่ระบบได้</li>
+          </ol>
+        </div>
 
       <!-- Messages -->
       <div id="errorMsg" class="message error-message"></div>
