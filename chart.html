@@ -8,26 +8,47 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    .floating-btn {
+    /* Removed empty ruleset for .floating-btn */
+
+    /* Add the misplaced .floating-nav CSS here */
+    .floating-nav {
       position: fixed;
-      z-index: 9999;
-      min-width: 36px;
-      min-height: 36px;
-      box-shadow: 0 2px 8px rgba(14,165,233,0.10);
-      opacity: 0.98;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 0.4rem 1rem;
+      top: 16px;
+      left: 0;
+      width: 100vw;
       display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: box-shadow 0.2s, background 0.2s;
-      background: linear-gradient(135deg, #0ea5e9 80%, #e0f2fe 100%);
-      color: #fff;
-      border: 2px solid #0ea5e9;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 9999;
+      pointer-events: none;
     }
+    .floating-nav .nav-btn {
+      pointer-events: auto;
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px #0002;
+      cursor: pointer;
+      margin: 0 4px;
+      font-weight: 600;
+    }
+    .floating-nav .logout-btn {
+      background: #d32f2f;
+    }
+    @media (max-width: 500px) {
+      .floating-nav {
+        top: 8px;
+        padding: 0 4px;
+      }
+      .floating-nav .nav-btn {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+    /* Removed orphaned CSS block that caused syntax error */
     .floating-back {
       top: 12px;
       left: 12px;
@@ -552,23 +573,36 @@
     }
 
     .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 500px;
+      background: rgba(248, 251, 255, 0.85);
+      backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 28px;
+      max-width: 420px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 32px 0 rgba(30, 64, 175, 0.18), 0 1.5px 0 #90cdf4;
+      border: 1.5px solid #e0f2fe;
+      animation: modalPop 0.4s cubic-bezier(.25,.8,.25,1);
     }
 
     .modal-title {
-      font-size: 20px;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.2rem;
+      color: #2563eb;
       font-weight: 700;
-      margin-bottom: 20px;
-      color: #1e293b;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 0.7rem;
+      border-bottom: 2.5px solid #bae6fd;
+      letter-spacing: 0.5px;
+      width: 100%;
+      padding: 1rem 1.2rem 1rem 2.5rem;
+      border-radius: 16px;
+      border: 1.5px solid #90cdf4;
+      font-size: 1.18rem;
+      margin-bottom: 0.7rem;
+      background: rgba(255,255,255,0.7);
+      box-shadow: 0 2px 8px rgba(30, 64, 175, 0.07);
+      position: relative;
     }
 
     .btn {
@@ -613,6 +647,14 @@
     }
 
     .input-group label {
+      font-weight: 600;
+      color: #2563eb;
+      font-size: 1.08rem;
+      margin-bottom: 0.3rem;
+      padding: 0.9rem 2rem;
+      font-size: 1.18rem;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(30, 64, 175, 0.09);
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
@@ -640,6 +682,20 @@
     }
 
     .input-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: #e0f2fe;
+      color: #2563eb;
+      font-weight: 700;
+      border: 2px solid #2563eb;
+      margin-bottom: 0.7rem;
+      border-radius: 16px;
+      font-size: 1.18rem;
+@keyframes modalPop {
+  0% { transform: scale(0.85) translateY(30px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
@@ -1923,125 +1979,21 @@
 
       document.getElementById('currentFlow').textContent = currentFlow;
 
-      if (chartInstance) {
-        const now = new Date();
-        const timeLabel = now.getHours().toString().padStart(2, '0') + ':' + 
-                         now.getMinutes().toString().padStart(2, '0');
+    if (chartInstance) {
+      const now = new Date();
+      const timeLabel = now.getHours().toString().padStart(2, '0') + ':' + 
+                       now.getMinutes().toString().padStart(2, '0');
+      // Update chart data
+      chartInstance.data.labels.push(timeLabel);
+      chartInstance.data.datasets[0].data.push(currentFlow);
 
-        chartInstance.data.labels.push(timeLabel);
-        chartInstance.data.datasets[0].data.push(currentFlow);
-
-        if (chartInstance.data.labels.length > 20) {
-          chartInstance.data.labels.shift();
-          chartInstance.data.datasets[0].data.shift();
-        }
-
-        chartInstance.update('none');
+      // Keep only the last 12 points
+      if (chartInstance.data.labels.length > 12) {
+        chartInstance.data.labels.shift();
+        chartInstance.data.datasets[0].data.shift();
       }
 
-      // บันทึกประวัติอัตราการไหล
-      const flowHistory = JSON.parse(localStorage.getItem(`flow_history_bed_${bedId}`) || '[]');
-      flowHistory.push({
-        flow: currentFlow,
-        time: new Date().toISOString(),
-        timestamp: Date.now()
-      });
-
-      // เก็บข้อมูลแค่ 24 ชั่วโมงล่าสุด
-      const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
-      const recentHistory = flowHistory.filter(record => record.timestamp > oneDayAgo);
-      localStorage.setItem(`flow_history_bed_${bedId}`, JSON.stringify(recentHistory));
-    }
-
-    function initChart() {
-      const ctx = document.getElementById('flowChart').getContext('2d');
-
-      // โหลดข้อมูลประวัติ
-      const flowHistory = JSON.parse(localStorage.getItem(`flow_history_bed_${bedId}`) || '[]');
-      const recentHistory = flowHistory.slice(-10); // แสดง 10 ข้อมูลล่าสุด
-
-      const labels = recentHistory.map(record => {
-        const date = new Date(record.time);
-        return date.getHours().toString().padStart(2, '0') + ':' + 
-               date.getMinutes().toString().padStart(2, '0');
-      });
-
-      const data = recentHistory.map(record => record.flow);
-
-      chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'อัตราการไหล (ดรอป/นาที)',
-            data: data,
-            borderColor: '#0ea5e9',
-            backgroundColor: 'rgba(14, 165, 233, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#0ea5e9',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2,
-            pointRadius: 6
-          }]
-        },
-    .floating-nav {
-      position: fixed;
-      top: 16px;
-      left: 0;
-      width: 100vw;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 16px;
-      z-index: 9999;
-      pointer-events: none;
-    }
-    .floating-nav .nav-btn {
-      pointer-events: auto;
-      background: #1976d2;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
-      box-shadow: 0 2px 8px #0002;
-      cursor: pointer;
-      margin: 0 4px;
-      font-weight: 600;
-    }
-    .floating-nav .logout-btn {
-      background: #d32f2f;
-    }
-    @media (max-width: 500px) {
-      .floating-nav {
-        top: 8px;
-        padding: 0 4px;
-      }
-      .floating-nav .nav-btn {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-      }
-    }
-              position: 'top',
-              labels: {
-                color: '#1e293b',
-                font: {
-                  size: 14,
-                  weight: 600
-                }
-              }
-            },
-            tooltip: {
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              titleColor: '#ffffff',
-              bodyColor: '#ffffff',
-              borderColor: '#0ea5e9',
-              borderWidth: 1
-              }
-            }
-          }
-        });
+      chartInstance.update();
     }
 
     function showPatientModal() {
@@ -3171,6 +3123,8 @@
     function saveCalculationResults() {
       // Implement the logic to save the calculation results
       alert('บันทึกผลการคำนวณเรียบร้อย');
+    }
+    // <-- Add missing closing brace for updateStatus function
     }
 
   </script>

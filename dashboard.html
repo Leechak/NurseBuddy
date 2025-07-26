@@ -1676,7 +1676,6 @@
       box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
       text-align: center;
     }
-    }
 
     .snooze-options.show {
       display: block;
@@ -1685,7 +1684,6 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
-    }
     }
 
     @keyframes slideDown {
@@ -2262,7 +2260,7 @@
           <button class="snooze-btn" onclick="snoozeAlert(15)">15 นาที</button>
           <button class="snooze-btn" onclick="snoozeAlert(30)">30 นาที</button>
         </div>
-        <button style="margin-top:14px;padding:6px 18px;border-radius:8px;border:none;background:#eee;color:#333;font-weight:500;" onclick="toggleSnoozeOptions()">ปิด</button>
+        <button style="margin-top:14px;padding:6px 18px;border-radius:8px;border:none;background:#eee;color:#333;font-weight:500;" onclick="event.stopPropagation();document.getElementById('snoozeOptions').classList.remove('show');">ปิด</button>
       </div>
     </div>
   </div>
@@ -2407,7 +2405,60 @@
       <div class="section-title">การให้สารน้ำ/ยา</div>
       <div class="input-group">
         <label>ยา/สารน้ำ:</label>
-        <select id="globalMedication">
+<div class="modal-content mobile-friendly" style="max-width:420px;margin:auto;padding:1.5rem 1rem;background:#f8fbff;border-radius:18px;box-shadow:0 4px 24px #1976d220;">
+  <div class="modal-title" style="font-size:1.3rem;text-align:center;margin-bottom:1rem;color:#1976d2;font-weight:600;">👤 ข้อมูลผู้ป่วย</div>
+  <form id="patientForm" autocomplete="on">
+    <div class="modal-section" style="margin-bottom:1.2rem;">
+      <div class="section-title" style="font-size:1.1rem;color:#0284c7;font-weight:500;margin-bottom:0.5rem;">ข้อมูลทั่วไป</div>
+      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
+          <label>เตียงที่:</label>
+          <select id="globalBedSelect" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+            <option value="">เลือกเตียง</option>
+            <option value="1">เตียง 1</option>
+            <option value="2">เตียง 2</option>
+            <option value="3">เตียง 3</option>
+            <option value="4">เตียง 4</option>
+            <option value="5">เตียง 5</option>
+            <option value="6">เตียง 6</option>
+            <option value="7">เตียง 7</option>
+            <option value="8">เตียง 8</option>
+          </select>
+        </div>
+        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
+          <label>รหัสผู้ป่วย:</label>
+          <input type="text" id="globalPatientId" placeholder="P001234" autocomplete="off" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+        </div>
+      </div>
+      <div class="input-group" style="margin-bottom:0.7rem;">
+        <label>ชื่อ-สกุล:</label>
+        <input type="text" id="globalPatientName" placeholder="ชื่อผู้ป่วย" autocomplete="name" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+      </div>
+      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
+          <label>อายุ:</label>
+          <input type="number" id="globalAge" placeholder="25" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+        </div>
+        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
+          <label>น้ำหนัก (กก.):</label>
+          <input type="number" id="globalWeight" placeholder="60" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+        </div>
+      </div>
+      <div class="input-group" style="margin-bottom:0.7rem;">
+        <label>เพศ:</label>
+        <select id="globalGender" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+          <option value="">เลือกเพศ</option>
+          <option value="male">ชาย</option>
+          <option value="female">หญิง</option>
+          <option value="other">อื่นๆ</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-section" style="margin-bottom:1.2rem;">
+      <div class="section-title" style="font-size:1.1rem;color:#0284c7;font-weight:500;margin-bottom:0.5rem;">การให้สารน้ำ/ยา</div>
+      <div class="input-group" style="margin-bottom:0.7rem;">
+        <label>ยา/สารน้ำ:</label>
+        <select id="globalMedication" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
           <option value="">เลือกยา/สารน้ำ</option>
           <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
           <option value="Dextrose 5%">Dextrose 5% in Water</option>
@@ -2416,89 +2467,36 @@
           <option value="Half Normal Saline">0.45% NSS</option>
         </select>
       </div>
-      <div class="input-row">
-        <div class="input-group">
+      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
           <label>ปริมาณ (mL):</label>
-          <input type="number" id="globalVolume" placeholder="500" min="0">
+          <input type="number" id="globalVolume" placeholder="500" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
         </div>
-        <div class="input-group">
+        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
           <label>เลือกวิธีคำนวณ:</label>
-          <select id="rateType">
+          <select id="rateType" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
             <option value="drop">ดรอป/นาที</option>
             <option value="cc">cc/hr</option>
           </select>
         </div>
       </div>
-      <div class="input-row">
-        <div class="input-group" id="dropGroup">
+      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
+        <div class="input-group" id="dropGroup" style="flex:1 1 45%;min-width:120px;">
           <label>อัตรา (ดรอป/นาที):</label>
-          <input type="number" id="globalRate" placeholder="20" min="0">
+          <input type="number" id="globalRate" placeholder="20" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
         </div>
-        <div class="input-group" id="ccGroup" style="display:none;">
+        <div class="input-group" id="ccGroup" style="flex:1 1 45%;min-width:120px;display:none;">
           <label>อัตรา (cc/hr):</label>
-          <input type="number" id="globalRateCC" placeholder="100" min="0">
+          <input type="number" id="globalRateCC" placeholder="100" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
         </div>
       </div>
     </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" id="globalPatientCancel" type="reset">ยกเลิก</button>
-      <button class="btn btn-primary" id="globalPatientSave" type="submit">💾 บันทึก</button>
+    <div class="modal-actions" style="display:flex;gap:1rem;justify-content:center;margin-top:1.2rem;">
+      <button class="btn btn-secondary" id="globalPatientCancel" type="reset" style="padding:0.7rem 1.5rem;font-size:1.1rem;border-radius:10px;">ยกเลิก</button>
+      <button class="btn btn-primary" id="globalPatientSave" type="submit" style="padding:0.7rem 1.5rem;font-size:1.1rem;border-radius:10px;">💾 บันทึก</button>
     </div>
   </form>
 </div>
-<script>
-// ฟังก์ชันจัดเก็บและเรียกคืนข้อมูลผู้ป่วยจาก localStorage
-const form = document.getElementById('patientForm');
-const fields = [
-  'globalBedSelect', 'globalPatientId', 'globalPatientName', 'globalAge', 'globalWeight',
-  'globalGender', 'globalMedication', 'globalVolume', 'rateType', 'globalRate', 'globalRateCC'
-];
-
-function loadPatientData() {
-  const saved = localStorage.getItem('patientFormData');
-  if (saved) {
-    const data = JSON.parse(saved);
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && data[id] !== undefined) el.value = data[id];
-    });
-    // แสดง/ซ่อน input ตาม rateType
-    toggleRateType(data['rateType'] || 'drop');
-  }
-}
-
-function savePatientData() {
-  const data = {};
-  fields.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) data[id] = el.value;
-  });
-  localStorage.setItem('patientFormData', JSON.stringify(data));
-}
-
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  savePatientData();
-  alert('บันทึกข้อมูลเรียบร้อย!');
-  form.reset();
-  toggleRateType('drop');
-});
-
-form.addEventListener('reset', function() {
-  localStorage.removeItem('patientFormData');
-  toggleRateType('drop');
-});
-
-function toggleRateType(type) {
-  document.getElementById('dropGroup').style.display = type === 'drop' ? '' : 'none';
-  document.getElementById('ccGroup').style.display = type === 'cc' ? '' : 'none';
-}
-
-document.getElementById('rateType').addEventListener('change', function(e) {
-  toggleRateType(e.target.value);
-});
-
-// คำนวณอัตรา cc/hr <-> drop/min (สมมติ 1cc = 20 drops)
 document.getElementById('globalRate').addEventListener('input', function(e) {
   if(document.getElementById('rateType').value === 'drop'){
     const drop = parseFloat(e.target.value);
@@ -5983,8 +5981,12 @@ Vital Signs: ${summary.totalVitals} รายการ
     }
 
     function toggleSnoozeOptions() {
+      // ซ่อน snoozeOptions อื่น ๆ ก่อน
+      document.querySelectorAll('.snooze-options.show').forEach(el => el.classList.remove('show'));
       const snoozeOptions = document.getElementById('snoozeOptions');
-      snoozeOptions.classList.toggle('show');
+      if (snoozeOptions) {
+        snoozeOptions.classList.toggle('show');
+      }
     }
 
     function snoozeAlert(minutes) {
