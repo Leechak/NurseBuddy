@@ -1277,10 +1277,7 @@
           <div id="extraActions" class="extra-actions">
             <button onclick="showVitalModal()">🩺</button>
             <button onclick="showCalcModal()">🧮</button>
-              <!-- ลบโค้ดนี้ออกจากไฟล์ HTML -->
-            <button class="quick-btn secondary" onclick="toggleExtraActions()">
-              <div class="quick-btn-icon">☰</div>
-              <div class="quick-btn-text">เมนู</div>          <button onclick="showMedModal()">💊</button>
+            <button onclick="showMedModal()">💊</button>
             <button class="danger" onclick="resetBedData()">🗑️</button>
           </div>
         </div>
@@ -1975,6 +1972,7 @@
               bodyColor: '#ffffff',
               borderColor: '#0ea5e9',
               borderWidth: 1
+              }
             }
           }
         });
@@ -2036,7 +2034,6 @@
       const heartRate = document.getElementById('heartRateInput').value;
       const temperature = document.getElementById('temperatureInput').value;
       const oxygen = document.getElementById('oxygenInput').value;
-      const respiratory = document.getElementById('respiratoryRate').value;
       const respiratory = document.getElementById('respiratoryRate').value;
 
       if (!systolic || !diastolic || !heartRate || !temperature) {
