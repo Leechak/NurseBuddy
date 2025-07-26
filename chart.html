@@ -8,6 +8,60 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
+    .floating-btn {
+      position: fixed;
+      z-index: 9999;
+      min-width: 36px;
+      min-height: 36px;
+      box-shadow: 0 2px 8px rgba(14,165,233,0.10);
+      opacity: 0.98;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: box-shadow 0.2s, background 0.2s;
+      background: linear-gradient(135deg, #0ea5e9 80%, #e0f2fe 100%);
+      color: #fff;
+      border: 2px solid #0ea5e9;
+    }
+    .floating-back {
+      top: 12px;
+      left: 12px;
+    }
+    .floating-logout {
+      top: 60px;
+      left: 12px;
+      background: linear-gradient(135deg, #fff 80%, #e0f2fe 100%);
+      color: #d32f2f;
+      border: 2px solid #d32f2f;
+    }
+    .floating-btn:active, .floating-btn:focus {
+      box-shadow: 0 4px 16px rgba(14,165,233,0.18);
+      outline: none;
+      background: #0284c7;
+    }
+    .floating-btn .icon {
+      font-size: 1.1em;
+      margin-right: 2px;
+    }
+    @media (max-width: 500px) {
+      .floating-back {
+        top: 8px;
+        left: 8px;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+      .floating-logout {
+        top: 56px;
+        right: 8px;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+    }
     * {
       margin: 0;
       padding: 0;
@@ -1100,11 +1154,13 @@
 <body>
   <div class="header">
     <h1 id="bedTitle">🏥 เตียงที่ 1</h1>
-    <div class="nav-buttons">
-      <button class="nav-btn" onclick="window.location.href='dashboard.html'">← กลับ</button>
-      <button class="nav-btn" onclick="logout()">🚪 ออก</button>
-    </div>
   </div>
+  <button class="floating-btn floating-back" onclick="window.location.href='dashboard.html'">
+    <span class="icon">&#8592;</span> กลับ
+  </button>
+  <button class="floating-btn floating-logout" onclick="logout()">
+    <span class="icon">&#128274;</span> ออกจากระบบ
+  </button>
 
   <div class="main-content">
     <div class="card">
@@ -1930,33 +1986,43 @@
             pointRadius: 6
           }]
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: true,
-              max: 60,
-              ticks: {
-                stepSize: 10,
-                color: '#64748b'
-              },
-              grid: {
-                color: 'rgba(148, 163, 184, 0.1)'
-              }
-            },
-            x: {
-              ticks: {
-                color: '#64748b'
-              },
-              grid: {
-                color: 'rgba(148, 163, 184, 0.1)'
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              display: true,
+    .floating-nav {
+      position: fixed;
+      top: 16px;
+      left: 0;
+      width: 100vw;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    .floating-nav .nav-btn {
+      pointer-events: auto;
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px #0002;
+      cursor: pointer;
+      margin: 0 4px;
+      font-weight: 600;
+    }
+    .floating-nav .logout-btn {
+      background: #d32f2f;
+    }
+    @media (max-width: 500px) {
+      .floating-nav {
+        top: 8px;
+        padding: 0 4px;
+      }
+      .floating-nav .nav-btn {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+    }
               position: 'top',
               labels: {
                 color: '#1e293b',

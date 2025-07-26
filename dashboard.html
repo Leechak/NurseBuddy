@@ -1662,16 +1662,30 @@
 
     .snooze-options {
       display: none;
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(139, 92, 246, 0.1);
-      border-radius: 15px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 99999;
+      min-width: 220px;
+      max-width: 90vw;
+      padding: 18px 12px;
+      background: #fff;
+      border-radius: 16px;
       border: 2px solid #8b5cf6;
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.18);
+      text-align: center;
+    }
     }
 
     .snooze-options.show {
       display: block;
-      animation: slideDown 0.3s ease-out;
+      animation: fadeIn 0.2s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
     }
 
     @keyframes slideDown {
@@ -2241,13 +2255,14 @@
       </div>
 
       <div class="snooze-options" id="snoozeOptions">
-        <div class="snooze-title">⏰ เลื่อนการแจ้งเตือน</div>
-        <div class="snooze-buttons">
+        <div class="snooze-title" style="margin-bottom:10px;font-weight:600;font-size:1.1em;">⏰ เลื่อนการแจ้งเตือน</div>
+        <div class="snooze-buttons" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
           <button class="snooze-btn" onclick="snoozeAlert(5)">5 นาที</button>
           <button class="snooze-btn" onclick="snoozeAlert(10)">10 นาที</button>
           <button class="snooze-btn" onclick="snoozeAlert(15)">15 นาที</button>
           <button class="snooze-btn" onclick="snoozeAlert(30)">30 นาที</button>
         </div>
+        <button style="margin-top:14px;padding:6px 18px;border-radius:8px;border:none;background:#eee;color:#333;font-weight:500;" onclick="toggleSnoozeOptions()">ปิด</button>
       </div>
     </div>
   </div>
@@ -2339,74 +2354,166 @@
     <div class="modal-content">
       <h3>💧 บันทึก I/O รวดเร็ว</h3>
       <div class="input-group">
-        <label>เตียงที่:</label>
-        <select id="ioBedSelect">
-          <option value="">เลือกเตียง</option>
+<div class="modal-content mobile-friendly">
+  <div class="modal-title">👤 ข้อมูลผู้ป่วย</div>
+  <form id="patientForm" autocomplete="on">
+    <div class="modal-section">
+      <div class="section-title">ข้อมูลทั่วไป</div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>เตียงที่:</label>
+          <select id="globalBedSelect">
+            <option value="">เลือกเตียง</option>
+            <option value="1">เตียง 1</option>
+            <option value="2">เตียง 2</option>
+            <option value="3">เตียง 3</option>
+            <option value="4">เตียง 4</option>
+            <option value="5">เตียง 5</option>
+            <option value="6">เตียง 6</option>
+            <option value="7">เตียง 7</option>
+            <option value="8">เตียง 8</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>รหัสผู้ป่วย:</label>
+          <input type="text" id="globalPatientId" placeholder="P001234" autocomplete="off">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>ชื่อ-สกุล:</label>
+        <input type="text" id="globalPatientName" placeholder="ชื่อผู้ป่วย" autocomplete="name">
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>อายุ:</label>
+          <input type="number" id="globalAge" placeholder="25" min="0">
+        </div>
+        <div class="input-group">
+          <label>น้ำหนัก (กก.):</label>
+          <input type="number" id="globalWeight" placeholder="60" min="0">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>เพศ:</label>
+        <select id="globalGender">
+          <option value="">เลือกเพศ</option>
+          <option value="male">ชาย</option>
+          <option value="female">หญิง</option>
+          <option value="other">อื่นๆ</option>
         </select>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <div>
-          <h4 style="color: #22c55e; margin-bottom: 15px;">📥 INPUT</h4>
-          <div class="input-group">
-            <label>น้ำดื่ม (mL):</label>
-            <input type="number" id="inputWater" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>น้ำเกลือ IV (mL):</label>
-            <input type="number" id="inputIV" placeholder="0">
-          </div>
+    </div>
+    <div class="modal-section">
+      <div class="section-title">การให้สารน้ำ/ยา</div>
+      <div class="input-group">
+        <label>ยา/สารน้ำ:</label>
+        <select id="globalMedication">
+          <option value="">เลือกยา/สารน้ำ</option>
+          <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
+          <option value="Dextrose 5%">Dextrose 5% in Water</option>
+          <option value="Lactated Ringer's">Lactated Ringer's Solution</option>
+          <option value="Dextrose 5% in NSS">D5NSS</option>
+          <option value="Half Normal Saline">0.45% NSS</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>ปริมาณ (mL):</label>
+          <input type="number" id="globalVolume" placeholder="500" min="0">
         </div>
-        <div>
-          <h4 style="color: #ef4444; margin-bottom: 15px;">📤 OUTPUT</h4>
-          <div class="input-group">
-            <label>ปัสสาวะ (mL):</label>
-            <input type="number" id="outputUrine" placeholder="0">
-          </div>
-          <div class="input-group">
-            <label>อาเจียน (mL):</label>
-            <input type="number" id="outputVomit" placeholder="0">
-          </div>
+        <div class="input-group">
+          <label>เลือกวิธีคำนวณ:</label>
+          <select id="rateType">
+            <option value="drop">ดรอป/นาที</option>
+            <option value="cc">cc/hr</option>
+          </select>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="saveIO()">💾 บันทึก I/O</button>
-      <button class="btn btn-secondary" onclick="closeModal('ioModal')">ยกเลิก</button>
+      <div class="input-row">
+        <div class="input-group" id="dropGroup">
+          <label>อัตรา (ดรอป/นาที):</label>
+          <input type="number" id="globalRate" placeholder="20" min="0">
+        </div>
+        <div class="input-group" id="ccGroup" style="display:none;">
+          <label>อัตรา (cc/hr):</label>
+          <input type="number" id="globalRateCC" placeholder="100" min="0">
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="globalPatientCancel" type="reset">ยกเลิก</button>
+      <button class="btn btn-primary" id="globalPatientSave" type="submit">💾 บันทึก</button>
+    </div>
+  </form>
+</div>
+<script>
+// ฟังก์ชันจัดเก็บและเรียกคืนข้อมูลผู้ป่วยจาก localStorage
+const form = document.getElementById('patientForm');
+const fields = [
+  'globalBedSelect', 'globalPatientId', 'globalPatientName', 'globalAge', 'globalWeight',
+  'globalGender', 'globalMedication', 'globalVolume', 'rateType', 'globalRate', 'globalRateCC'
+];
 
-  <!-- Alerts Management Modal -->
-  <div class="modal" id="alertsModal">
-    <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
-      <h3 style="display: flex; align-items: center; gap: 10px; margin-bottom: 25px;">
-        🔔 ระบบแจ้งเตือนขั้นสูง
-        <div style="margin-left: auto; display: flex; gap: 10px;">
-          <button class="filter-btn active" onclick="filterAlerts('all')" data-filter="all">ทั้งหมด</button>
-          <button class="filter-btn" onclick="filterAlerts('critical')" data-filter="critical">วิกฤต</button>
-          <button class="filter-btn" onclick="filterAlerts('saline')" data-filter="saline">น้ำเกลือ</button>
-          <button class="filter-btn" onclick="filterAlerts('vitals')" data-filter="vitals">สัญญาณชีพ</button>
-        </div>
-      </h3>
+function loadPatientData() {
+  const saved = localStorage.getItem('patientFormData');
+  if (saved) {
+    const data = JSON.parse(saved);
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && data[id] !== undefined) el.value = data[id];
+    });
+    // แสดง/ซ่อน input ตาม rateType
+    toggleRateType(data['rateType'] || 'drop');
+  }
+}
 
-      <!-- Summary Stats -->
-      <div class="alerts-summary">
-        <div class="summary-card critical">
-          <div class="summary-icon">🚨</div>
-          <div class="summary-content">
-            <div class="summary-number" id="criticalCount">0</div>
-            <div class="summary-label">การแจ้งเตือนวิกฤต</div>
-          </div>
-        </div>
-        <div class="summary-card warning">
-          <div class="summary-icon">⚠️</div>
-          <div class="summary-content">
-            <div class="summary-number" id="warningCount">0</div>
-            <div class="summary-label">การเฝ้าระวัง</div>
-          </div>
-        </div>
-        <div class="summary-card info">
-          <div class="summary-icon">💧</div>
-          <div class="summary-content">
-            <div class="summary-number" id="salineCount">0</div>
-            <div class="summary-label">น้ำเกลือใกล้หมด</div>
+function savePatientData() {
+  const data = {};
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) data[id] = el.value;
+  });
+  localStorage.setItem('patientFormData', JSON.stringify(data));
+}
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  savePatientData();
+  alert('บันทึกข้อมูลเรียบร้อย!');
+  form.reset();
+  toggleRateType('drop');
+});
+
+form.addEventListener('reset', function() {
+  localStorage.removeItem('patientFormData');
+  toggleRateType('drop');
+});
+
+function toggleRateType(type) {
+  document.getElementById('dropGroup').style.display = type === 'drop' ? '' : 'none';
+  document.getElementById('ccGroup').style.display = type === 'cc' ? '' : 'none';
+}
+
+document.getElementById('rateType').addEventListener('change', function(e) {
+  toggleRateType(e.target.value);
+});
+
+// คำนวณอัตรา cc/hr <-> drop/min (สมมติ 1cc = 20 drops)
+document.getElementById('globalRate').addEventListener('input', function(e) {
+  if(document.getElementById('rateType').value === 'drop'){
+    const drop = parseFloat(e.target.value);
+    document.getElementById('globalRateCC').value = drop ? Math.round(drop * 3) : '';
+  }
+});
+document.getElementById('globalRateCC').addEventListener('input', function(e) {
+  if(document.getElementById('rateType').value === 'cc'){
+    const cc = parseFloat(e.target.value);
+    document.getElementById('globalRate').value = cc ? Math.round(cc / 3) : '';
+  }
+});
+
+window.addEventListener('DOMContentLoaded', loadPatientData);
+</script>
           </div>
         </div>
         <div class="summary-card success">
@@ -5883,26 +5990,26 @@ Vital Signs: ${summary.totalVitals} รายการ
     function snoozeAlert(minutes) {
       const fullscreenAlert = document.getElementById('alertFullscreen');
       const alertId = fullscreenAlert.getAttribute('data-alert-id');
-      
+      // ซ่อนป๊อปอัพ snooze
+      const snoozeOptions = document.getElementById('snoozeOptions');
+      snoozeOptions.classList.remove('show');
       if (alertId && alertSystem.activeAlerts.has(alertId)) {
         const alert = alertSystem.activeAlerts.get(alertId);
-        
+        // ...existing code...
         // ซ่อนการแจ้งเตือนทันที
         fullscreenAlert.classList.remove('show');
         hideAlertBanner();
-        
+        // ...existing code...
         // สร้าง snooze key สำหรับเตียงนี้
         const snoozeKey = `${alert.type}_${alert.bedId}`;
-        
         // ตั้งเวลา snooze - หยุดการตรวจสอบชั่วคราว
         const snoozeTime = minutes * 60 * 1000; // แปลงเป็น milliseconds
         const snoozeUntil = new Date(Date.now() + snoozeTime);
-        
+        // ...existing code...
         // เก็บ timer และข้อมูลการ snooze
         const snoozeTimer = setTimeout(() => {
-          // ลบการ snooze เมื่อหมดเวลา
+          // ...existing code...
           alertSystem.snoozeTimers.delete(snoozeKey);
-          
           // แจ้งว่าการ snooze หมดเวลาแล้ว
           const wakeAlert = {
             type: 'snooze_wake',
@@ -5911,13 +6018,10 @@ Vital Signs: ${summary.totalVitals} รายการ
             originalAlert: alert
           };
           showFloatingAlert('warning', wakeAlert);
-          
           // อัพเดทสถานะเตียงกลับเป็นปกติ
           updateBedAlertStatus(alert.bedId, null);
-          
         }, snoozeTime);
-        
-        // บันทึก timer
+        // ...existing code...
         alertSystem.snoozeTimers.set(snoozeKey, {
           timer: snoozeTimer,
           alert: alert,
@@ -5925,17 +6029,10 @@ Vital Signs: ${summary.totalVitals} รายการ
           bedId: alert.bedId,
           minutes: minutes
         });
-        
-        // บันทึกลง localStorage
+        // ...existing code...
         alertSystem.saveSnoozeData();
-        
-        // ลบจาก active alerts
         alertSystem.activeAlerts.delete(alertId);
-        
-        // อัพเดทสถานะเตียงเป็น snooze
         updateBedAlertStatus(alert.bedId, 'snooze');
-        
-        // แสดงการแจ้งเตือนว่า snooze แล้ว
         const snoozeAlert = {
           type: 'snooze_confirm',
           bedId: alert.bedId,
@@ -5945,8 +6042,6 @@ Vital Signs: ${summary.totalVitals} รายการ
           originalAlert: alert
         };
         showFloatingAlert('snooze', snoozeAlert);
-        
-        // ไปที่ระบบแจ้งเตือนขั้นสูงจนกว่าจะแก้ไข
         setTimeout(() => {
           showAlertsManagement();
         }, 2000);
