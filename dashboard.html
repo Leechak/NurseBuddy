@@ -2281,10 +2281,10 @@
   </div>
 
   <div class="quick-actions">
-    <div class="action-card primary-action" onclick="showQuickAdd()">
-      <div class="action-icon">🏥</div>
-      <div class="action-title">เพิ่มผู้ป่วยใหม่</div>
-      <div class="action-desc">เริ่มต้นการดูแลผู้ป่วยใหม่ เซ็ตอัพเตียงพร้อมใช้งาน</div>
+    <div class="action-card primary-action" onclick="showQuickAdd()" style="border-radius:18px;box-shadow:0 4px 24px #1976d220;background:linear-gradient(135deg,#e0f2fe,#f0f9ff);font-family:'Noto Sans Thai','Prompt','Sarabun','Kanit',sans-serif;">
+      <div class="action-icon" style="font-size:2.5rem;color:#1976d2;background:#e0f2fe;border-radius:50%;padding:18px;box-shadow:0 2px 8px #bae6fd;">➕</div>
+      <div class="action-title" style="font-size:1.3rem;color:#1976d2;font-weight:700;margin-bottom:0.5rem;">เพิ่มข้อมูลผู้ป่วยใหม่</div>
+      <div class="action-desc" style="color:#0284c7;font-size:1rem;">เริ่มต้นการดูแลผู้ป่วยใหม่ เซ็ตอัพเตียงพร้อมใช้งาน</div>
     </div>
 
     <div class="action-card" onclick="showIOEntry()">
@@ -2622,6 +2622,19 @@ window.addEventListener('DOMContentLoaded', loadPatientData);
 
   <script src="data-manager.js"></script>
   <script>
+// Backend structure for future enhancements (patient management)
+const patientManager = {
+  patients: [],
+  addPatient: function(patient) {
+    this.patients.push(patient);
+    // TODO: Save to localStorage or backend
+    console.log('เพิ่มข้อมูลผู้ป่วยใหม่:', patient);
+  },
+  getPatients: function() {
+    // TODO: Load from localStorage or backend
+    return this.patients;
+  }
+};
     let currentUser = null;
     let bedsData = {};
     let alertSystem = {

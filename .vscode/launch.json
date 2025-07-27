@@ -10,7 +10,7 @@
             "type": "msedge",
             "url": "http://localhost:8080",
             "webRoot": "c:\\Users\\Leewasyours\\Documents\\GitHub\\NurseBuddy",
-            "sourceMapPathOverrides": {
+            "sourceMapPathOverrides": {}
         },
         {
             "type": "msedge",
