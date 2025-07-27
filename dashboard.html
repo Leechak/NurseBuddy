@@ -104,6 +104,10 @@
       transition: transform 0.3s ease;
     }
 
+    .action-card:hover::before {
+      transform: scaleX(1);
+    }
+
     .action-card:hover {
       transform: none;
       border-color: #0ea5e9;
@@ -933,53 +937,6 @@
         font-size: 13px;
         margin: 6px 4px;
       }
-
-      .alert-container {
-        max-width: calc(100vw - 40px);
-        width: 95%;
-        padding: 25px 20px;
-      }
-
-      .alert-icon-large {
-        font-size: 60px;
-      }
-
-      .alert-title-large {
-        font-size: 22px;
-      }
-
-      .alert-message-large {
-        font-size: 16px;
-      }
-
-      .alert-btn-large {
-        padding: 12px 20px;
-        font-size: 14px;
-        min-width: 120px;
-      }
-
-      .floating-alert {
-        max-width: calc(100vw - 40px);
-        bottom: 15px;
-        right: 15px;
-        left: 15px;
-        padding: 15px;
-      }
-
-      .floating-alert-content {
-        font-size: 13px;
-        padding-right: 30px;
-      }
-
-      .alert-banner {
-        padding: 12px 10px;
-        font-size: 13px;
-      }
-
-      .snooze-buttons {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -1238,6 +1195,558 @@
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    /* New I/O Modal Styles */
+    .io-modal-new {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      display: none;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .io-modal-new.show {
+      display: block;
+    }
+
+    .io-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+    }
+
+    .io-modal-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 20px auto;
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      border: 2px solid rgba(59, 130, 246, 0.1);
+    }
+
+    /* Header */
+    .io-modal-header {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7, #0369a1);
+      color: white;
+      padding: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .io-header-content {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .io-header-icon {
+      font-size: 36px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .io-header-text h2 {
+      margin: 0 0 5px 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .io-header-text p {
+      margin: 0;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .io-close-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .io-close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    /* Bed Selection */
+    .io-bed-selection {
+      padding: 30px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .io-bed-selection h3 {
+      margin: 0 0 20px 0;
+      color: #1e293b;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .io-bed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .io-bed-card {
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      border: 3px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .io-bed-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #0ea5e9, #0284c7);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .io-bed-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .io-bed-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(14, 165, 233, 0.15);
+      border-color: #0ea5e9;
+    }
+
+    .io-bed-card.selected {
+      background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+      border-color: #2563eb;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.25);
+      transform: scale(1.02);
+    }
+
+    .io-bed-card.selected::before {
+      transform: scaleX(1);
+    }
+
+    .io-bed-card.occupied {
+      background: linear-gradient(145deg, #fef3c7, #fde68a);
+      border-color: #f59e0b;
+    }
+
+    .io-bed-number {
+      font-size: 20px;
+      font-weight: 800;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .io-bed-status {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .io-bed-patient {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* Patient Info */
+    .io-patient-info {
+      padding: 25px 30px;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .patient-info-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 2px solid #22c55e;
+    }
+
+    .patient-avatar {
+      font-size: 32px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .patient-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .patient-id {
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* Form */
+    .io-form {
+      padding: 30px;
+    }
+
+    .io-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .io-section {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 3px solid;
+    }
+
+    .io-input-section {
+      border-color: #22c55e;
+      background: linear-gradient(145deg, #f0fdf4, #dcfce7);
+    }
+
+    .io-output-section {
+      border-color: #ef4444;
+      background: linear-gradient(145deg, #fef2f2, #fee2e2);
+    }
+
+    .io-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .io-section-header h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-icon {
+      font-size: 24px;
+    }
+
+    .section-total {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0ea5e9;
+      background: white;
+      padding: 8px 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .io-input-grid {
+      display: grid;
+      gap: 15px;
+    }
+
+    .io-input-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .io-input-item label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .io-input-item input {
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .io-input-item input:focus {
+      border-color: #0ea5e9;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Balance Display */
+    .io-balance-display {
+      margin-bottom: 30px;
+    }
+
+    .balance-card {
+      background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+      border: 3px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .balance-card.balanced {
+      border-color: #22c55e;
+      background: linear-gradient(145deg, #f0fdf4, #dcfce7);
+    }
+
+    .balance-card.positive {
+      border-color: #0ea5e9;
+      background: linear-gradient(145deg, #f0f9ff, #e0f2fe);
+    }
+
+    .balance-card.negative {
+      border-color: #ef4444;
+      background: linear-gradient(145deg, #fef2f2, #fee2e2);
+    }
+
+    .balance-icon {
+      font-size: 36px;
+      width: 70px;
+      height: 70px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .balance-content {
+      flex: 1;
+    }
+
+    .balance-label {
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .balance-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 5px;
+    }
+
+    .balance-status {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+
+    .balance-status.balanced {
+      background: #22c55e;
+      color: white;
+    }
+
+    .balance-status.positive {
+      background: #0ea5e9;
+      color: white;
+    }
+
+    .balance-status.negative {
+      background: #ef4444;
+      color: white;
+    }
+
+    /* Note Section */
+    .io-note-section {
+      margin-bottom: 30px;
+    }
+
+    .io-note-section label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .io-note-section textarea {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 14px;
+      resize: vertical;
+      transition: all 0.3s ease;
+    }
+
+    .io-note-section textarea:focus {
+      border-color: #0ea5e9;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+    }
+
+    /* Actions */
+    .io-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .io-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 160px;
+      justify-content: center;
+    }
+
+    .io-btn-cancel {
+      background: linear-gradient(135deg, #64748b, #475569);
+      color: white;
+      box-shadow: 0 6px 20px rgba(100, 116, 139, 0.3);
+    }
+
+    .io-btn-cancel:hover {
+      background: linear-gradient(135deg, #475569, #334155);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
+    }
+
+    .io-btn-save {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: white;
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .io-btn-save:hover {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .io-modal-container {
+        margin: 10px;
+        border-radius: 16px;
+      }
+
+      .io-modal-header {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+
+      .io-header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .io-bed-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .io-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .io-section {
+        padding: 20px;
+      }
+
+      .balance-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+
+      .io-actions {
+        flex-direction: column;
+      }
+
+      .io-btn {
+        min-width: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .io-modal-container {
+        margin: 5px;
+      }
+
+      .io-bed-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .io-section {
+        padding: 15px;
+      }
+
+      .balance-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+      }
+
+      .balance-value {
+        font-size: 24px;
+      }
     }
 
     .modal h3 {
@@ -1900,23 +2409,33 @@
       }
     }
 
-    /* ระบบแจ้งเตือนขั้นสูง */
+    /* ระบบแจ้งเตือนทั้งหมด */
     .filter-btn {
-      background: #f1f5f9;
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
       color: #64748b;
       border: 2px solid #e2e8f0;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 12px;
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .filter-btn.active, .filter-btn:hover {
+    .filter-btn:hover {
       background: linear-gradient(135deg, #0ea5e9, #0284c7);
       color: white;
       border-color: #0ea5e9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: white;
+      border-color: #0ea5e9;
+      box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+      transform: translateY(-2px);
     }
 
     .alerts-summary {
@@ -2274,354 +2793,243 @@
   </div>
 
   <div class="admin-controls" id="adminControls" style="display: none;">
-    <button class="admin-btn secondary" onclick="openSummaryModal()">📊 สรุป</button>
-    <button class="admin-btn secondary" onclick="openPasswordManagement()" id="passwordManageBtn" style="display: none;">🔐 จัดการรหัสผ่าน</button>
-    <button class="admin-btn" onclick="openResetModal()">🗑️ รีเซ็ต</button>
     <button class="admin-btn secondary" onclick="logout()">🚪 ออก</button>
   </div>
 
   <div class="quick-actions">
+<<<<<<< HEAD
     <div class="action-card primary-action" onclick="showQuickAdd()" style="border-radius:18px;box-shadow:0 4px 24px #1976d220;background:linear-gradient(135deg,#e0f2fe,#f0f9ff);font-family:'Noto Sans Thai','Prompt','Sarabun','Kanit',sans-serif;">
       <div class="action-icon" style="font-size:2.5rem;color:#1976d2;background:#e0f2fe;border-radius:50%;padding:18px;box-shadow:0 2px 8px #bae6fd;">➕</div>
       <div class="action-title" style="font-size:1.3rem;color:#1976d2;font-weight:700;margin-bottom:0.5rem;">เพิ่มข้อมูลผู้ป่วยใหม่</div>
       <div class="action-desc" style="color:#0284c7;font-size:1rem;">เริ่มต้นการดูแลผู้ป่วยใหม่ เซ็ตอัพเตียงพร้อมใช้งาน</div>
+=======
+    <div class="action-card primary-action" id="quickAddBtn">
+      <div class="action-icon">🏥</div>
+      <div class="action-title">เพิ่มผู้ป่วยใหม่</div>
+      <div class="action-desc">เริ่มต้นการดูแลผู้ป่วยใหม่ เซ็ตอัพเตียงพร้อมใช้งาน</div>
+>>>>>>> 336ea0ac92c2c687bc7f85bb95c4698d2338766d
     </div>
 
-    <div class="action-card" onclick="showIOEntry()">
+    <div class="action-card" id="quickIOBtn">
       <div class="action-icon">💧</div>
-      <div class="action-title">บันทึก I/O</div>
-      <div class="action-desc">บันทึกสารน้ำเข้า-ออกอย่างรวดเร็ว</div>
+      <div class="action-title">บันทึก I/O อย่างรวดเร็ว</div>
+      <div class="action-desc">บันทึกสารน้ำเข้า-ออกอย่างรวดเร็วและแม่นยำ</div>
     </div>
 
-    <div class="action-card" onclick="showAlertsManagement()">
-      <div class="action-icon">🔔</div>
-      <div class="action-title">ระบบแจ้งเตือน</div>
-      <div class="action-desc">จัดการการแจ้งเตือนและตรวจสอบน้ำเกลือหมด</div>
+    <div class="action-card" id="bedsOverviewBtn">
+      <div class="action-icon">🛏️</div>
+      <div class="action-title">ภาพรวมเตียงทั้งหมด</div>
+      <div class="action-desc">ดูสถานะเตียงและผู้ป่วยทั้ง <span id="bedCountText">8</span> เตียง</div>
     </div>
   </div>
 
-  <div class="summary-section">
-    <div class="summary-header">
-      <span style="font-size: 28px;">📊</span>
-      <div class="summary-title">สรุปสถานะระบบ</div>
-    </div>
-    <div class="stats-grid">
-        <div class="stat-card" onclick="showActiveBedsDetails()">
-          <div class="stat-value" id="totalBeds">0</div>
-          <div class="stat-label">เตียงที่ใช้งาน</div>
-          <div class="stat-detail">คลิกเพื่อดูรายละเอียด</div>
+  <!-- New Modern I/O Modal -->
+  <div class="io-modal-new" id="ioModalNew">
+    <div class="io-modal-overlay" onclick="closeIOModal()"></div>
+    <div class="io-modal-container">
+      <!-- Header -->
+      <div class="io-modal-header">
+        <div class="io-header-content">
+          <div class="io-header-icon">💧</div>
+          <div class="io-header-text">
+            <h2>บันทึก Input/Output</h2>
+            <p>ระบบบันทึกสารน้ำเข้า-ออกอัตโนมัติ</p>
+          </div>
         </div>
-        <div class="stat-card" onclick="showNotesHistory()">
-          <div class="stat-value" id="totalNotes">0</div>
-          <div class="stat-label">บันทึกทั้งหมด</div>
-          <div class="stat-detail">บันทึกการดูแลผู้ป่วย</div>
-        </div>
-        <div class="stat-card" onclick="showIOSummary()">
-          <div class="stat-value" id="totalIORecords">0</div>
-          <div class="stat-label">บันทึก I/O</div>
-          <div class="stat-detail">สารน้ำเข้า-ออก</div>
-        </div>
-        <div class="stat-card" onclick="showVitalsSummary()">
-          <div class="stat-value" id="totalVitals">0</div>
-          <div class="stat-label">Vital Signs</div>
-          <div class="stat-detail">การวัดสัญญาณชีพ</div>
-        </div>
-        <div class="stat-card" onclick="showMedicationSummary()">
-          <div class="stat-value" id="totalMedications">0</div>
-          <div class="stat-label">กำหนดการยา</div>
-          <div class="stat-detail">ตารางให้ยา</div>
-        </div>
-        <div class="stat-card" onclick="showSystemHealth()">
-          <div class="stat-value" id="systemUptime">0</div>
-          <div class="stat-label">เวลาใช้งาน (ชั่วโมง)</div>
-          <div class="stat-detail">ระบบทำงานปกติ</div>
+        <button class="io-close-btn" onclick="closeIOModal()">✕</button>
+      </div>
+
+      <!-- Bed Selection -->
+      <div class="io-bed-selection">
+        <h3>🏥 เลือกเตียงผู้ป่วย</h3>
+        <div class="io-bed-grid" id="ioBedGrid">
+          <!-- Bed cards will be generated here -->
         </div>
       </div>
-  </div>
 
-  <div class="beds-grid" id="bedsGrid">
-    <div class="loading">
-      <div class="spinner"></div>
-      <span>กำลังโหลดข้อมูลเตียง...</span>
+      <!-- Patient Info -->
+      <div class="io-patient-info" id="ioPatientInfo" style="display: none;">
+        <div class="patient-info-card">
+          <div class="patient-avatar">👤</div>
+          <div class="patient-details">
+            <div class="patient-name" id="ioPatientName">กรุณาเลือกเตียง</div>
+            <div class="patient-id" id="ioPatientId"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- I/O Form -->
+      <form id="ioForm" class="io-form" style="display: none;">
+        <div class="io-grid">
+          <!-- INPUT Section -->
+          <div class="io-section io-input-section">
+            <div class="io-section-header">
+              <div class="section-icon">📥</div>
+              <h4>INPUT (มิลลิลิตร)</h4>
+              <div class="section-total" id="inputTotal">0 ml</div>
+            </div>
+
+            <div class="io-input-grid">
+              <div class="io-input-item">
+                <label>💧 น้ำดื่ม/อาหารเหลว</label>
+                <input type="number" id="inputOral" min="0" placeholder="0">
+              </div>
+              <div class="io-input-item">
+                <label>💉 สารน้ำ IV</label>
+                <input type="number" id="inputIV" min="0" placeholder="0">
+              </div>
+              <div class="io-input-item">
+                <label>🩺 สารน้ำ Tube</label>
+                <input type="number" id="inputTube" min="0" placeholder="0">
+              </div>
+              <div class="io-input-item">
+                <label>➕ อื่นๆ</label>
+                <input type="number" id="inputOther" min="0" placeholder="0">
+              </div>
+            </div>
+          </div>
+
+          <!-- OUTPUT Section -->
+          <div class="io-section io-output-section">
+            <div class="io-section-header">
+              <div class="section-icon">📤</div>
+              <h4>OUTPUT (มิลลิลิตร)</h4>
+              <div class="section-total" id="outputTotal">0 ml</div>
+            </div>
+
+            <div class="io-input-grid">
+              <div class="io-input-item">
+                <label>🚽 ปัสสาวะ</label>
+                <input type="number" id="outputUrine" min="0" placeholder="0">
+              </div>
+              <div class="io-input-item">
+                <label>🤮 อาเจียน</label>
+                <input type="number" id="outputVomit" min="0" placeholder="0">
+              </div>
+              <div class="io-input-item">
+                <label>🩹 Drain</label>
+                <input type="number" id="outputDrain" min="0" placeholder="0">
+              </div>
+              <div class="io-input-item">
+                <label>💩 อุจจาระเหลว</label>
+                <input type="number" id="outputStool" min="0" placeholder="0">
+              </div>
+              <div class="io-input-item">
+                <label>➕ อื่นๆ</label>
+                <input type="number" id="outputOther" min="0" placeholder="0">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Balance Display -->
+        <div class="io-balance-display">
+          <div class="balance-card" id="balanceCard">
+            <div class="balance-icon">⚖️</div>
+            <div class="balance-content">
+              <div class="balance-label">สมดุลสารน้ำ (I/O Balance)</div>
+              <div class="balance-value" id="balanceValue">0 ml</div>
+              <div class="balance-status" id="balanceStatus">สมดุล</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Note Section -->
+        <div class="io-note-section">
+          <label for="ioNoteNew">📝 หมายเหตุ</label>
+          <textarea id="ioNoteNew" placeholder="หมายเหตุเพิ่มเติม (ไม่บังคับ)" rows="3"></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="io-actions">
+          <button type="button" class="io-btn io-btn-cancel" onclick="closeIOModal()">
+            <span>❌</span> ยกเลิก
+          </button>
+          <button type="submit" class="io-btn io-btn-save">
+            <span>💾</span> บันทึก I/O
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
-
-  <!-- I/O Modal -->
-  <div class="modal" id="ioModal">
+  <!-- Patient Modal -->
+  <div class="modal" id="patientModal">
     <div class="modal-content">
-      <h3>💧 บันทึก I/O รวดเร็ว</h3>
+      <h3>👤 เพิ่มผู้ป่วยใหม่</h3>
+
       <div class="input-group">
-<div class="modal-content mobile-friendly">
-  <div class="modal-title">👤 ข้อมูลผู้ป่วย</div>
-  <form id="patientForm" autocomplete="on">
-    <div class="modal-section">
-      <div class="section-title">ข้อมูลทั่วไป</div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>เตียงที่:</label>
-          <select id="globalBedSelect">
-            <option value="">เลือกเตียง</option>
-            <option value="1">เตียง 1</option>
-            <option value="2">เตียง 2</option>
-            <option value="3">เตียง 3</option>
-            <option value="4">เตียง 4</option>
-            <option value="5">เตียง 5</option>
-            <option value="6">เตียง 6</option>
-            <option value="7">เตียง 7</option>
-            <option value="8">เตียง 8</option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label>รหัสผู้ป่วย:</label>
-          <input type="text" id="globalPatientId" placeholder="P001234" autocomplete="off">
-        </div>
-      </div>
-      <div class="input-group">
-        <label>ชื่อ-สกุล:</label>
-        <input type="text" id="globalPatientName" placeholder="ชื่อผู้ป่วย" autocomplete="name">
-      </div>
-      <div class="input-row">
-        <div class="input-group">
-          <label>อายุ:</label>
-          <input type="number" id="globalAge" placeholder="25" min="0">
-        </div>
-        <div class="input-group">
-          <label>น้ำหนัก (กก.):</label>
-          <input type="number" id="globalWeight" placeholder="60" min="0">
-        </div>
-      </div>
-      <div class="input-group">
-        <label>เพศ:</label>
-        <select id="globalGender">
-          <option value="">เลือกเพศ</option>
-          <option value="male">ชาย</option>
-          <option value="female">หญิง</option>
-          <option value="other">อื่นๆ</option>
+        <label>เลือกเตียง</label>
+        <select id="bedSelect">
+          <option value="">-- เลือกเตียง --</option>
+          <option value="1">เตียง 1</option>
+          <option value="2">เตียง 2</option>
+          <option value="3">เตียง 3</option>
+          <option value="4">เตียง 4</option>
+          <option value="5">เตียง 5</option>
+          <option value="6">เตียง 6</option>
+          <option value="7">เตียง 7</option>
+          <option value="8">เตียง 8</option>
         </select>
       </div>
-    </div>
-    <div class="modal-section">
-      <div class="section-title">การให้สารน้ำ/ยา</div>
+
       <div class="input-group">
-        <label>ยา/สารน้ำ:</label>
-<div class="modal-content mobile-friendly" style="max-width:420px;margin:auto;padding:1.5rem 1rem;background:#f8fbff;border-radius:18px;box-shadow:0 4px 24px #1976d220;">
-  <div class="modal-title" style="font-size:1.3rem;text-align:center;margin-bottom:1rem;color:#1976d2;font-weight:600;">👤 ข้อมูลผู้ป่วย</div>
-  <form id="patientForm" autocomplete="on">
-    <div class="modal-section" style="margin-bottom:1.2rem;">
-      <div class="section-title" style="font-size:1.1rem;color:#0284c7;font-weight:500;margin-bottom:0.5rem;">ข้อมูลทั่วไป</div>
-      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
-        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
-          <label>เตียงที่:</label>
-          <select id="globalBedSelect" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-            <option value="">เลือกเตียง</option>
-            <option value="1">เตียง 1</option>
-            <option value="2">เตียง 2</option>
-            <option value="3">เตียง 3</option>
-            <option value="4">เตียง 4</option>
-            <option value="5">เตียง 5</option>
-            <option value="6">เตียง 6</option>
-            <option value="7">เตียง 7</option>
-            <option value="8">เตียง 8</option>
-          </select>
-        </div>
-        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
-          <label>รหัสผู้ป่วย:</label>
-          <input type="text" id="globalPatientId" placeholder="P001234" autocomplete="off" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-        </div>
+        <label>รหัสผู้ป่วย</label>
+        <input type="text" id="patientId" placeholder="เช่น P001234">
       </div>
-      <div class="input-group" style="margin-bottom:0.7rem;">
-        <label>ชื่อ-สกุล:</label>
-        <input type="text" id="globalPatientName" placeholder="ชื่อผู้ป่วย" autocomplete="name" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+
+      <div class="input-group">
+        <label>ชื่อ-สกุล</label>
+        <input type="text" id="patientName" placeholder="ชื่อผู้ป่วย">
       </div>
-      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
-        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
-          <label>อายุ:</label>
-          <input type="number" id="globalAge" placeholder="25" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-        </div>
-        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
-          <label>น้ำหนัก (กก.):</label>
-          <input type="number" id="globalWeight" placeholder="60" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-        </div>
-      </div>
-      <div class="input-group" style="margin-bottom:0.7rem;">
-        <label>เพศ:</label>
-        <select id="globalGender" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-          <option value="">เลือกเพศ</option>
-          <option value="male">ชาย</option>
-          <option value="female">หญิง</option>
-          <option value="other">อื่นๆ</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-section" style="margin-bottom:1.2rem;">
-      <div class="section-title" style="font-size:1.1rem;color:#0284c7;font-weight:500;margin-bottom:0.5rem;">การให้สารน้ำ/ยา</div>
-      <div class="input-group" style="margin-bottom:0.7rem;">
-        <label>ยา/สารน้ำ:</label>
-        <select id="globalMedication" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
+
+      <div class="input-group">
+        <label>ยา/สารน้ำ</label>
+        <select id="medication">
           <option value="">เลือกยา/สารน้ำ</option>
           <option value="Normal Saline">Normal Saline (0.9% NSS)</option>
           <option value="Dextrose 5%">Dextrose 5% in Water</option>
           <option value="Lactated Ringer's">Lactated Ringer's Solution</option>
-          <option value="Dextrose 5% in NSS">D5NSS</option>
-          <option value="Half Normal Saline">0.45% NSS</option>
+          <option value="D5NSS">Dextrose 5% in NSS</option>
         </select>
       </div>
-      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
-        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
-          <label>ปริมาณ (mL):</label>
-          <input type="number" id="globalVolume" placeholder="500" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-        </div>
-        <div class="input-group" style="flex:1 1 45%;min-width:120px;">
-          <label>เลือกวิธีคำนวณ:</label>
-          <select id="rateType" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-            <option value="drop">ดรอป/นาที</option>
-            <option value="cc">cc/hr</option>
-          </select>
-        </div>
-      </div>
-      <div class="input-row" style="display:flex;gap:0.7rem;flex-wrap:wrap;">
-        <div class="input-group" id="dropGroup" style="flex:1 1 45%;min-width:120px;">
-          <label>อัตรา (ดรอป/นาที):</label>
-          <input type="number" id="globalRate" placeholder="20" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-        </div>
-        <div class="input-group" id="ccGroup" style="flex:1 1 45%;min-width:120px;display:none;">
-          <label>อัตรา (cc/hr):</label>
-          <input type="number" id="globalRateCC" placeholder="100" min="0" style="width:100%;padding:0.7rem;border-radius:10px;border:1px solid #bde0fe;">
-        </div>
-      </div>
-    </div>
-    <div class="modal-actions" style="display:flex;gap:1rem;justify-content:center;margin-top:1.2rem;">
-      <button class="btn btn-secondary" id="globalPatientCancel" type="reset" style="padding:0.7rem 1.5rem;font-size:1.1rem;border-radius:10px;">ยกเลิก</button>
-      <button class="btn btn-primary" id="globalPatientSave" type="submit" style="padding:0.7rem 1.5rem;font-size:1.1rem;border-radius:10px;">💾 บันทึก</button>
-    </div>
-  </form>
-</div>
-document.getElementById('globalRate').addEventListener('input', function(e) {
-  if(document.getElementById('rateType').value === 'drop'){
-    const drop = parseFloat(e.target.value);
-    document.getElementById('globalRateCC').value = drop ? Math.round(drop * 3) : '';
-  }
-});
-document.getElementById('globalRateCC').addEventListener('input', function(e) {
-  if(document.getElementById('rateType').value === 'cc'){
-    const cc = parseFloat(e.target.value);
-    document.getElementById('globalRate').value = cc ? Math.round(cc / 3) : '';
-  }
-});
 
-window.addEventListener('DOMContentLoaded', loadPatientData);
-</script>
-          </div>
-        </div>
-        <div class="summary-card success">
-          <div class="summary-icon">✅</div>
-          <div class="summary-content">
-            <div class="summary-number" id="normalCount">0</div>
-            <div class="summary-label">สถานะปกติ</div>
-          </div>
-        </div>
+      <div class="input-group">
+        <label>ปริมาณ (mL)</label>
+        <input type="number" id="volume" placeholder="500" min="1">
       </div>
 
-      <!-- Alerts List -->
-      <div id="alertsList" class="alerts-list">
-        <div class="loading-alerts">
-          <div class="spinner"></div>
-          <span>กำลังโหลดการแจ้งเตือน...</span>
-        </div>
+      <div class="input-group">
+        <label>อัตราการหยด (ดรอป/นาที)</label>
+        <input type="number" id="rate" placeholder="20" min="1">
       </div>
 
-      <!-- Action Buttons -->
-      <div style="margin-top: 25px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-        <button class="btn btn-success" onclick="acknowledgeAllAlerts()">✅ รับทราบทั้งหมด</button>
-        <button class="btn btn-info" onclick="exportAlertsReport()">📊 ส่งออกรายงาน</button>
-        <button class="btn btn-secondary" onclick="refreshAlerts()">🔄 รีเฟรช</button>
-        <button class="btn btn-secondary" onclick="closeModal('alertsModal')">ปิด</button>
+      <div style="text-align: center;">
+        <button class="btn btn-primary" onclick="savePatient()">💾 บันทึกผู้ป่วย</button>
+        <button class="btn btn-secondary" onclick="closeModal('patientModal')">ยกเลิก</button>
       </div>
     </div>
   </div>
 
-  <!-- Reset Modal -->
-  <div class="modal" id="resetModal">
-    <div class="modal-content">
-      <h3 style="color: #ef4444;">⚠️ ยืนยันการลบข้อมูล</h3>
-      <p style="margin-bottom: 20px; color: #64748b;">คุณต้องการลบข้อมูลทั้งหมดในระบบใช่หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้</p>
-      <button class="btn btn-danger" onclick="resetAllData()">🗑️ ลบทั้งหมด</button>
-      <button class="btn btn-secondary" onclick="closeModal('resetModal')">ยกเลิก</button>
-    </div>
-  </div>
-
-  <!-- Member Management Modal -->
-  <div class="modal" id="passwordModal">
-    <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
-      <h3 style="color: #0ea5e9;">👥 จัดการสมาชิกระบบ</h3>
-      
-      <div style="margin-bottom: 25px; padding: 15px; background: #f0f9ff; border-radius: 10px; border-left: 4px solid #0ea5e9;">
-        <div style="font-size: 14px; color: #0c4a6e; font-weight: 600;">การจัดการสมาชิก:</div>
-        <div style="font-size: 12px; color: #0369a1; margin-top: 5px;">
-          • รหัส 0000 เป็นแอดมินหลัก มีสิทธิ์เต็ม<br>
-          • อนุมัติ/ปฏิเสธสมาชิกใหม่<br>
-          • แก้ไขข้อมูลสมาชิกและกำหนดสิทธิ์<br>
-          • ระบบรองรับการใช้งานจากหลายเครื่อง
+  <!-- Beds Overview Modal -->
+  <div class="modal" id="bedsModal">
+    <div class="modal-content" style="max-width: 900px;">
+      <h3>🛏️ ภาพรวมเตียงทั้งหมด</h3>
+      <div id="bedsOverviewContent">
+        <div style="text-align: center; padding: 40px; color: #64748b;">
+          <div style="font-size: 48px; margin-bottom: 15px;">🔄</div>
+          <div>กำลังโหลดข้อมูล...</div>
         </div>
       </div>
-
-      <!-- Pending Approvals Section -->
-      <div id="pendingSection" style="margin-bottom: 25px; padding: 20px; background: #fef3c7; border-radius: 12px; border-left: 4px solid #f59e0b; display: none;">
-        <h4 style="color: #92400e; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
-          ⏳ รอการอนุมัติ (<span id="pendingCount">0</span>)
-        </h4>
-        <div id="pendingList"></div>
-      </div>
-
-      <div id="passwordList" style="margin-bottom: 20px;">
-        <h4>รายการผู้ใช้งาน</h4>
-        <div id="usersList"></div>
-      </div>
-
-      <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-        <h4>เพิ่มผู้ใช้ใหม่</h4>
-        <div class="input-group">
-          <label>ชื่อผู้ใช้:</label>
-          <input type="text" id="newUsername" placeholder="เช่น Nurse03">
-        </div>
-        <div class="input-group">
-          <label>รหัสผ่าน:</label>
-          <input type="password" id="newPassword" placeholder="รหัสผ่านใหม่">
-        </div>
-        <div class="input-group">
-          <label>ชื่อเต็ม:</label>
-          <input type="text" id="newFullName" placeholder="เช่น พยาบาลสมหญิง">
-        </div>
-        <div class="input-group">
-          <label>บทบาท:</label>
-          <select id="newRole">
-            <option value="nurse">พยาบาล</option>
-            <option value="admin">ผู้ดูแลระบบ</option>
-          </select>
-        </div>
-        <button class="btn btn-primary" onclick="addNewUser()">➕ เพิ่มผู้ใช้</button>
-      </div>
-
-      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-        <button class="btn btn-success" onclick="exportMembersList()" style="font-size: 12px;">📊 ส่งออกรายชื่อ</button>
-        <button class="btn btn-info" onclick="resetToDefault()" style="font-size: 12px;">🔄 รีเซ็ตระบบ</button>
-        <button class="btn btn-secondary" onclick="closeModal('passwordModal')" style="font-size: 12px;">ปิด</button>
+      <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-secondary" onclick="closeModal('bedsModal')">ปิด</button>
       </div>
     </div>
   </div>
 
-  <!-- Audio Elements สำหรับเสียงแจ้งเตือน -->
-  <audio id="warningSound" preload="auto">
-    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmkVDjiB0fPTgjMGHm7A7+OZURE4gNLy04I1Bh5swO/jmUERII7e8s15MwYgZrhE" type="audio/wav">
-  </audio>
-  
-  <audio id="criticalSound" preload="auto">
-    <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSgFJHfH8N2QQAoUXrTp66hVFApGn+DyvmkVDjiB0fPTgjEoSbTa+tltBQNh0fPYeTEFK13+/9e53Rg8gct13Y7dfQEHaLfJ8N2QQAoWXrPp66hVFApGn+DyvmkVjhB0fjPPtgjCHvLL8G" type="audio/wav">
-  </audio>
-
-  <script src="data-manager.js"></script>
+  <!-- Import necessary systems -->
   <script>
+<<<<<<< HEAD
 // Backend structure for future enhancements (patient management)
 const patientManager = {
   patients: [],
@@ -6096,20 +6504,14 @@ Vital Signs: ${summary.totalVitals} รายการ
     });
 
     
+=======
+    window.MAX_BEDS = 8; // จำนวนเตียงทั้งหมด สามารถปรับได้หากมีการเพิ่มเตียงใหม่
+>>>>>>> 336ea0ac92c2c687bc7f85bb95c4698d2338766d
   </script>
+  <script type="module" src="System/data-manager.js"></script>
+  <script type="module" src="System/alert-system.js"></script>
+  <script type="module" src="System/rec-IO.js"></script>
+  <script type="module" src="System/dashboard.js"></script>
 
-  <script src="patient-modal.js"></script>
-  <script>
-    window.addEventListener('patientSaved', e => {
-      loadBedsData();
-      updateSummary();
-      setTimeout(() => {
-        window.location.href = `chart.html?bed=${e.detail.bedId}`;
-      }, 500);
-    });
-  </script>
-
-  <!-- Floating Alert Container -->
-  <div id="floatingAlerts"></div>
 </body>
 </html>
