@@ -284,7 +284,7 @@ class IORecordManager {
 
   generateBedOptions() {
     let options = '';
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= (window.MAX_BEDS || 8); i++) {
       const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${i}`) || 'null');
       if (patientData) {
         options += `<option value="${i}">เตียง ${i} - ${patientData.patient_id}</option>`;

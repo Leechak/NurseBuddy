@@ -1,5 +1,6 @@
 
 // ระบบจัดการข้อมูลแบบรวมศูนย์สำหรับ NurseBuddy
+const getMaxBeds = () => (typeof window !== 'undefined' && window.MAX_BEDS) ? parseInt(window.MAX_BEDS, 10) : 8;
 class DataManager {
   constructor() {
     this.cache = new Map();
@@ -386,7 +387,7 @@ class DataManager {
       bedSummaries: []
     };
 
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= getMaxBeds(); i++) {
       const patient = this.getPatient(i);
       const vitals = this.getVitals(i);
       const medications = this.getMedications(i);

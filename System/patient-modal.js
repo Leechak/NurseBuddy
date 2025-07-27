@@ -1078,7 +1078,7 @@
     const bedGrid = modal.querySelector('#bedGrid');
     bedGrid.innerHTML = '';
 
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= (window.MAX_BEDS || 8); i++) {
       const patientData = dataManager.getPatient(i);
       const bedItem = document.createElement('div');
       bedItem.className = `bed-item ${patientData ? 'occupied' : ''}`;
