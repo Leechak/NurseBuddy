@@ -3021,13 +3021,16 @@
   </div>
 
   <!-- Import necessary systems -->
+  <script>
+    window.MAX_BEDS = 8; // จำนวนเตียงทั้งหมด สามารถปรับได้หากมีการเพิ่มเตียงใหม่
+  </script>
   <script src="System/data-manager.js"></script>
   <script src="System/alert-system.js"></script>
   <script src="System/rec-IO.js"></script>
 
   <script>
     let currentUser = null;
-    const MAX_BEDS = 8; // จำนวนเตียงทั้งหมด สามารถปรับได้หากมีการเพิ่มเตียงใหม่
+    const MAX_BEDS = window.MAX_BEDS || 8; // จำนวนเตียงทั้งหมด สามารถปรับได้หากมีการเพิ่มเตียงใหม่
 
     // ระบบจัดการข้อมูลพื้นฐาน
     const dataManager = {
