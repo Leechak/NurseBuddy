@@ -1,7 +1,7 @@
 
 // ระบบจัดการข้อมูลแบบรวมศูนย์สำหรับ NurseBuddy
 const getMaxBeds = () => (typeof window !== 'undefined' && window.MAX_BEDS) ? parseInt(window.MAX_BEDS, 10) : 8;
-class DataManager {
+export class DataManager {
   constructor() {
     this.cache = new Map();
     this.observers = new Map();
@@ -462,9 +462,10 @@ class DataManager {
 }
 
 // สร้าง instance หลักสำหรับใช้งานทั้งระบบ
-const dataManager = new DataManager();
+export const dataManager = new DataManager();
 
 // Export สำหรับใช้งานในไฟล์อื่น
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { DataManager, dataManager };
 }
+export { DataManager, dataManager };
