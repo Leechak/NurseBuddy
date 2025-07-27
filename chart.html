@@ -7,226 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-<<<<<<< HEAD
-    body {
-      font-family: 'Noto Sans Thai', 'Prompt', 'Kanit', sans-serif;
-      background: #f9fafb;
-      color: #374151;
-      margin: 0;
-      padding: 0;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
-      padding: 1.5rem;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .header h1 {
-      font-size: 2rem;
-      color: #1976d2;
-      margin: 0;
-    }
-
-    .floating-btn {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 3.5rem;
-      height: 3.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .floating-btn:hover {
-      transform: scale(1.1);
-    }
-
-    .main-content {
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
-    }
-
-    .card-title {
-      font-size: 1.5rem;
-      color: #1976d2;
-      margin-bottom: 1rem;
-    }
-
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-    }
-
-    .status-item {
-      background: #e0f2fe;
-      border-radius: 12px;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .status-value {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #16a34a;
-    }
-
-    .status-label {
-      font-size: 0.9rem;
-      color: #64748b;
-    }
-
-    .btn {
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .btn-success {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: white;
-    }
-
-    .btn-success:hover {
-      background: linear-gradient(135deg, #16a34a, #22c55e);
-    }
-
-    .btn-secondary {
-      background: #e5e7eb;
-      color: #374151;
-    }
-
-    .btn-secondary:hover {
-      background: #d1d5db;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: white;
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      max-width: 500px;
-      width: 90%;
-    }
-
-    .modal-title {
-      font-size: 1.5rem;
-      color: #1976d2;
-      margin-bottom: 1rem;
-    }
-
-    /* Removed empty ruleset for .floating-btn */
-
-    /* Add the misplaced .floating-nav CSS here */
-    .floating-nav {
-      position: fixed;
-      top: 16px;
-      left: 0;
-      width: 100vw;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 16px;
-      z-index: 9999;
-      pointer-events: none;
-    }
-    .floating-nav .nav-btn {
-      pointer-events: auto;
-      background: #1976d2;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
-      box-shadow: 0 2px 8px #0002;
-      cursor: pointer;
-      margin: 0 4px;
-      font-weight: 600;
-    }
-    .floating-nav .logout-btn {
-      background: #d32f2f;
-    }
-    @media (max-width: 500px) {
-      .floating-nav {
-        top: 8px;
-        padding: 0 4px;
-      }
-      .floating-nav .nav-btn {
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-      }
-    }
-    /* Removed orphaned CSS block that caused syntax error */
-    .floating-back {
-      top: 12px;
-      left: 12px;
-    }
-    .floating-logout {
-      top: 60px;
-      left: 12px;
-      background: linear-gradient(135deg, #fff 80%, #e0f2fe 100%);
-      color: #d32f2f;
-      border: 2px solid #d32f2f;
-    }
-    .floating-btn:active, .floating-btn:focus {
-      box-shadow: 0 4px 16px rgba(14,165,233,0.18);
-      outline: none;
-      background: #0284c7;
-    }
-    .floating-btn .icon {
-      font-size: 1.1em;
-      margin-right: 2px;
-    }
-    @media (max-width: 500px) {
-      .floating-back {
-        top: 8px;
-        left: 8px;
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-      }
-      .floating-logout {
-        top: 56px;
-        right: 8px;
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-      }
-    }
-=======
->>>>>>> 336ea0ac92c2c687bc7f85bb95c4698d2338766d
     * {
       margin: 0;
       padding: 0;
@@ -672,6 +452,222 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
+    /* Comparison Alert Styles */
+    .comparison-alert {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 2px solid #ef4444;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.2);
+      animation: alertPulse 2s infinite;
+    }
+
+    @keyframes alertPulse {
+      0%, 100% { box-shadow: 0 8px 25px rgba(239, 68, 68, 0.2); }
+      50% { box-shadow: 0 8px 35px rgba(239, 68, 68, 0.4); }
+    }
+
+    .alert-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #fecaca;
+    }
+
+    .alert-icon {
+      font-size: 24px;
+      animation: shake 1s infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      75% { transform: translateX(2px); }
+    }
+
+    .alert-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #dc2626;
+    }
+
+    .comparison-details {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .comparison-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .comparison-item:last-child {
+      border-bottom: none;
+    }
+
+    .comparison-item.variance {
+      background: #fef2f2;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    .comparison-item .label {
+      font-weight: 600;
+      color: #374151;
+      flex: 1;
+    }
+
+    .comparison-item .value {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 5px;
+    }
+
+    .comparison-item .value.ordered {
+      color: #0ea5e9;
+    }
+
+    .comparison-item .value.measured {
+      color: #f59e0b;
+    }
+
+    .comparison-item .value.difference {
+      color: #ef4444;
+    }
+
+    .comparison-item .unit {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .comparison-item .percentage {
+      font-size: 14px;
+      color: #ef4444;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .alert-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .alert-btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .alert-btn.primary {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+
+    .alert-btn.secondary {
+      background: linear-gradient(135deg, #64748b, #475569);
+      color: white;
+    }
+
+    .alert-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* IV Status Grid */
+    .iv-status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .status-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-left: 4px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .status-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-card.accuracy {
+      border-left-color: #0ea5e9;
+    }
+
+    .status-card.flow-rate {
+      border-left-color: #22c55e;
+    }
+
+    .status-card.time-remaining {
+      border-left-color: #f59e0b;
+    }
+
+    .status-card.safety-check {
+      border-left-color: #8b5cf6;
+    }
+
+    .status-card.warning {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    }
+
+    .status-card.danger {
+      border-left-color: #ef4444;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    }
+
+    .status-icon {
+      font-size: 24px;
+      opacity: 0.8;
+    }
+
+    .status-content {
+      flex: 1;
+    }
+
+    .status-label {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .status-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 2px;
+    }
+
+    .status-desc {
+      font-size: 12px;
+      color: #64748b;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       body {
@@ -840,72 +836,93 @@
       </div>
     </div>
 
+    <!-- Comparison Alert Section -->
+    <div id="comparisonAlert" class="comparison-alert" style="display: none;">
+      <div class="alert-header">
+        <span class="alert-icon">⚠️</span>
+        <span class="alert-title">ตรวจพบความแตกต่าง!</span>
+      </div>
+      <div class="alert-content">
+        <div class="comparison-details">
+          <div class="comparison-item">
+            <span class="label">ค่าที่สั่ง:</span>
+            <span class="value ordered" id="alertOrderedValue">0</span>
+            <span class="unit">ดรอป/นาที</span>
+          </div>
+          <div class="comparison-item">
+            <span class="label">ค่าที่วัดได้:</span>
+            <span class="value measured" id="alertMeasuredValue">0</span>
+            <span class="unit">ดรอป/นาที</span>
+          </div>
+          <div class="comparison-item variance">
+            <span class="label">ความแตกต่าง:</span>
+            <span class="value difference" id="alertDifference">0</span>
+            <span class="unit">ดรอป/นาที</span>
+            <span class="percentage" id="alertPercentage">(0%)</span>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="alert-btn primary" onclick="adjustFlowRate()">
+            🔧 ปรับแก้อัตราการไหล
+          </button>
+          <button class="alert-btn secondary" onclick="acknowledgeAlert()">
+            ✅ รับทราบ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- IV Status Summary -->
+    <div class="card">
+      <div class="card-title">
+        🩺 สถานะน้ำเกลือ
+      </div>
+
+      <div class="iv-status-grid">
+        <div class="status-card accuracy" id="accuracyStatus">
+          <div class="status-icon">📊</div>
+          <div class="status-content">
+            <div class="status-label">ความแม่นยำ</div>
+            <div class="status-value" id="accuracyValue">คำนวณ...</div>
+            <div class="status-desc" id="accuracyDesc">กำลังตรวจสอบ</div>
+          </div>
+        </div>
+
+        <div class="status-card flow-rate">
+          <div class="status-icon">💧</div>
+          <div class="status-content">
+            <div class="status-label">อัตราการไหล</div>
+            <div class="status-value" id="flowRateStatus">ปกติ</div>
+            <div class="status-desc" id="flowRateDesc">อยู่ในเกณฑ์ที่ปลอดภัย</div>
+          </div>
+        </div>
+
+        <div class="status-card time-remaining">
+          <div class="status-icon">⏰</div>
+          <div class="status-content">
+            <div class="status-label">เวลาคงเหลือ</div>
+            <div class="status-value" id="timeRemainingValue">คำนวณ...</div>
+            <div class="status-desc" id="timeRemainingDesc">ประมาณการ</div>
+          </div>
+        </div>
+
+        <div class="status-card safety-check">
+          <div class="status-icon">🛡️</div>
+          <div class="status-content">
+            <div class="status-label">ตรวจสอบความปลอดภัย</div>
+            <div class="status-value" id="safetyValue">ปลอดภัย</div>
+            <div class="status-desc" id="safetyDesc">ไม่พบปัญหา</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- IV Calculator -->
     <div class="card">
       <div class="card-title">
         🧮 คำนวณน้ำเกลือ
       </div>
 
-<<<<<<< HEAD
-      <div id="patientInfo" class="patient-info" style="display: none;">
-        <h3>👤 ข้อมูลผู้ป่วย</h3>
-  <div class="modal-title" style="font-family: 'Noto Sans Thai', 'Prompt', 'Sarabun', 'Kanit', sans-serif; font-size: 1.7rem; color: #1976d2; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: 0.5px;">👤 ข้อมูลผู้ป่วย</div>
-  <form id="patientForm" autocomplete="on" style="font-family: 'Noto Sans Thai', 'Prompt', 'Sarabun', 'Kanit', sans-serif;">
-    <div class="modal-content mobile-friendly" style="max-width:420px;margin:auto;padding:2rem 1.2rem;background:linear-gradient(135deg,#e0f2fe,#f0f9ff);border-radius:22px;box-shadow:0 8px 32px #1976d220;">
-      <div class="modal-title" style="font-family:'Noto Sans Thai','Prompt','Sarabun','Kanit',sans-serif;font-size:1.7rem;color:#1976d2;font-weight:700;margin-bottom:1.5rem;letter-spacing:0.5px;">👤 ข้อมูลผู้ป่วย</div>
-      <form id="patientForm" autocomplete="on" style="font-family:'Noto Sans Thai','Prompt','Sarabun','Kanit',sans-serif;">
-        ...existing code for patient fields and actions...
-      </form>
-      <div style="margin-top:2.5rem;text-align:center;">
-        <button class="btn btn-success" id="addNewPatientBtn" style="padding:1rem 2.2rem;font-size:1.18rem;border-radius:14px;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;box-shadow:0 2px 8px rgba(34,197,94,0.13);">➕ เพิ่มข้อมูลผู้ป่วยใหม่</button>
-      </div>
-    </div>
-                </div>
-                <div class="result-card">
-                  <div class="result-icon">⏰</div>
-                  <div class="result-content">
-                    <div class="result-label">เวลาที่จะหมด</div>
-                    <div class="result-value" id="finishTime">0 ชม. 0 นาที</div>
-                  </div>
-                </div>
-                <div class="result-card">
-                  <div class="result-icon">💧</div>
-                  <div class="result-content">
-                    <div class="result-label">หยดต่อวินาที</div>
-                    <div class="result-value" id="dropPerSec">0 ดรอป/วิ</div>
-                  </div>
-                </div>
-                <div class="result-card estimated-finish">
-                  <div class="result-icon">🕐</div>
-                  <div class="result-content">
-                    <div class="result-label">คาดว่าจะหมดเวลา</div>
-                    <div class="result-value" id="estimatedFinish">-</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Time Tracking Display -->
-            <div id="timeTrackingDisplay" class="time-tracking-live">
-              <div class="tracking-header">
-                <h4>⏰ การติดตามเวลาแบบเรียลไทม์</h4>
-                <div class="status-indicator" id="trackingStatus">
-                  <div class="status-dot"></div>
-                  <span>พร้อมติดตาม</span>
-                </div>
-              </div>
-              <div id="timeTrackingContent" class="tracking-content">
-                <div class="tracking-message">กรอกข้อมูลเพื่อเริ่มติดตามเวลา</div>
-              </div>
-            </div>
-          </div>
-
-      <div id="alertsSection" class="alerts-section">
-        <h3>🚨 การแจ้งเตือน</h3>
-        <div id="alertsList">
-          <!-- แจ้งเตือนจะแสดงที่นี่ -->
-        </div>
-=======
       <div class="iv-calculator">
         <div class="calc-inputs">
           <div class="input-group">
@@ -965,7 +982,6 @@
     <div class="card">
       <div class="card-title">
         📊 กราฟการไหล
->>>>>>> 336ea0ac92c2c687bc7f85bb95c4698d2338766d
       </div>
       <div class="chart-container">
         <canvas id="flowChart"></canvas>
@@ -1070,7 +1086,6 @@
   </div>
 
   <script>
-
     let bedId = 1;
     let currentUser = null;
     let chartInstance = null;
@@ -1180,7 +1195,7 @@
               padding: 12px;
               background: #64748b;
               color: white;
-              border: none```python
+              border: none;
               border-radius: 8px;
               cursor: pointer;
               font-weight: 600;
@@ -1559,7 +1574,10 @@
       const patientData = JSON.parse(localStorage.getItem(`ir_data_bed_${bedId}`) || 'null');
 
       let currentFlow;
+      let orderedFlow = 0;
+
       if (patientData && patientData.rate) {
+        orderedFlow = patientData.rate;
         const baseRate = patientData.rate;
         const variation = Math.floor(Math.random() * 6) - 3;
         currentFlow = Math.max(0, baseRate + variation);
@@ -1568,22 +1586,293 @@
       }
 
       document.getElementById('currentFlow').textContent = currentFlow;
+      document.getElementById('orderedFlow').textContent = orderedFlow;
+
+      // เปรียบเทียบและแสดงการแจ้งเตือน
+      compareFlowRates(currentFlow, orderedFlow);
+
+      // อัพเดท IV Status
+      updateIVStatus(currentFlow, orderedFlow, patientData);
 
       if (chartInstance) {
         const now = new Date();
         const timeLabel = now.getHours().toString().padStart(2, '0') + ':' + 
                          now.getMinutes().toString().padStart(2, '0');
 
+        // เพิ่มข้อมูลทั้งค่าที่สั่งและค่าที่วัด
         chartInstance.data.labels.push(timeLabel);
         chartInstance.data.datasets[0].data.push(currentFlow);
+
+        // เพิ่ม dataset สำหรับค่าที่สั่งถ้ายังไม่มี
+        if (chartInstance.data.datasets.length === 1 && orderedFlow > 0) {
+          chartInstance.data.datasets.push({
+            label: 'ค่าที่สั่ง (ดรอป/นาที)',
+            data: new Array(chartInstance.data.labels.length).fill(orderedFlow),
+            borderColor: '#0ea5e9',
+            backgroundColor: 'rgba(14, 165, 233, 0.1)',
+            borderWidth: 2,
+            borderDash: [5, 5],
+            fill: false,
+            tension: 0
+          });
+        } else if (chartInstance.data.datasets.length > 1) {
+          chartInstance.data.datasets[1].data.push(orderedFlow);
+        }
 
         if (chartInstance.data.labels.length > 12) {
           chartInstance.data.labels.shift();
           chartInstance.data.datasets[0].data.shift();
+          if (chartInstance.data.datasets.length > 1) {
+            chartInstance.data.datasets[1].data.shift();
+          }
         }
 
         chartInstance.update();
       }
+    }
+
+    function compareFlowRates(currentFlow, orderedFlow) {
+      if (orderedFlow === 0) return;
+
+      const difference = Math.abs(currentFlow - orderedFlow);
+      const percentage = Math.round((difference / orderedFlow) * 100);
+      const threshold = 15; // เกณฑ์ความแตกต่าง 15%
+
+      const alertElement = document.getElementById('comparisonAlert');
+
+      if (percentage > threshold) {
+        // แสดงการแจ้งเตือน
+        document.getElementById('alertOrderedValue').textContent = orderedFlow;
+        document.getElementById('alertMeasuredValue').textContent = currentFlow;
+        document.getElementById('alertDifference').textContent = difference;
+        document.getElementById('alertPercentage').textContent = `(${percentage}%)`;
+
+        alertElement.style.display = 'block';
+
+        // เล่นเสียงแจ้งเตือน
+        if (typeof window.alertSystemManager !== 'undefined') {
+          window.alertSystemManager.showToast({
+            message: `⚠️ เตียง ${bedId}: ความแตกต่างอัตราการไหล ${percentage}%`,
+            type: 'warning',
+            duration: 6000
+          });
+        }
+      } else {
+        alertElement.style.display = 'none';
+      }
+    }
+
+    function updateIVStatus(currentFlow, orderedFlow, patientData) {
+      // อัพเดทความแม่นยำ
+      const accuracyValue = document.getElementById('accuracyValue');
+      const accuracyDesc = document.getElementById('accuracyDesc');
+      const accuracyStatus = document.getElementById('accuracyStatus');
+
+      if (orderedFlow > 0) {
+        const accuracy = 100 - Math.abs((currentFlow - orderedFlow) / orderedFlow * 100);
+        accuracyValue.textContent = `${Math.round(accuracy)}%`;
+
+        if (accuracy >= 90) {
+          accuracyDesc.textContent = 'แม่นยำมาก';
+          accuracyStatus.className = 'status-card accuracy';
+        } else if (accuracy >= 80) {
+          accuracyDesc.textContent = 'แม่นยำพอใช้';
+          accuracyStatus.className = 'status-card accuracy warning';
+        } else {
+          accuracyDesc.textContent = 'ต้องปรับแก้';
+          accuracyStatus.className = 'status-card accuracy danger';
+        }
+      }
+
+      // อัพเดทสถานะการไหล
+      const flowRateStatus = document.getElementById('flowRateStatus');
+      const flowRateDesc = document.getElementById('flowRateDesc');
+      const flowRateCard = document.querySelector('.status-card.flow-rate');
+
+      if (currentFlow < 5) {
+        flowRateStatus.textContent = 'ช้ามาก';
+        flowRateDesc.textContent = 'ตรวจสอบท่อน้ำเกลือ';
+        flowRateCard.className = 'status-card flow-rate danger';
+      } else if (currentFlow > 100) {
+        flowRateStatus.textContent = 'เร็วมาก';
+        flowRateDesc.textContent = 'ระวังอันตราย';
+        flowRateCard.className = 'status-card flow-rate danger';
+      } else {
+        flowRateStatus.textContent = 'ปกติ';
+        flowRateDesc.textContent = 'อยู่ในเกณฑ์ปลอดภัย';
+        flowRateCard.className = 'status-card flow-rate';
+      }
+
+      // อัพเดทเวลาคงเหลือ
+      if (patientData && patientData.volume) {
+        const volume = parseFloat(patientData.volume.replace('mL', ''));
+        const ccPerHr = (currentFlow * 60) / 20; // สมมติ drop factor = 20
+        const hoursRemaining = volume / ccPerHr;
+
+        const timeValue = document.getElementById('timeRemainingValue');
+        const timeDesc = document.getElementById('timeRemainingDesc');
+        const timeCard = document.querySelector('.status-card.time-remaining');
+
+        if (hoursRemaining < 1) {
+          timeValue.textContent = `${Math.round(hoursRemaining * 60)} นาที`;
+          timeDesc.textContent = 'เตรียมเปลี่ยนทันที';
+          timeCard.className = 'status-card time-remaining danger';
+        } else if (hoursRemaining < 2) {
+          timeValue.textContent = `${hoursRemaining.toFixed(1)} ชั่วโมง`;
+          timeDesc.textContent = 'เตรียมล่วงหน้า';
+          timeCard.className = 'status-card time-remaining warning';
+        } else {
+          timeValue.textContent = `${hoursRemaining.toFixed(1)} ชั่วโมง`;
+          timeDesc.textContent = 'ยังปลอดภัย';
+          timeCard.className = 'status-card time-remaining';
+        }
+      }
+
+      // อัพเดทการตรวจสอบความปลอดภัย
+      const safetyValue = document.getElementById('safetyValue');
+      const safetyDesc = document.getElementById('safetyDesc');
+      const safetyCard = document.querySelector('.status-card.safety-check');
+
+      const issues = [];
+      if (currentFlow < 5) issues.push('การไหลช้าเกินไป');
+      if (currentFlow > 100) issues.push('การไหลเร็วเกินไป');
+      if (orderedFlow > 0 && Math.abs(currentFlow - orderedFlow) / orderedFlow > 0.2) {
+        issues.push('ความแตกต่างมาก');
+      }
+
+      if (issues.length === 0) {
+        safetyValue.textContent = 'ปลอดภัย';
+        safetyDesc.textContent = 'ไม่พบปัญหา';
+        safetyCard.className = 'status-card safety-check';
+      } else {
+        safetyValue.textContent = 'ต้องระวัง';
+        safetyDesc.textContent = `พบปัญหา ${issues.length} รายการ`;
+        safetyCard.className = 'status-card safety-check warning';
+      }
+    }
+
+    function adjustFlowRate() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+      `;
+
+      modal.innerHTML = `
+        <div style="
+          background: white;
+          padding: 30px;
+          border-radius: 20px;
+          width: 90%;
+          max-width: 500px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        ">
+          <div style="text-align: center; margin-bottom: 25px;">
+            <h3 style="color: #1e293b; margin-bottom: 10px;">🔧 ปรับแก้อัตราการไหล</h3>
+            <p style="color: #64748b;">ปรับแก้อัตราการหยดให้ตรงกับค่าที่สั่ง</p>
+          </div>
+
+          <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+              <div style="text-align: center;">
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 5px;">ค่าที่สั่ง</div>
+                <div style="font-size: 24px; font-weight: 700; color: #0ea5e9;">${document.getElementById('orderedFlow').textContent}</div>
+                <div style="font-size: 12px; color: #64748b;">ดรอป/นาที</div>
+              </div>
+              <div style="text-align: center;">
+                <div style="font-size: 12px; color: #64748b; margin-bottom: 5px;">ค่าปัจจุบัน</div>
+                <div style="font-size: 24px; font-weight: 700; color: #f59e0b;">${document.getElementById('currentFlow').textContent}</div>
+                <div style="font-size: 12px; color: #64748b;">ดรอป/นาที</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 25px;">
+            <h4 style="color: #374151; margin-bottom: 15px;">📋 ขั้นตอนการปรับแก้:</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li style="background: #f0fdf4; padding: 10px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid #22c55e;">
+                1. ตรวจสอบตำแหน่งของ IV clamp
+              </li>
+              <li style="background: #f0fdf4; padding: 10px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid #22c55e;">
+                2. ปรับแรงบีบของ IV clamp ให้เหมาะสม
+              </li>
+              <li style="background: #f0fdf4; padding: 10px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid #22c55e;">
+                3. สังเกตอัตราการหยดเป็นเวลา 1 นาที
+              </li>
+              <li style="background: #f0fdf4; padding: 10px; margin-bottom: 8px; border-radius: 8px; border-left: 4px solid #22c55e;">
+                4. ปรับแก้จนได้อัตราที่ต้องการ
+              </li>
+            </ul>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button onclick="this.closest('div').parentElement.remove()" style="
+              flex: 1;
+              padding: 12px;
+              background: #64748b;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+            ">ปิด</button>
+            <button onclick="recordAdjustment(); this.closest('div').parentElement.remove();" style="
+              flex: 1;
+              padding: 12px;
+              background: #22c55e;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              font-weight: 600;
+            ">✅ บันทึกการปรับแก้</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+    }
+
+    function acknowledgeAlert() {
+      document.getElementById('comparisonAlert').style.display = 'none';
+
+      // บันทึกการรับทราบ
+      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
+      notes.unshift({
+        content: `⚠️ รับทราบการแจ้งเตือนความแตกต่างอัตราการไหล - ค่าที่สั่ง: ${document.getElementById('orderedFlow').textContent} ดรอป/นาที, ค่าที่วัด: ${document.getElementById('currentFlow').textContent} ดรอป/นาที`,
+        time: new Date().toLocaleString('th-TH'),
+        author: currentUser.fullname,
+        type: 'alert_ack'
+      });
+      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
+
+      loadNotes();
+      alert('✅ รับทราบการแจ้งเตือนแล้ว');
+    }
+
+    function recordAdjustment() {
+      const notes = JSON.parse(localStorage.getItem(`nurseNotes_${bedId}`) || '[]');
+      notes.unshift({
+        content: `🔧 ปรับแก้อัตราการไหลจาก ${document.getElementById('currentFlow').textContent} เป็น ${document.getElementById('orderedFlow').textContent} ดรอป/นาที`,
+        time: new Date().toLocaleString('th-TH'),
+        author: currentUser.fullname,
+        type: 'adjustment'
+      });
+      localStorage.setItem(`nurseNotes_${bedId}`, JSON.stringify(notes));
+
+      loadNotes();
+      alert('✅ บันทึกการปรับแก้เรียบร้อย');
+
+      // ซ่อนการแจ้งเตือน
+      document.getElementById('comparisonAlert').style.display = 'none';
     }
 
     function initChart() {
@@ -1680,21 +1969,6 @@
       calculateIO();
       alert('✅ บันทึก I/O เรียบร้อย');
       closeModal('ioModal');
-    }
-
-    function saveVitalSigns() {
-      const bloodPressure = document.getElementById('bloodPressure').value;
-      const heartRate = document.getElementById('heartRateInput').value;
-      const temperature = document.getElementById('temperatureInput').value;
-      const oxygen = document.getElementById('oxygenInput').value;
-
-      if (!bloodPressure || !heartRate || !temperature) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-        return;
-      }
-
-      alert('✅ บันทึก Vital Signs เรียบร้อย');
-      closeModal('vitalModal');
     }
 
     function addNote() {
