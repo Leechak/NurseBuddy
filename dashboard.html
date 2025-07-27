@@ -2812,7 +2812,7 @@
     <div class="action-card" onclick="showBedsOverview()">
       <div class="action-icon">🛏️</div>
       <div class="action-title">ภาพรวมเตียงทั้งหมด</div>
-      <div class="action-desc">ดูสถานะเตียงและผู้ป่วยทั้ง 8 เตียง</div>
+      <div class="action-desc">ดูสถานะเตียงและผู้ป่วยทั้ง <span id="bedCountText">8</span> เตียง</div>
     </div>
   </div>
 
@@ -3027,6 +3027,7 @@
 
   <script>
     let currentUser = null;
+    const MAX_BEDS = 8; // จำนวนเตียงทั้งหมด สามารถปรับได้หากมีการเพิ่มเตียงใหม่
 
     // ระบบจัดการข้อมูลพื้นฐาน
     const dataManager = {
@@ -3066,7 +3067,7 @@
       },
 
       clearAllData: function() {
-        for (let i = 1; i <= 8; i++) {
+        for (let i = 1; i <= MAX_BEDS; i++) {
           localStorage.removeItem(`ir_data_bed_${i}`);
           localStorage.removeItem(`io_records_bed_${i}`);
         }
@@ -3134,6 +3135,10 @@
       `;
 
       document.getElementById('adminControls').style.display = 'flex';
+      const bedCountElem = document.getElementById('bedCountText');
+      if (bedCountElem) {
+        bedCountElem.textContent = MAX_BEDS;
+      }
       setupBedSelectors();
     }
 
@@ -3143,14 +3148,14 @@
 
       if (bedSelect) {
         bedSelect.innerHTML = '<option value="">เลือกเตียง</option>';
-        for (let i = 1; i <= 8; i++) {
+        for (let i = 1; i <= MAX_BEDS; i++) {
           bedSelect.innerHTML += `<option value="${i}">เตียง ${i}</option>`;
         }
       }
 
       if (ioBedSelect) {
         ioBedSelect.innerHTML = '<option value="">เลือกเตียง</option>';
-        for (let i = 1; i <= 8; i++) {
+        for (let i = 1; i <= MAX_BEDS; i++) {
           const bedData = dataManager.getPatient(i);
           if (bedData && bedData.patient_id) {
             ioBedSelect.innerHTML += `<option value="${i}">เตียง ${i} - ${bedData.patient_id}</option>`;
@@ -3178,7 +3183,7 @@
       const content = document.getElementById('bedsOverviewContent');
       let html = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">';
 
-      for (let i = 1; i <= 8; i++) {
+      for (let i = 1; i <= MAX_BEDS; i++) {
         const bedData = dataManager.getPatient(i);
         const ioRecords = JSON.parse(localStorage.getItem(`io_records_bed_${i}`) || '[]');
 
@@ -3420,7 +3425,7 @@
       const bedGrid = document.getElementById('ioBedGrid');
       bedGrid.innerHTML = '';
 
-      for (let i = 1; i <= 8; i++) {
+      for (let i = 1; i <= MAX_BEDS; i++) {
         const patientData = dataManager.getPatient(i);
         const bedCard = document.createElement('div');
         bedCard.className = `io-bed-card ${patientData ? 'occupied' : ''}`;
